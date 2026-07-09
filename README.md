@@ -27,3 +27,4 @@ Static site for Cloudflare Pages.
 The `Grenada Studio - Coming Soon.html` self-contained bundle is for offline /
 Canva use. Deploying it to Pages can fail with a JSON unpack error because
 GitHub may normalise line endings inside the embedded payload.
+ 
