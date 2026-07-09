@@ -117,7 +117,7 @@
   window.addEventListener('pointerdown', function unlock(){ getCtx(); window.removeEventListener('pointerdown', unlock); }, { once:true });
 
   /* ---------- Apply form → Google Sheet ---------- */
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbw31fm0F0P16vld-fT0FuSolvqcWWa-fnrF5rBGB3iq5a3EWjvNLvLtApbRW0lWK4ZC/exec';
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzu8d8FI0j21fuqt5p_Ior9qHi33gwSfFH9VDWPrbv2vpr-pSnGvUKKLC_sMPT20bCl/exec';
   const form = document.getElementById('applyForm');
   if (form){
     const note = document.getElementById('formNote');
