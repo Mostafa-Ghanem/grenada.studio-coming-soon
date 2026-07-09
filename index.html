@@ -1,437 +1,251 @@
 /* ============================================================
-   Grenada Studio — Careers
-   Shared styles for the jobs listing + role detail pages.
-   Same cinematic system as the coming-soon page.
+   Grenada Studio — Careers — shared behaviour
+   Ambient particles, optional sound, load reveal, apply form.
    ============================================================ */
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-:root{
-  --bg: #150707;
-  --bg-deep: #0a0303;
-  --panel: #200c0c;
-  --red: #ca2027;
-  --red-2: #e8323a;
-  --red-glow: #ff3a44;
-  --ink: #f5e8e8;
-  --ink-dim: #a6918f;
-  --ink-mute: #6e5957;
-  --line: rgba(245, 232, 232, 0.10);
-  --line-strong: rgba(245, 232, 232, 0.22);
-  --serif: "Instrument Serif", "Times New Roman", serif;
-  --sans: "Space Grotesk", system-ui, -apple-system, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
-  --maxw: 1120px;
-}
+  /* ---------- Load reveal ---------- */
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.documentElement.classList.add('ready');
+  }));
 
-*,*::before,*::after{ box-sizing: border-box; }
-html, body{ margin:0; padding:0; }
-html{ background: var(--bg-deep); scroll-behavior: smooth; }
-body{
-  min-height: 100svh;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-::selection{ background: var(--red); color: var(--ink); }
-a{ color: var(--ink); text-decoration: none; }
-a:hover{ color: #fff; }
-button{ font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-img{ max-width: 100%; display: block; }
+  /* ---------- Particles ---------- */
+  const canvas = document.getElementById('particles');
+  if (canvas && !reduceMotion){
+    const ctx = canvas.getContext('2d');
+    let dpr = 1, W = 0, H = 0, particles = [], rafId = 0;
+    function spawn(initial){
+      return {
+        x: Math.random()*W,
+        y: initial ? Math.random()*H : H + 20,
+        r: Math.random()*1.3 + 0.25,
+        vy: -(Math.random()*0.22 + 0.06),
+        vx: (Math.random()-0.5)*0.07,
+        a: Math.random()*0.45 + 0.12,
+        tw: Math.random()*Math.PI*2,
+      };
+    }
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W*dpr; canvas.height = H*dpr;
+      canvas.style.width = W+'px'; canvas.style.height = H+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      const target = Math.min(56, Math.floor((W*H)/26000));
+      particles = new Array(target).fill(0).map(() => spawn(true));
+    }
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      const cx = W*0.5, cy = H*0.3;
+      for (const p of particles){
+        p.y += p.vy; p.x += p.vx; p.tw += 0.02;
+        const tw = (Math.sin(p.tw)+1)*0.5;
+        const alpha = p.a*(0.4 + 0.6*tw);
+        const dx=(p.x-cx)/W, dy=(p.y-cy)/H, d=Math.sqrt(dx*dx+dy*dy);
+        const heat = Math.max(0, 1 - d*1.9);
+        const r = Math.round(202 + (255-202)*heat);
+        const g = Math.round(32 + (200-32)*(1-heat));
+        const b = Math.round(39 + (200-39)*(1-heat));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`; ctx.fill();
+        if (p.y < -10 || p.x < -10 || p.x > W+10) Object.assign(p, spawn(false));
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    resize();
+    rafId = requestAnimationFrame(tick);
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(rafId);
+      else rafId = requestAnimationFrame(tick);
+    });
+  }
 
-/* ---------- Ambient scene layers (fixed) ---------- */
-.spotlight, .vignette, .grain, .grid, .particles{
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-}
-.spotlight{
-  background:
-    radial-gradient(120% 70% at 50% -10%, rgba(202, 32, 39, 0.16), transparent 55%),
-    radial-gradient(90% 60% at 50% 120%, rgba(10, 3, 3, 0.9), transparent 55%);
-  animation: breathe 11s ease-in-out infinite;
-}
-@keyframes breathe{
-  0%,100%{ transform: scale(1); filter: blur(0); }
-  50%{ transform: scale(1.05); filter: blur(2px); }
-}
-.grid{
-  background-image:
-    linear-gradient(to right, rgba(245,232,232,0.022) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(245,232,232,0.022) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(90% 80% at 50% 30%, black, transparent 90%);
-  -webkit-mask-image: radial-gradient(90% 80% at 50% 30%, black, transparent 90%);
-}
-.vignette{
-  background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(0,0,0,0.55) 100%);
-  z-index: 1;
-}
-.grain{
-  inset: -10%; opacity: 0.07; mix-blend-mode: overlay; z-index: 2;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: drift 6s steps(6) infinite;
-}
-@keyframes drift{
-  0%,100%{ transform: translate(0,0); } 20%{ transform: translate(-2%,1%); }
-  40%{ transform: translate(1%,-2%); } 60%{ transform: translate(-1%,2%); } 80%{ transform: translate(2%,1%); }
-}
-.particles{ z-index: 1; }
+  /* ---------- Sound (shared, persisted) ---------- */
+  let audioCtx = null;
+  let soundOn = localStorage.getItem('gs-sound') === 'on';
+  const btn = document.getElementById('soundToggle');
+  const icon = document.getElementById('soundIcon');
+  const ICON_ON = `<path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path>`;
+  const ICON_OFF = `<path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M16 9l5 6"></path><path d="M21 9l-5 6"></path>`;
 
-/* ---------- Shell ---------- */
-.wrap{
-  position: relative; z-index: 5;
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: clamp(20px, 3vw, 32px);
-}
+  function paintBtn(){
+    if (!btn) return;
+    btn.setAttribute('aria-pressed', String(soundOn));
+    btn.setAttribute('title', soundOn ? 'Sound on' : 'Sound off');
+    if (icon) icon.innerHTML = soundOn ? ICON_ON : ICON_OFF;
+  }
+  paintBtn();
 
-/* ---------- Top bar ---------- */
-.topbar{
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px;
-  padding-block: 6px 4px;
-}
-.wordmark{
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--mono);
-  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--ink-dim);
-  transition: color .25s ease;
-}
-.wordmark:hover{ color: var(--ink); }
-.wordmark .mark{
-  width: 20px; height: 20px; background: var(--red);
-  -webkit-mask: url("../logo-red.png") center / contain no-repeat;
-          mask: url("../logo-red.png") center / contain no-repeat;
-}
-.topbar-right{ display: flex; align-items: center; gap: 10px; }
+  function getCtx(){
+    if (!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function tone({ freq=440, dur=0.06, type='sine', gain=0.035, detune=0 } = {}){
+    if (!soundOn) return;
+    const ac = getCtx(); if (!ac) return;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.value = freq; o.detune.value = detune;
+    const t = ac.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(ac.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  }
+  window.gsTone = tone; // expose for form feedback
 
-.status{
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 11px; border: 1px solid var(--line-strong); border-radius: 999px;
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink-dim); background: rgba(245,232,232,0.02);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-.status .dot{
-  width: 6px; height: 6px; border-radius: 50%; background: var(--red);
-  box-shadow: 0 0 10px var(--red), 0 0 18px var(--red-glow);
-  animation: pulse 1.6s ease-in-out infinite;
-}
-@keyframes pulse{ 0%,100%{ opacity:1; transform: scale(1);} 50%{ opacity:.55; transform: scale(.85);} }
+  if (btn){
+    btn.addEventListener('click', () => {
+      soundOn = !soundOn;
+      localStorage.setItem('gs-sound', soundOn ? 'on' : 'off');
+      paintBtn();
+      if (soundOn){ tone({freq:660,dur:0.07,gain:0.05}); setTimeout(()=>tone({freq:880,dur:0.1,gain:0.04}),70); }
+    });
+  }
+  document.querySelectorAll('a, button, input, .job-card').forEach(el => {
+    el.addEventListener('pointerenter', () => tone({freq:1200,dur:0.04,gain:0.016}), { passive:true });
+  });
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a, button, .job-card')) tone({freq:520,dur:0.07,gain:0.03,type:'triangle'});
+  });
+  window.addEventListener('pointerdown', function unlock(){ getCtx(); window.removeEventListener('pointerdown', unlock); }, { once:true });
 
-/* small link/back button */
-.link-btn{
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--ink-dim); background: rgba(245,232,232,0.02);
-  transition: color .25s, border-color .25s, background .25s, transform .2s;
-}
-.link-btn:hover{ color: var(--ink); border-color: var(--line-strong); background: rgba(245,232,232,0.04); }
-.link-btn svg{ width: 14px; height: 14px; }
-.link-btn.prev:hover svg{ transform: translateX(-3px); transition: transform .2s; }
+  /* ---------- Apply form → Google Sheet ---------- */
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbw31fm0F0P16vld-fT0FuSolvqcWWa-fnrF5rBGB3iq5a3EWjvNLvLtApbRW0lWK4ZC/exec';
+  const form = document.getElementById('applyForm');
+  if (form){
+    const note = document.getElementById('formNote');
+    const submitBtn = document.getElementById('applyBtn');
+    const done = document.getElementById('applyDone');
+    const roleName = form.dataset.role || document.title;
 
-/* ---------- Hero (listing) ---------- */
-.hero{
-  padding: clamp(40px, 9vh, 96px) 0 clamp(28px, 5vh, 52px);
-  max-width: 46ch;
-}
-.eyebrow{
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em;
-  text-transform: uppercase; color: var(--ink-mute); margin: 0 0 16px;
-}
-.hero h1{
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(44px, 7vw, 88px); line-height: 1.0; letter-spacing: -0.01em;
-  margin: 0; text-wrap: balance;
-}
-.hero h1 em{
-  font-style: italic; color: var(--red-2);
-  text-shadow: 0 0 30px rgba(232,50,58,.25);
-}
-.hero p{
-  margin: clamp(18px,3vh,26px) 0 0; max-width: 52ch;
-  color: var(--ink-dim); font-size: clamp(14px,1.5vw,16.5px); line-height: 1.6; text-wrap: pretty;
-}
+    function setNote(text, kind){
+      if (!note) return;
+      note.textContent = text;
+      note.classList.remove('ok','err');
+      if (kind) note.classList.add(kind);
+    }
 
-/* section label */
-.sec-label{
-  display: flex; align-items: center; gap: 14px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ink-mute); margin: 0 0 22px;
-}
-.sec-label::after{ content:""; flex:1; height:1px; background: var(--line); }
-.sec-label .count{ color: var(--red-2); }
+    // Custom file input display
+    const cvInputEl = form.querySelector('input[type="file"]');
+    const cvDrop = document.getElementById('cvDrop');
+    const cvNameEl = document.getElementById('cvName');
+    const cvMetaEl = document.getElementById('cvMeta');
+    const CV_META_DEFAULT = cvMetaEl ? cvMetaEl.textContent : '';
+    function fmtSize(b){
+      if (b < 1024) return b + ' B';
+      if (b < 1024*1024) return (b/1024).toFixed(0) + ' KB';
+      return (b/1024/1024).toFixed(1) + ' MB';
+    }
+    function paintFile(){
+      const f = cvInputEl && cvInputEl.files ? cvInputEl.files[0] : null;
+      if (f){
+        if (cvNameEl) cvNameEl.textContent = f.name;
+        if (cvMetaEl) cvMetaEl.textContent = fmtSize(f.size) + ' · click to change';
+        if (cvDrop) cvDrop.classList.add('has-file');
+      } else {
+        if (cvNameEl) cvNameEl.textContent = 'Choose a file…';
+        if (cvMetaEl) cvMetaEl.textContent = CV_META_DEFAULT;
+        if (cvDrop) cvDrop.classList.remove('has-file');
+      }
+    }
+    if (cvInputEl) cvInputEl.addEventListener('change', paintFile);
+    if (cvDrop){
+      cvDrop.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); cvInputEl && cvInputEl.click(); }
+      });
+    }
 
-/* ---------- Job cards ---------- */
-.jobs{ display: grid; gap: 14px; padding-bottom: clamp(40px,8vh,80px); }
-.job-card{
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 18px;
-  padding: clamp(20px,2.4vw,30px);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(245,232,232,0.035), rgba(245,232,232,0.012));
-  overflow: hidden;
-  transition: border-color .3s ease, transform .3s cubic-bezier(.2,.7,.2,1), background .3s ease;
-}
-.job-card::before{
-  content:""; position: absolute; left:0; top:0; bottom:0; width: 3px;
-  background: var(--red); transform: scaleY(0); transform-origin: 50% 0;
-  transition: transform .35s cubic-bezier(.2,.7,.2,1);
-}
-.job-card::after{
-  content:""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(60% 120% at 100% 0%, rgba(202,32,39,0.10), transparent 60%);
-  opacity: 0; transition: opacity .35s ease;
-}
-.job-card:hover{
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
-  background: linear-gradient(180deg, rgba(245,232,232,0.05), rgba(245,232,232,0.02));
-}
-.job-card:hover::before{ transform: scaleY(1); }
-.job-card:hover::after{ opacity: 1; }
-.job-card:focus-visible{ outline: 2px solid var(--red-2); outline-offset: 3px; }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const email = String(fd.get('email')||'').trim();
+      const name = String(fd.get('name')||'').trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!name){ setNote('Please enter your full name.', 'err'); form.name.focus(); tone({freq:180,dur:0.12,type:'sawtooth',gain:0.03}); return; }
+      if (!emailOk){ setNote('Please enter a valid email address.', 'err'); form.email.focus(); tone({freq:180,dur:0.12,type:'sawtooth',gain:0.03}); return; }
 
-.job-main{ min-width: 0; }
-.job-title{
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(24px, 3vw, 34px); line-height: 1.1; letter-spacing: -0.005em;
-  margin: 0 0 8px;
-}
-.job-desc{
-  color: var(--ink-dim); font-size: 14.5px; line-height: 1.55; margin: 0 0 16px;
-  max-width: 62ch; text-wrap: pretty;
-}
-.job-meta{
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.tag{
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px;
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-dim);
-}
-.tag.accent{ color: var(--red-2); border-color: rgba(232,50,58,.35); }
+      // ----- CV file -----
+      const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
+      const ALLOWED = /\.(pdf|doc|docx)$/i;
+      const cvInput = form.querySelector('input[type="file"]');
+      const file = cvInput && cvInput.files ? cvInput.files[0] : null;
+      const cvRequired = cvInput && cvInput.hasAttribute('required');
 
-.job-go{
-  flex-shrink: 0;
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 52px; height: 52px; border-radius: 50%;
-  border: 1px solid var(--line-strong); color: var(--ink);
-  transition: background .3s, color .3s, border-color .3s, transform .3s;
-}
-.job-card:hover .job-go{
-  background: var(--red); border-color: var(--red); color: #fff;
-  transform: rotate(-45deg);
-  box-shadow: 0 12px 30px -10px rgba(202,32,39,.8);
-}
-.job-go svg{ width: 20px; height: 20px; }
+      if (cvRequired && !file){ setNote('Please attach your CV (PDF or Word).', 'err'); cvInput.focus(); tone({freq:180,dur:0.12,type:'sawtooth',gain:0.03}); return; }
+      if (file){
+        if (!ALLOWED.test(file.name)){ setNote('CV must be a PDF or Word file.', 'err'); tone({freq:180,dur:0.12,type:'sawtooth',gain:0.03}); return; }
+        if (file.size > MAX_BYTES){ setNote('CV is too large — max 8 MB.', 'err'); tone({freq:180,dur:0.12,type:'sawtooth',gain:0.03}); return; }
+      }
 
-/* ---------- Role detail page ---------- */
-.role-head{ padding: clamp(30px,6vh,64px) 0 clamp(20px,3vh,32px); }
-.role-head .eyebrow{ margin-bottom: 14px; }
-.role-head h1{
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(38px, 6vw, 76px); line-height: 1.02; letter-spacing: -0.01em; margin: 0;
-  max-width: 20ch; text-wrap: balance;
-}
-.role-head .job-meta{ margin-top: 22px; }
+      let cvData = '', cvName = '', cvMime = '';
+      if (file){
+        try {
+          setNote('Reading your CV…');
+          cvData = await new Promise((resolve, reject) => {
+            const r = new FileReader();
+            r.onload = () => resolve(String(r.result).split(',')[1] || '');
+            r.onerror = () => reject(r.error);
+            r.readAsDataURL(file);
+          });
+          cvName = file.name;
+          cvMime = file.type || 'application/octet-stream';
+        } catch (err){
+          setNote('Could not read that file. Try another.', 'err');
+          tone({freq:180,dur:0.12,type:'sawtooth',gain:0.03});
+          return;
+        }
+      }
 
-.role-grid{
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: clamp(24px, 4vw, 56px);
-  align-items: start;
-  padding-bottom: clamp(48px,9vh,96px);
-}
-.role-body h2{
-  font-family: var(--mono); font-weight: 500;
-  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--red-2); margin: 32px 0 12px;
-}
-.role-body h2:first-child{ margin-top: 4px; }
-.role-body p{ color: var(--ink-dim); line-height: 1.7; margin: 0 0 14px; max-width: 62ch; }
-.role-body ul{ margin: 0 0 8px; padding: 0; list-style: none; }
-.role-body li{
-  position: relative; padding-left: 26px; margin-bottom: 11px;
-  color: var(--ink-dim); line-height: 1.6; max-width: 60ch;
-}
-.role-body li::before{
-  content:""; position: absolute; left: 4px; top: 0.62em;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--red); box-shadow: 0 0 8px var(--red-glow);
-}
+      const payload = JSON.stringify({
+        type: 'application',
+        role: roleName,
+        name,
+        email,
+        phone: String(fd.get('phone')||'').trim(),
+        linkedin: String(fd.get('linkedin')||'').trim(),
+        cvName, cvMime, cvData,
+        source: 'careers',
+        ts: new Date().toISOString(),
+        ua: navigator.userAgent,
+      });
 
-/* ---------- Apply form (sticky panel) ---------- */
-.apply{
-  position: sticky; top: 24px;
-  border: 1px solid var(--line-strong); border-radius: 18px;
-  background: linear-gradient(180deg, rgba(245,232,232,0.05), rgba(245,232,232,0.015));
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  padding: clamp(22px, 2.4vw, 30px);
-  overflow: hidden;
-}
-.apply h3{
-  font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; margin: 0 0 4px;
-}
-.apply .sub{
-  color: var(--ink-mute); font-family: var(--mono); font-size: 10.5px;
-  letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 22px;
-}
-.field{ margin-bottom: 14px; }
-.field label{
-  display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink-mute); margin: 0 0 7px;
-}
-.field label .req{ color: var(--red-2); }
-.field input{
-  appearance: none; width: 100%;
-  background: rgba(10,3,3,0.4); border: 1px solid var(--line);
-  border-radius: 10px; color: var(--ink); font: inherit;
-  padding: 13px 14px; outline: none;
-  transition: border-color .25s, box-shadow .25s, background .25s;
-}
-.field input::placeholder{ color: var(--ink-mute); }
-.field input:focus{
-  border-color: rgba(232,50,58,.6);
-  box-shadow: 0 0 0 4px rgba(202,32,39,.12);
-  background: rgba(10,3,3,0.6);
-}
-.field input:user-invalid{ border-color: rgba(255,122,122,.55); }
+      submitBtn.disabled = true;
+      const label = submitBtn.querySelector('.label');
+      const old = label ? label.textContent : '';
+      if (label) label.textContent = file ? 'Uploading…' : 'Sending…';
+      setNote(file ? 'Uploading your application…' : 'Submitting your application…');
 
-/* file (CV) field */
-.field.file input[type="file"]{ display: none; }
-.field.file .file-drop{
-  display: flex; align-items: center; gap: 12px;
-  width: 100%; padding: 13px 14px;
-  background: rgba(10,3,3,0.4); border: 1px dashed var(--line-strong);
-  border-radius: 10px; color: var(--ink-dim);
-  cursor: pointer; text-align: left;
-  transition: border-color .25s, background .25s, color .25s;
-}
-.file-drop:hover, .file-drop:focus-visible{
-  border-color: rgba(232,50,58,.6); background: rgba(10,3,3,0.6); color: var(--ink); outline: none;
-}
-.file-drop.has-file{ border-style: solid; border-color: rgba(232,50,58,.5); color: var(--ink); }
-.file-drop .fic{ flex-shrink: 0; color: var(--red-2); display: inline-flex; }
-.file-drop .fic svg{ width: 18px; height: 18px; }
-.file-drop .ftext{ min-width: 0; flex: 1; }
-.file-drop .fname{
-  display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.file-drop .fmeta{
-  display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--ink-mute); margin-top: 2px;
-}
-.file-drop.has-file .fmeta{ color: var(--red-2); }
+      const send = () => fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payload,
+        redirect: 'follow',
+      });
 
-.role-pill{
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 12px; margin-bottom: 20px;
-  border: 1px dashed var(--line-strong); border-radius: 10px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-dim);
-  width: 100%;
-}
-.role-pill b{ color: var(--ink); font-weight: 500; letter-spacing: 0.02em; }
-.role-pill .ic{ color: var(--red-2); display: inline-flex; }
-.role-pill svg{ width: 14px; height: 14px; }
+      try {
+        const res = await send();
+        if (!res.ok) throw new Error('bad status');
+        succeed();
+      } catch (err){
+        try { await fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: payload }); } catch(e){}
+        succeed();
+      }
 
-.submit{
-  position: relative; width: 100%;
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  margin-top: 6px; padding: 15px 18px; border-radius: 12px;
-  background: var(--red); color: #fff; font-weight: 500; font-size: 15px; letter-spacing: .02em;
-  box-shadow: 0 10px 28px -12px rgba(202,32,39,.8), inset 0 1px 0 rgba(255,255,255,.12);
-  transition: background .25s, transform .15s, box-shadow .25s;
-}
-.submit:hover{ background: var(--red-2); box-shadow: 0 16px 40px -12px rgba(232,50,58,.85), inset 0 1px 0 rgba(255,255,255,.18); }
-.submit:active{ transform: translateY(1px); }
-.submit[disabled]{ opacity: .7; cursor: progress; }
-.submit .arrow{ width: 16px; height: 16px; transition: transform .25s; }
-.submit:hover .arrow{ transform: translateX(3px); }
-
-.form-note{
-  margin: 14px 2px 0; min-height: 1.3em;
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--ink-mute);
-  transition: color .3s; text-align: center;
-}
-.form-note.ok{ color: var(--red-2); }
-.form-note.err{ color: #ff8a8a; }
-
-/* success overlay inside panel */
-.apply-done{
-  position: absolute; inset: 0; z-index: 3;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 14px; text-align: center; padding: 30px;
-  background: linear-gradient(180deg, rgba(24,9,9,.96), rgba(15,6,6,.98));
-  backdrop-filter: blur(4px);
-  opacity: 0; visibility: hidden; transform: scale(.98);
-  transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1), visibility .4s;
-}
-.apply-done.show{ opacity: 1; visibility: visible; transform: none; }
-.apply-done .check{
-  width: 62px; height: 62px; border-radius: 50%;
-  border: 1px solid rgba(232,50,58,.5); color: var(--red-2);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 30px rgba(202,32,39,.3);
-}
-.apply-done .check svg{ width: 28px; height: 28px; }
-.apply-done h4{ font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 0; }
-.apply-done p{ color: var(--ink-dim); margin: 0; max-width: 34ch; line-height: 1.55; }
-.apply-done .link-btn{ margin-top: 6px; }
-
-/* ---------- Footer ---------- */
-footer.site{
-  position: relative; z-index: 5;
-  border-top: 1px solid var(--line);
-  margin-top: 8px;
-}
-footer.site .wrap{
-  display: flex; align-items: center; justify-content: space-between; gap: 18px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute);
-  padding-block: 24px;
-}
-footer.site .f-links{ display: flex; gap: 18px; flex-wrap: wrap; }
-footer.site a{ color: var(--ink-dim); position: relative; }
-footer.site a::after{
-  content:""; position: absolute; left:0; right:0; bottom:-4px; height:1px; background: var(--red-2);
-  transform: scaleX(0); transform-origin: 0 50%; transition: transform .35s cubic-bezier(.2,.7,.2,1);
-}
-footer.site a:hover{ color: var(--ink); }
-footer.site a:hover::after{ transform: scaleX(1); }
-
-/* ---------- Reveal on load ---------- */
-[data-rise]{ opacity: 0; transform: translateY(14px); }
-.ready [data-rise]{
-  opacity: 1; transform: none;
-  transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
-  transition-delay: var(--d, 0s);
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 860px){
-  .role-grid{ grid-template-columns: 1fr; }
-  .apply{ position: static; }
-}
-@media (max-width: 560px){
-  .job-card{ grid-template-columns: 1fr; }
-  .job-go{ display: none; }
-  .topbar .wordmark .long{ display: none; }
-  .status .label-long{ display: none; }
-  footer.site .wrap{ flex-direction: column; align-items: flex-start; gap: 12px; }
-}
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; }
-  .spotlight, .grain, .particles{ animation: none !important; }
-  [data-rise]{ opacity: 1 !important; transform: none !important; }
-}
+      function succeed(){
+        form.reset();
+        paintFile();
+        if (done) done.classList.add('show');
+        setNote('');
+        tone({freq:660,dur:0.08,gain:0.05}); setTimeout(()=>tone({freq:990,dur:0.1,gain:0.04}),90);
+        submitBtn.disabled = false; if (label) label.textContent = old;
+      }
+    });
+  }
+})();

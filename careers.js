@@ -1,108 +1,437 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Careers — Grenada Studio</title>
-<meta name="description" content="Join Grenada Studio — a marketing agency for real estate, based in Cairo. Open roles in social, video and sales." />
-<meta name="theme-color" content="#150707" />
-<meta property="og:title" content="Careers — Grenada Studio" />
-<meta property="og:description" content="We're hiring. Open roles at a marketing agency for real estate, in Cairo." />
-<link rel="icon" type="image/png" href="../logo-red.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
-<link rel="stylesheet" href="careers.css" />
-</head>
-<body>
-  <div class="spotlight" aria-hidden="true"></div>
-  <div class="grid" aria-hidden="true"></div>
-  <canvas class="particles" id="particles" aria-hidden="true"></canvas>
-  <div class="vignette" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
+/* ============================================================
+   Grenada Studio — Careers
+   Shared styles for the jobs listing + role detail pages.
+   Same cinematic system as the coming-soon page.
+   ============================================================ */
 
-  <div class="wrap">
-    <div class="topbar">
-      <a class="wordmark" href="../index.html" aria-label="Grenada Studio — home">
-        <span class="mark" aria-hidden="true"></span>
-        <span class="long">Grenada Studio</span>
-      </a>
-      <div class="topbar-right">
-        <span class="status"><span class="dot" aria-hidden="true"></span><span class="label-long">Hiring now</span></span>
-        <button class="link-btn" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">
-          <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M16 9l5 6"></path><path d="M21 9l-5 6"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
+:root{
+  --bg: #150707;
+  --bg-deep: #0a0303;
+  --panel: #200c0c;
+  --red: #ca2027;
+  --red-2: #e8323a;
+  --red-glow: #ff3a44;
+  --ink: #f5e8e8;
+  --ink-dim: #a6918f;
+  --ink-mute: #6e5957;
+  --line: rgba(245, 232, 232, 0.10);
+  --line-strong: rgba(245, 232, 232, 0.22);
+  --serif: "Instrument Serif", "Times New Roman", serif;
+  --sans: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --maxw: 1120px;
+}
 
-    <section class="hero">
-      <p class="eyebrow" data-rise>Careers — Cairo</p>
-      <h1 data-rise style="--d:.05s">Build the studio <em>with us</em>.</h1>
-      <p data-rise style="--d:.12s">We're a marketing agency for real estate — brand, content and campaigns that move properties. We're growing the team and looking for people who do sharp work and care about the details.</p>
-    </section>
+*,*::before,*::after{ box-sizing: border-box; }
+html, body{ margin:0; padding:0; }
+html{ background: var(--bg-deep); scroll-behavior: smooth; }
+body{
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+::selection{ background: var(--red); color: var(--ink); }
+a{ color: var(--ink); text-decoration: none; }
+a:hover{ color: #fff; }
+button{ font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img{ max-width: 100%; display: block; }
 
-    <p class="sec-label" data-rise style="--d:.16s">Open roles <span class="count" id="roleCount">03</span></p>
+/* ---------- Ambient scene layers (fixed) ---------- */
+.spotlight, .vignette, .grain, .grid, .particles{
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+}
+.spotlight{
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgba(202, 32, 39, 0.16), transparent 55%),
+    radial-gradient(90% 60% at 50% 120%, rgba(10, 3, 3, 0.9), transparent 55%);
+  animation: breathe 11s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{ transform: scale(1); filter: blur(0); }
+  50%{ transform: scale(1.05); filter: blur(2px); }
+}
+.grid{
+  background-image:
+    linear-gradient(to right, rgba(245,232,232,0.022) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245,232,232,0.022) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(90% 80% at 50% 30%, black, transparent 90%);
+  -webkit-mask-image: radial-gradient(90% 80% at 50% 30%, black, transparent 90%);
+}
+.vignette{
+  background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(0,0,0,0.55) 100%);
+  z-index: 1;
+}
+.grain{
+  inset: -10%; opacity: 0.07; mix-blend-mode: overlay; z-index: 2;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: drift 6s steps(6) infinite;
+}
+@keyframes drift{
+  0%,100%{ transform: translate(0,0); } 20%{ transform: translate(-2%,1%); }
+  40%{ transform: translate(1%,-2%); } 60%{ transform: translate(-1%,2%); } 80%{ transform: translate(2%,1%); }
+}
+.particles{ z-index: 1; }
 
-    <div class="jobs">
-      <a class="job-card" href="seo-social-media-specialist.html" data-rise style="--d:.2s">
-        <div class="job-main">
-          <h2 class="job-title">SEO &amp; Social Media Specialist</h2>
-          <p class="job-desc">Optimizes website rankings and manages social media campaigns to drive traffic and engagement.</p>
-          <div class="job-meta">
-            <span class="tag accent">Marketing</span>
-            <span class="tag">On-site · Cairo</span>
-            <span class="tag">Full-time</span>
-          </div>
-        </div>
-        <span class="job-go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
-        </span>
-      </a>
+/* ---------- Shell ---------- */
+.wrap{
+  position: relative; z-index: 5;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 32px);
+}
 
-      <a class="job-card" href="senior-video-editor.html" data-rise style="--d:.26s">
-        <div class="job-main">
-          <h2 class="job-title">Senior Video Editor</h2>
-          <p class="job-desc">Leads the post-production process, cutting and polishing high-quality video content.</p>
-          <div class="job-meta">
-            <span class="tag accent">Creative</span>
-            <span class="tag">On-site · Cairo</span>
-            <span class="tag">Full-time</span>
-          </div>
-        </div>
-        <span class="job-go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
-        </span>
-      </a>
+/* ---------- Top bar ---------- */
+.topbar{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding-block: 6px 4px;
+}
+.wordmark{
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-dim);
+  transition: color .25s ease;
+}
+.wordmark:hover{ color: var(--ink); }
+.wordmark .mark{
+  width: 20px; height: 20px; background: var(--red);
+  -webkit-mask: url("../logo-red.png") center / contain no-repeat;
+          mask: url("../logo-red.png") center / contain no-repeat;
+}
+.topbar-right{ display: flex; align-items: center; gap: 10px; }
 
-      <a class="job-card" href="sales-representative.html" data-rise style="--d:.32s">
-        <div class="job-main">
-          <h2 class="job-title">Sales Representative</h2>
-          <p class="job-desc">Connects with potential clients, pitches products or services, and closes business deals.</p>
-          <div class="job-meta">
-            <span class="tag accent">Sales</span>
-            <span class="tag">On-site · KSA</span>
-            <span class="tag">Full-time</span>
-          </div>
-        </div>
-        <span class="job-go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
-        </span>
-      </a>
-    </div>
-  </div>
+.status{
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 11px; border: 1px solid var(--line-strong); border-radius: 999px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-dim); background: rgba(245,232,232,0.02);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.status .dot{
+  width: 6px; height: 6px; border-radius: 50%; background: var(--red);
+  box-shadow: 0 0 10px var(--red), 0 0 18px var(--red-glow);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ opacity:1; transform: scale(1);} 50%{ opacity:.55; transform: scale(.85);} }
 
-  <footer class="site">
-    <div class="wrap">
-      <span>© 2026 Grenada Studio · Cairo</span>
-      <div class="f-links">
-        <a href="../index.html">Home</a>
-        <a href="mailto:careers@grenadastudio.com">careers@grenadastudio.com</a>
-      </div>
-    </div>
-  </footer>
+/* small link/back button */
+.link-btn{
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-dim); background: rgba(245,232,232,0.02);
+  transition: color .25s, border-color .25s, background .25s, transform .2s;
+}
+.link-btn:hover{ color: var(--ink); border-color: var(--line-strong); background: rgba(245,232,232,0.04); }
+.link-btn svg{ width: 14px; height: 14px; }
+.link-btn.prev:hover svg{ transform: translateX(-3px); transition: transform .2s; }
 
-  <script src="careers.js"></script>
-</body>
-</html>
+/* ---------- Hero (listing) ---------- */
+.hero{
+  padding: clamp(40px, 9vh, 96px) 0 clamp(28px, 5vh, 52px);
+  max-width: 46ch;
+}
+.eyebrow{
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--ink-mute); margin: 0 0 16px;
+}
+.hero h1{
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(44px, 7vw, 88px); line-height: 1.0; letter-spacing: -0.01em;
+  margin: 0; text-wrap: balance;
+}
+.hero h1 em{
+  font-style: italic; color: var(--red-2);
+  text-shadow: 0 0 30px rgba(232,50,58,.25);
+}
+.hero p{
+  margin: clamp(18px,3vh,26px) 0 0; max-width: 52ch;
+  color: var(--ink-dim); font-size: clamp(14px,1.5vw,16.5px); line-height: 1.6; text-wrap: pretty;
+}
+
+/* section label */
+.sec-label{
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-mute); margin: 0 0 22px;
+}
+.sec-label::after{ content:""; flex:1; height:1px; background: var(--line); }
+.sec-label .count{ color: var(--red-2); }
+
+/* ---------- Job cards ---------- */
+.jobs{ display: grid; gap: 14px; padding-bottom: clamp(40px,8vh,80px); }
+.job-card{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: clamp(20px,2.4vw,30px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(245,232,232,0.035), rgba(245,232,232,0.012));
+  overflow: hidden;
+  transition: border-color .3s ease, transform .3s cubic-bezier(.2,.7,.2,1), background .3s ease;
+}
+.job-card::before{
+  content:""; position: absolute; left:0; top:0; bottom:0; width: 3px;
+  background: var(--red); transform: scaleY(0); transform-origin: 50% 0;
+  transition: transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.job-card::after{
+  content:""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 120% at 100% 0%, rgba(202,32,39,0.10), transparent 60%);
+  opacity: 0; transition: opacity .35s ease;
+}
+.job-card:hover{
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, rgba(245,232,232,0.05), rgba(245,232,232,0.02));
+}
+.job-card:hover::before{ transform: scaleY(1); }
+.job-card:hover::after{ opacity: 1; }
+.job-card:focus-visible{ outline: 2px solid var(--red-2); outline-offset: 3px; }
+
+.job-main{ min-width: 0; }
+.job-title{
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(24px, 3vw, 34px); line-height: 1.1; letter-spacing: -0.005em;
+  margin: 0 0 8px;
+}
+.job-desc{
+  color: var(--ink-dim); font-size: 14.5px; line-height: 1.55; margin: 0 0 16px;
+  max-width: 62ch; text-wrap: pretty;
+}
+.job-meta{
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.tag.accent{ color: var(--red-2); border-color: rgba(232,50,58,.35); }
+
+.job-go{
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 1px solid var(--line-strong); color: var(--ink);
+  transition: background .3s, color .3s, border-color .3s, transform .3s;
+}
+.job-card:hover .job-go{
+  background: var(--red); border-color: var(--red); color: #fff;
+  transform: rotate(-45deg);
+  box-shadow: 0 12px 30px -10px rgba(202,32,39,.8);
+}
+.job-go svg{ width: 20px; height: 20px; }
+
+/* ---------- Role detail page ---------- */
+.role-head{ padding: clamp(30px,6vh,64px) 0 clamp(20px,3vh,32px); }
+.role-head .eyebrow{ margin-bottom: 14px; }
+.role-head h1{
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(38px, 6vw, 76px); line-height: 1.02; letter-spacing: -0.01em; margin: 0;
+  max-width: 20ch; text-wrap: balance;
+}
+.role-head .job-meta{ margin-top: 22px; }
+
+.role-grid{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+  padding-bottom: clamp(48px,9vh,96px);
+}
+.role-body h2{
+  font-family: var(--mono); font-weight: 500;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--red-2); margin: 32px 0 12px;
+}
+.role-body h2:first-child{ margin-top: 4px; }
+.role-body p{ color: var(--ink-dim); line-height: 1.7; margin: 0 0 14px; max-width: 62ch; }
+.role-body ul{ margin: 0 0 8px; padding: 0; list-style: none; }
+.role-body li{
+  position: relative; padding-left: 26px; margin-bottom: 11px;
+  color: var(--ink-dim); line-height: 1.6; max-width: 60ch;
+}
+.role-body li::before{
+  content:""; position: absolute; left: 4px; top: 0.62em;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); box-shadow: 0 0 8px var(--red-glow);
+}
+
+/* ---------- Apply form (sticky panel) ---------- */
+.apply{
+  position: sticky; top: 24px;
+  border: 1px solid var(--line-strong); border-radius: 18px;
+  background: linear-gradient(180deg, rgba(245,232,232,0.05), rgba(245,232,232,0.015));
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  padding: clamp(22px, 2.4vw, 30px);
+  overflow: hidden;
+}
+.apply h3{
+  font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; margin: 0 0 4px;
+}
+.apply .sub{
+  color: var(--ink-mute); font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 22px;
+}
+.field{ margin-bottom: 14px; }
+.field label{
+  display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-mute); margin: 0 0 7px;
+}
+.field label .req{ color: var(--red-2); }
+.field input{
+  appearance: none; width: 100%;
+  background: rgba(10,3,3,0.4); border: 1px solid var(--line);
+  border-radius: 10px; color: var(--ink); font: inherit;
+  padding: 13px 14px; outline: none;
+  transition: border-color .25s, box-shadow .25s, background .25s;
+}
+.field input::placeholder{ color: var(--ink-mute); }
+.field input:focus{
+  border-color: rgba(232,50,58,.6);
+  box-shadow: 0 0 0 4px rgba(202,32,39,.12);
+  background: rgba(10,3,3,0.6);
+}
+.field input:user-invalid{ border-color: rgba(255,122,122,.55); }
+
+/* file (CV) field */
+.field.file input[type="file"]{ display: none; }
+.field.file .file-drop{
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 13px 14px;
+  background: rgba(10,3,3,0.4); border: 1px dashed var(--line-strong);
+  border-radius: 10px; color: var(--ink-dim);
+  cursor: pointer; text-align: left;
+  transition: border-color .25s, background .25s, color .25s;
+}
+.file-drop:hover, .file-drop:focus-visible{
+  border-color: rgba(232,50,58,.6); background: rgba(10,3,3,0.6); color: var(--ink); outline: none;
+}
+.file-drop.has-file{ border-style: solid; border-color: rgba(232,50,58,.5); color: var(--ink); }
+.file-drop .fic{ flex-shrink: 0; color: var(--red-2); display: inline-flex; }
+.file-drop .fic svg{ width: 18px; height: 18px; }
+.file-drop .ftext{ min-width: 0; flex: 1; }
+.file-drop .fname{
+  display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.file-drop .fmeta{
+  display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-mute); margin-top: 2px;
+}
+.file-drop.has-file .fmeta{ color: var(--red-2); }
+
+.role-pill{
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px; margin-bottom: 20px;
+  border: 1px dashed var(--line-strong); border-radius: 10px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-dim);
+  width: 100%;
+}
+.role-pill b{ color: var(--ink); font-weight: 500; letter-spacing: 0.02em; }
+.role-pill .ic{ color: var(--red-2); display: inline-flex; }
+.role-pill svg{ width: 14px; height: 14px; }
+
+.submit{
+  position: relative; width: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 6px; padding: 15px 18px; border-radius: 12px;
+  background: var(--red); color: #fff; font-weight: 500; font-size: 15px; letter-spacing: .02em;
+  box-shadow: 0 10px 28px -12px rgba(202,32,39,.8), inset 0 1px 0 rgba(255,255,255,.12);
+  transition: background .25s, transform .15s, box-shadow .25s;
+}
+.submit:hover{ background: var(--red-2); box-shadow: 0 16px 40px -12px rgba(232,50,58,.85), inset 0 1px 0 rgba(255,255,255,.18); }
+.submit:active{ transform: translateY(1px); }
+.submit[disabled]{ opacity: .7; cursor: progress; }
+.submit .arrow{ width: 16px; height: 16px; transition: transform .25s; }
+.submit:hover .arrow{ transform: translateX(3px); }
+
+.form-note{
+  margin: 14px 2px 0; min-height: 1.3em;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--ink-mute);
+  transition: color .3s; text-align: center;
+}
+.form-note.ok{ color: var(--red-2); }
+.form-note.err{ color: #ff8a8a; }
+
+/* success overlay inside panel */
+.apply-done{
+  position: absolute; inset: 0; z-index: 3;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; text-align: center; padding: 30px;
+  background: linear-gradient(180deg, rgba(24,9,9,.96), rgba(15,6,6,.98));
+  backdrop-filter: blur(4px);
+  opacity: 0; visibility: hidden; transform: scale(.98);
+  transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1), visibility .4s;
+}
+.apply-done.show{ opacity: 1; visibility: visible; transform: none; }
+.apply-done .check{
+  width: 62px; height: 62px; border-radius: 50%;
+  border: 1px solid rgba(232,50,58,.5); color: var(--red-2);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 30px rgba(202,32,39,.3);
+}
+.apply-done .check svg{ width: 28px; height: 28px; }
+.apply-done h4{ font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 0; }
+.apply-done p{ color: var(--ink-dim); margin: 0; max-width: 34ch; line-height: 1.55; }
+.apply-done .link-btn{ margin-top: 6px; }
+
+/* ---------- Footer ---------- */
+footer.site{
+  position: relative; z-index: 5;
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+}
+footer.site .wrap{
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute);
+  padding-block: 24px;
+}
+footer.site .f-links{ display: flex; gap: 18px; flex-wrap: wrap; }
+footer.site a{ color: var(--ink-dim); position: relative; }
+footer.site a::after{
+  content:""; position: absolute; left:0; right:0; bottom:-4px; height:1px; background: var(--red-2);
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform .35s cubic-bezier(.2,.7,.2,1);
+}
+footer.site a:hover{ color: var(--ink); }
+footer.site a:hover::after{ transform: scaleX(1); }
+
+/* ---------- Reveal on load ---------- */
+[data-rise]{ opacity: 0; transform: translateY(14px); }
+.ready [data-rise]{
+  opacity: 1; transform: none;
+  transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--d, 0s);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px){
+  .role-grid{ grid-template-columns: 1fr; }
+  .apply{ position: static; }
+}
+@media (max-width: 560px){
+  .job-card{ grid-template-columns: 1fr; }
+  .job-go{ display: none; }
+  .topbar .wordmark .long{ display: none; }
+  .status .label-long{ display: none; }
+  footer.site .wrap{ flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; }
+  .spotlight, .grain, .particles{ animation: none !important; }
+  [data-rise]{ opacity: 1 !important; transform: none !important; }
+}
