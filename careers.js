@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Careers — Grenada Studio</title>
+<meta name="description" content="Join Grenada Studio — a marketing agency for real estate, based in Cairo. Open roles in social, video and sales." />
+<meta name="theme-color" content="#150707" />
+<meta property="og:title" content="Careers — Grenada Studio" />
+<meta property="og:description" content="We're hiring. Open roles at a marketing agency for real estate, in Cairo." />
+<link rel="icon" type="image/png" href="../logo-red.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
+<link rel="stylesheet" href="careers.css" />
+</head>
+<body>
+  <div class="spotlight" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+  <canvas class="particles" id="particles" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <a class="wordmark" href="../index.html" aria-label="Grenada Studio — home">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="long">Grenada Studio</span>
+      </a>
+      <div class="topbar-right">
+        <span class="status"><span class="dot" aria-hidden="true"></span><span class="label-long">Hiring now</span></span>
+        <button class="link-btn" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">
+          <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M16 9l5 6"></path><path d="M21 9l-5 6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <p class="eyebrow" data-rise>Careers — Cairo</p>
+      <h1 data-rise style="--d:.05s">Build the studio <em>with us</em>.</h1>
+      <p data-rise style="--d:.12s">We're a marketing agency for real estate — brand, content and campaigns that move properties. We're growing the team and looking for people who do sharp work and care about the details.</p>
+    </section>
+
+    <p class="sec-label" data-rise style="--d:.16s">Open roles <span class="count" id="roleCount">03</span></p>
+
+    <div class="jobs">
+      <a class="job-card" href="seo-social-media-specialist.html" data-rise style="--d:.2s">
+        <div class="job-main">
+          <h2 class="job-title">SEO &amp; Social Media Specialist</h2>
+          <p class="job-desc">Optimizes website rankings and manages social media campaigns to drive traffic and engagement.</p>
+          <div class="job-meta">
+            <span class="tag accent">Marketing</span>
+            <span class="tag">On-site · Cairo</span>
+            <span class="tag">Full-time</span>
+          </div>
+        </div>
+        <span class="job-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
+        </span>
+      </a>
+
+      <a class="job-card" href="senior-video-editor.html" data-rise style="--d:.26s">
+        <div class="job-main">
+          <h2 class="job-title">Senior Video Editor</h2>
+          <p class="job-desc">Leads the post-production process, cutting and polishing high-quality video content.</p>
+          <div class="job-meta">
+            <span class="tag accent">Creative</span>
+            <span class="tag">On-site · Cairo</span>
+            <span class="tag">Full-time</span>
+          </div>
+        </div>
+        <span class="job-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
+        </span>
+      </a>
+
+      <a class="job-card" href="sales-representative.html" data-rise style="--d:.32s">
+        <div class="job-main">
+          <h2 class="job-title">Sales Representative</h2>
+          <p class="job-desc">Connects with potential clients, pitches products or services, and closes business deals.</p>
+          <div class="job-meta">
+            <span class="tag accent">Sales</span>
+            <span class="tag">On-site · KSA</span>
+            <span class="tag">Full-time</span>
+          </div>
+        </div>
+        <span class="job-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>© 2026 Grenada Studio · Cairo</span>
+      <div class="f-links">
+        <a href="../index.html">Home</a>
+        <a href="mailto:careers@grenadastudio.com">careers@grenadastudio.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="careers.js"></script>
+</body>
+</html>
