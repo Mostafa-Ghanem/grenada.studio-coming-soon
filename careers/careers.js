@@ -5,6 +5,160 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ============================================================
+     Dynamic careers engine — everything renders from jobs-data.js
+     Add a job there and it appears on the listing + gets its own
+     page at job.html?id=<id>. No HTML edits needed.
+     ============================================================ */
+  const JOBS = window.GS_JOBS || [];
+
+  /* ---------- Listing page: build job cards ---------- */
+  const jobsGrid = document.getElementById('jobsGrid');
+  if (jobsGrid){
+    const frag = document.createDocumentFragment();
+    JOBS.forEach((job, i) => {
+      const a = document.createElement('a');
+      a.className = 'job-card';
+      a.href = 'job.html?id=' + encodeURIComponent(job.id);
+      a.setAttribute('data-rise', '');
+      a.style.setProperty('--d', (0.2 + i * 0.06).toFixed(2) + 's');
+
+      const main = document.createElement('div');
+      main.className = 'job-main';
+
+      const h2 = document.createElement('h2');
+      h2.className = 'job-title';
+      h2.textContent = job.title;
+
+      const desc = document.createElement('p');
+      desc.className = 'job-desc';
+      desc.textContent = job.cardDesc;
+
+      const meta = document.createElement('div');
+      meta.className = 'job-meta';
+      const cat = document.createElement('span');
+      cat.className = 'tag accent';
+      cat.textContent = job.category;
+      meta.appendChild(cat);
+      (job.tags || []).forEach(t => {
+        const s = document.createElement('span');
+        s.className = 'tag';
+        s.textContent = t;
+        meta.appendChild(s);
+      });
+
+      main.append(h2, desc, meta);
+
+      const go = document.createElement('span');
+      go.className = 'job-go';
+      go.setAttribute('aria-hidden', 'true');
+      go.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>';
+
+      a.append(main, go);
+      frag.appendChild(a);
+    });
+    jobsGrid.appendChild(frag);
+    const count = document.getElementById('roleCount');
+    if (count) count.textContent = String(JOBS.length).padStart(2, '0');
+  }
+
+  /* ---------- Job page: fill the template from ?id= ---------- */
+  if (document.body.dataset.page === 'job'){
+    const id = new URLSearchParams(location.search).get('id');
+    const job = JOBS.find(j => j.id === id);
+    if (!job){
+      location.replace('index.html');
+      return;
+    }
+
+    document.title = job.title + ' — Grenada Studio';
+    const setMeta = (sel, val) => { const m = document.querySelector(sel); if (m) m.setAttribute('content', val); };
+    setMeta('meta[name="description"]', job.metaDesc);
+    setMeta('meta[property="og:title"]', job.title + ' — Grenada Studio');
+    setMeta('meta[property="og:description"]', job.metaDesc);
+
+    const eyebrow = document.getElementById('roleEyebrow');
+    if (eyebrow) eyebrow.textContent = job.category + ' · Open role';
+    const title = document.getElementById('roleTitle');
+    if (title) title.textContent = job.title;
+
+    const tags = document.getElementById('roleTags');
+    if (tags){
+      const cat = document.createElement('span');
+      cat.className = 'tag accent';
+      cat.textContent = job.category;
+      tags.appendChild(cat);
+      (job.tags || []).forEach(t => {
+        const s = document.createElement('span');
+        s.className = 'tag';
+        s.textContent = t;
+        tags.appendChild(s);
+      });
+    }
+
+    const body = document.getElementById('roleBody');
+    if (body){
+      (job.sections || []).forEach(sec => {
+        const h = document.createElement('h2');
+        h.textContent = sec.h;
+        body.appendChild(h);
+        if (sec.p){
+          const p = document.createElement('p');
+          p.textContent = sec.p;
+          body.appendChild(p);
+        }
+        if (sec.list){
+          const ul = document.createElement('ul');
+          sec.list.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            ul.appendChild(li);
+          });
+          body.appendChild(ul);
+        }
+      });
+      if (job.footnoteHtml){
+        const note = document.createElement('p');
+        note.style.cssText = 'color:var(--ink-mute);font-size:13px;margin-top:24px;';
+        note.innerHTML = job.footnoteHtml; // content comes from our own jobs-data.js
+        body.appendChild(note);
+      }
+    }
+
+    const pill = document.getElementById('rolePillName');
+    if (pill) pill.textContent = job.title;
+    const jobForm = document.getElementById('applyForm');
+    if (jobForm) jobForm.dataset.role = job.title;
+
+    // URL field per job — required → shown in the main form, optional → not shown
+    // (phone stays behind the "optional" expander to keep the form short)
+    const linkField = document.getElementById('linkField');
+    const linkInput = document.getElementById('linkedin');
+    if (linkField && linkInput && job.link){
+      const lbl = document.getElementById('linkLabel');
+      if (lbl) lbl.textContent = job.link.label;
+      linkInput.placeholder = job.link.placeholder || '';
+      if (job.link.required){
+        linkField.hidden = false;
+        linkInput.setAttribute('required', '');
+        const req = document.getElementById('linkReq');
+        if (req) req.hidden = false;
+      } else {
+        // optional → move it into the expander next to the phone field
+        const extra = jobForm ? jobForm.querySelector('.apply-extra') : null;
+        if (extra){ linkField.hidden = false; extra.appendChild(linkField); }
+      }
+    }
+    const extraLabel = document.getElementById('extraLabel');
+    if (extraLabel && job.extraLabel) extraLabel.textContent = job.extraLabel;
+
+    const footerEmail = document.getElementById('footerEmail');
+    if (footerEmail && job.applyEmail){
+      footerEmail.textContent = job.applyEmail;
+      footerEmail.href = 'mailto:' + job.applyEmail;
+    }
+  }
+
   /* ---------- Load reveal ---------- */
   requestAnimationFrame(() => requestAnimationFrame(() => {
     document.documentElement.classList.add('ready');
@@ -162,6 +316,17 @@
       });
     }
 
+    /* ----- Optional extra info — kept collapsed to keep the form short ----- */
+    const applyExtra = form.querySelector('.apply-extra');
+    const addExtraBtn = form.querySelector('[data-toggle-extra]');
+    if (addExtraBtn && applyExtra){
+      addExtraBtn.addEventListener('click', () => {
+        applyExtra.hidden = false;
+        addExtraBtn.hidden = true;
+        tone({freq:720,dur:0.05,gain:0.03});
+      });
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fd = new FormData(form);
@@ -246,6 +411,79 @@
         tone({freq:660,dur:0.08,gain:0.05}); setTimeout(()=>tone({freq:990,dur:0.1,gain:0.04}),90);
         submitBtn.disabled = false; if (label) label.textContent = old;
       }
+    });
+  }
+
+  /* ---------- Share this role (grow traffic + referrals) ---------- */
+  const share = document.querySelector('.share');
+  if (share){
+    const url = location.href;
+    const roleEl = document.querySelector('.role-head h1');
+    const role = (roleEl ? roleEl.textContent : document.title).trim();
+    const title = document.title;
+    const text = `We're hiring — ${role} at Grenada Studio. Take a look:`;
+    const enc = encodeURIComponent;
+
+    const links = {
+      whatsapp: `https://wa.me/?text=${enc(text + ' ' + url)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`,
+      x: `https://twitter.com/intent/tweet?text=${enc(text)}&url=${enc(url)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`,
+      email: `mailto:?subject=${enc(role + ' — Grenada Studio')}&body=${enc(text + '\n\n' + url)}`,
+    };
+    share.querySelectorAll('a[data-share]').forEach(a => {
+      const key = a.dataset.share;
+      if (links[key]) a.href = links[key];
+    });
+
+    const shareNote = document.getElementById('shareNote');
+    let noteTimer = 0;
+    function say(msg){
+      if (!shareNote) return;
+      shareNote.textContent = msg;
+      shareNote.classList.add('ok');
+      clearTimeout(noteTimer);
+      noteTimer = setTimeout(() => { shareNote.textContent = ''; shareNote.classList.remove('ok'); }, 2800);
+    }
+
+    // Native share sheet (mobile / supported browsers)
+    if (navigator.share){
+      share.classList.add('can-native');
+      const nativeBtn = share.querySelector('[data-share="native"]');
+      if (nativeBtn){
+        nativeBtn.addEventListener('click', async () => {
+          try { await navigator.share({ title, text, url }); tone({freq:720,dur:0.07,gain:0.04}); say('Thanks for sharing!'); }
+          catch(e){ /* user cancelled */ }
+        });
+      }
+    }
+
+    // Copy link
+    const copyBtn = share.querySelector('[data-share="copy"]');
+    if (copyBtn){
+      copyBtn.addEventListener('click', async () => {
+        const lbl = copyBtn.querySelector('.copy-label');
+        const original = lbl ? lbl.textContent : '';
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText){
+            await navigator.clipboard.writeText(url);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = url; ta.setAttribute('readonly',''); ta.style.position = 'absolute'; ta.style.left = '-9999px';
+            document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+          }
+          copyBtn.classList.add('copied');
+          if (lbl) lbl.textContent = 'Copied!';
+          say('Link copied — send it to a friend.');
+          tone({freq:880,dur:0.08,gain:0.04});
+          setTimeout(() => { copyBtn.classList.remove('copied'); if (lbl) lbl.textContent = original; }, 2000);
+        } catch(e){ say('Press Ctrl/Cmd + C to copy the link.'); }
+      });
+    }
+
+    // Acknowledge social shares (they open in a new tab)
+    share.querySelectorAll('a[data-share]').forEach(a => {
+      a.addEventListener('click', () => say('Thanks for sharing!'));
     });
   }
 })();

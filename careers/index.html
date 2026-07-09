@@ -43,54 +43,10 @@
       <p data-rise style="--d:.12s">We're a marketing agency for real estate — brand, content and campaigns that move properties. We're growing the team and looking for people who do sharp work and care about the details.</p>
     </section>
 
-    <p class="sec-label" data-rise style="--d:.16s">Open roles <span class="count" id="roleCount">03</span></p>
+    <p class="sec-label" data-rise style="--d:.16s">Open roles <span class="count" id="roleCount">—</span></p>
 
-    <div class="jobs">
-      <a class="job-card" href="seo-social-media-specialist.html" data-rise style="--d:.2s">
-        <div class="job-main">
-          <h2 class="job-title">SEO &amp; Social Media Specialist</h2>
-          <p class="job-desc">Optimizes website rankings and manages social media campaigns to drive traffic and engagement.</p>
-          <div class="job-meta">
-            <span class="tag accent">Marketing</span>
-            <span class="tag">On-site · Cairo</span>
-            <span class="tag">Full-time</span>
-          </div>
-        </div>
-        <span class="job-go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
-        </span>
-      </a>
-
-      <a class="job-card" href="senior-video-editor.html" data-rise style="--d:.26s">
-        <div class="job-main">
-          <h2 class="job-title">Senior Video Editor</h2>
-          <p class="job-desc">Leads the post-production process, cutting and polishing high-quality video content.</p>
-          <div class="job-meta">
-            <span class="tag accent">Creative</span>
-            <span class="tag">On-site · Cairo</span>
-            <span class="tag">Full-time</span>
-          </div>
-        </div>
-        <span class="job-go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
-        </span>
-      </a>
-
-      <a class="job-card" href="sales-representative.html" data-rise style="--d:.32s">
-        <div class="job-main">
-          <h2 class="job-title">Sales Representative</h2>
-          <p class="job-desc">Connects with potential clients, pitches products or services, and closes business deals.</p>
-          <div class="job-meta">
-            <span class="tag accent">Sales</span>
-            <span class="tag">On-site · KSA</span>
-            <span class="tag">Full-time</span>
-          </div>
-        </div>
-        <span class="job-go" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
-        </span>
-      </a>
-    </div>
+    <!-- Job cards are built automatically from jobs-data.js — edit jobs there, not here. -->
+    <div class="jobs" id="jobsGrid"></div>
   </div>
 
   <footer class="site">
@@ -103,6 +59,7 @@
     </div>
   </footer>
 
+  <script src="jobs-data.js"></script>
   <script src="careers.js"></script>
 </body>
 </html>
