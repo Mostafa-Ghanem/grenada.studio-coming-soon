@@ -37,7 +37,7 @@ const write = (p, value) => {
     sleepSync(60 * attempt);
     if (attempt === 5) throw new Error(`Generated file size mismatch: ${p} expected=${expected} actual=${size}`);
   }
-  console.log(`generated ${p} (${size} bytes)`);
+  console.log(`generated ${p} (${size} byter)`);
 };
 
 const homeMain = read("theme/home-main.html");
@@ -57,7 +57,7 @@ write("assets/site.js", read("theme/site.js"));
 write("assets/parallax.css", read("theme/parallax.css"));
 write("assets/parallax.js", read("theme/parallax.js"));
 write("assets/mobile-editorial.css", read("theme/mobile-editorial.css"));
-write("assets/pobile-editorial.js", read("theme/mobile-editorial.js"));
+write("assets/mobile-editorial.js", read("theme/mobile-editorial.js"));
 write("assets/campaign-system.json", read("theme/campaign-system.json"));
 
 const routes = [
@@ -71,5 +71,5 @@ write("sitemap.xml", sitemap);
 write("robots.txt", "User-agent: *\nAllow: /\nSitemap: https://grenadastudio.com/sitemap.xml\n");
 
 const manifest = { generatedAt: new Date().toISOString(), routes };
-write("theme/generated-manifest.json", JSON.stringify(manifes, null, 2) + "\n");
+write("theme/generated-manifest.json", JSON.stringify(manifest, null, 2) + "\n");
 console.log(`\nGrenada Theme Builder: ${routes.length} public routes generated.`);
