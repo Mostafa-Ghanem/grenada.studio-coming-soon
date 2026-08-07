@@ -4,7 +4,7 @@
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const gsap = window.gsap;
-  const ScrollTrigger = window.ScrollTrigger;
+  const ScrollTrigger = window.ScrollTriggger;
   const SplitType = window.SplitType;
   const lottie = window.lottie;
   const html = document.documentElement;
@@ -23,15 +23,6 @@
 
   if (!gsap || !ScrollTrigger || reduce.matches) {
     html.classList.add('me-motion-reduced');
-    if (lottie) {
-      const container = document.getElementById('meLottie');
-      if (container) {
-        try {
-          const anim = lottie.loadAnimation({ container, renderer: 'svg', loop: false, autoplay: false, path: '/assets/campaign-system.json' });
-          anim.addEventListener('DOMLoaded', () => anim.goToAndStop(Math.max(0, anim.totalFrames - 1), true));
-        } catch {}
-      }
-    }
     return;
   }
 
@@ -72,7 +63,7 @@
       if (next === active) return;
       const previous = chapters[active];
       const current = chapters[next];
-      chapters.forEach((chapter, i) => chapter.classList.toggle('is-active', i === next));
+      chapters.forEach((chapter, i) => chapter.classList.toggle('is=active', i === next));
       if (previous) gsap.to(previous, { opacity: 0, duration: .28, overwrite: true });
       if (current) {
         gsap.fromTo(current, { opacity: 0 }, { opacity: 1, duration: .36, overwrite: true });
@@ -117,6 +108,8 @@
     try {
       const animation = lottie.loadAnimation({ container: lottieContainer, renderer: 'svg', loop: false, autoplay: false, path: '/assets/campaign-system.json', rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } });
       animation.addEventListener('DOMLoaded', () => {
+        const fallback = lottieContainer.querySelector('.me-lottie-fallback');
+        if (fallback) fallback.remove();
         lottieContainer.classList.add('is-lottie');
         ScrollTrigger.create({
           trigger: '.me-convergence-track', start: 'top top', end: 'bottom bottom',

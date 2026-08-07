@@ -23,15 +23,6 @@
 
   if (!gsap || !ScrollTrigger || reduce.matches) {
     html.classList.add('me-motion-reduced');
-    if (lottie) {
-      const container = document.getElementById('meLottie');
-      if (container) {
-        try {
-          const anim = lottie.loadAnimation({ container, renderer: 'svg', loop: false, autoplay: false, path: '/assets/campaign-system.json' });
-          anim.addEventListener('DOMLoaded', () => anim.goToAndStop(Math.max(0, anim.totalFrames - 1), true));
-        } catch {}
-      }
-    }
     return;
   }
 
@@ -117,6 +108,8 @@
     try {
       const animation = lottie.loadAnimation({ container: lottieContainer, renderer: 'svg', loop: false, autoplay: false, path: '/assets/campaign-system.json', rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } });
       animation.addEventListener('DOMLoaded', () => {
+        const fallback = lottieContainer.querySelector('.me-lottie-fallback');
+        if (fallback) fallback.remove();
         lottieContainer.classList.add('is-lottie');
         ScrollTrigger.create({
           trigger: '.me-convergence-track', start: 'top top', end: 'bottom bottom',
