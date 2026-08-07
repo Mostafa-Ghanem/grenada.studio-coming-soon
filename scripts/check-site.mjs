@@ -5,7 +5,7 @@ import { projects } from "../theme/data/projects.mjs";
 
 const root = path.resolve(new URL("..", import.meta.url).pathname);
 const files = [
-  "index.html", "about/index.html", "services/index.html", "work/index.html", "approach/index.html", "contact/index.html",
+  "index.html", "home-parallax/index.html", "about/index.html", "services/index.html", "work/index.html", "approach/index.html", "contact/index.html",
   ...services.map((s) => `services/${s.slug}/index.html`),
   ...projects.map((p) => `work/${p.slug}/index.html`)
 ];
@@ -24,6 +24,11 @@ for (const rel of files) {
   ];
   for (const [label, ok] of checks) if (!ok) { console.error(`${rel}: ${label} failed`); failed = true; }
 }
+const parallaxHtml = fs.readFileSync(path.join(root, "home-parallax/index.html"), "utf8");
+if (!/href="\/assets\/parallax\.css"/.test(parallaxHtml)) { console.error("parallax stylesheet missing"); failed = true; }
+if (!/src="\/assets\/parallax\.js"/.test(parallaxHtml)) { console.error("parallax script missing"); failed = true; }
+if (!/ScrollTrigger\.min\.js/.test(parallaxHtml)) { console.error("ScrollTrigger dependency missing"); failed = true; }
+if (!/name="robots" content="noindex,nofollow"/.test(parallaxHtml)) { console.error("experimental page must stay noindex"); failed = true; }
 const css = fs.readFileSync(path.join(root, "assets/site.css"), "utf8");
 if (/transition\s*:\s*all\b/i.test(css)) { console.error("assets/site.css: transition: all found"); failed = true; }
 if (/user-scalable\s*=\s*no|maximum-scale\s*=\s*1/i.test(files.map(f=>fs.readFileSync(path.join(root,f),'utf8')).join('\n'))) { console.error("zoom disabling viewport found"); failed = true; }

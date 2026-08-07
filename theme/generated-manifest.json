@@ -1,7 +1,8 @@
 {
-  "generatedAt": "2026-08-07T16:14:43.006Z",
+  "generatedAt": "2026-08-07T17:02:47.077Z",
   "routes": [
     "/",
+    "/home-parallax/",
     "/about/",
     "/services/",
     "/services/social-media-management/",

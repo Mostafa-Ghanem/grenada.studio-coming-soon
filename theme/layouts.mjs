@@ -5,9 +5,11 @@ function esc(value = "") {
   return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
 }
 
-export function documentLayout({ title, description = site.description, active = "", content, path = "/", intro = false, bodyClass = "" }) {
+export function documentLayout({ title, description = site.description, active = "", content, path = "/", intro = false, bodyClass = "", extraHead = "", extraScripts = "" }) {
   const fullTitle = title === site.name ? `${site.name} — Real Estate Marketing & Creative Agency` : `${title} — ${site.name}`;
   const canonical = `https://grenadastudio.com${path}`;
+  const headExtras = extraHead ? `\n  ${extraHead}` : "";
+  const scriptExtras = extraScripts ? `\n  ${extraScripts}` : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -23,7 +25,7 @@ export function documentLayout({ title, description = site.description, active =
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
-  <link rel="stylesheet" href="/assets/site.css" />
+  <link rel="stylesheet" href="/assets/site.css" />${headExtras}
 </head>
 <body class="${bodyClass}">
   ${decorations({ intro })}
@@ -32,7 +34,7 @@ export function documentLayout({ title, description = site.description, active =
     <main id="main">${content}</main>
     ${footer()}
   </div>
-  <script src="/assets/site.js" defer></script>
+  <script src="/assets/site.js" defer></script>${scriptExtras}
 </body>
 </html>`;
 }
