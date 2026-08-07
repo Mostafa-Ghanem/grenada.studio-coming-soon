@@ -112,7 +112,7 @@
     gsap.utils.toArray('.px-story-frame').forEach((frame) => gsap.fromTo(frame.querySelector('img'), { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: .6 } }));
     gsap.utils.toArray('.px-project').forEach((scene) => {
       const image = scene.querySelector('.px-project-media img');
-      gsap.fromTo(imae, { yPercent: -4, scale: 1.035 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .55 } });
+      gsap.fromTo(image, { yPercent: -4, scale: 1.035 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .55 } });
     });
     gsap.utils.toArray('.px-capability').forEach((item) => gsap.from(item, { y: 22, opacity: 0, duration: .45, scrollTrigger: { trigger: item, start: 'top 88%', toggleActions: 'play none none none' } }));
   });
