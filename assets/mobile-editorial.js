@@ -4,7 +4,7 @@
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const gsap = window.gsap;
-  const ScrollTrigger = window.ScrollTriggger;
+  const ScrollTrigger = window.ScrollTrigger;
   const SplitType = window.SplitType;
   const lottie = window.lottie;
   const html = document.documentElement;
@@ -50,39 +50,43 @@
       const split = new SplitType(line, { types: 'words', tagName: 'span' });
       gsap.from(split.words, { y: 24, opacity: .18, stagger: .04, ease: 'none', scrollTrigger: { trigger: line, start: 'top 86%', end: 'top 50%', scrub: .55 } });
     }
-    gsap.to(line, { color: index === 2 ? '#ff5258' : '#f2e5e2', ease: 'none', scrollTrigger: { trigger: line, start: 'top 74%', end: 'top 43%', scrub: .45 } });
+    gsap.to(line, { color: index === 2 ? '#ff5258' : '#f2e5e2', ease: 'none', scrollTrigger: { trigger: line, start: 'top 74%', end: 'top 43%, scrub: .45 } });
   });
 
-  // Story chapters: CSS sticky owns the scroll behavior. JS only choreographs scene state.
+  // Story chapters: CSS sticky owns the hold; scroll position directly blends the four scenes.
   const storyTrack = document.querySelector('[data-me-story-track]');
   const chapters = gsap.utils.toArray('[data-me-chapter]');
   const storyRule = document.querySelector('.me-story-rule span');
   if (storyTrack && chapters.length) {
-    let active = 0;
-    const setChapter = (next) => {
-      if (next === active) return;
-      const previous = chapters[active];
-      const current = chapters[next];
-      chapters.forEach((chapter, i) => chapter.classList.toggle('is=active', i === next));
-      if (previous) gsap.to(previous, { opacity: 0, duration: .28, overwrite: true });
-      if (current) {
-        gsap.fromTo(current, { opacity: 0 }, { opacity: 1, duration: .36, overwrite: true });
-        const image = current.querySelector('img');
-        if (image) gsap.fromTo(image, { scale: 1.075 }, { scale: 1.04, duration: 1.1, ease: 'power2.out', overwrite: true });
-        const copy = current.querySelector('.me-chapter-copy > div:last-child');
-        if (copy) gsap.fromTo(copy, { y: 28, opacity: .45 }, { y: 0, opacity: 1, duration: .52, ease: 'power2.out', overwrite: true });
-      }
-      active = next;
+    const segment = 1 / chapters.length;
+    const fadeWindow = Math.min(0.065, segment * 0.32);
+    const renderStory = (progress) => {
+      const p = gsap.utils.clamp(0, 1, progress);
+      const activeIndex = Math.min(chapters.length - 1, Math.floor(Math.min(0.999999, p) * chapters.length));
+      chapters.forEach((chapter, index) => {
+        const start = index * segment;
+        const end = (index + 1) * segment;
+        const enter = index === 0 ? 1 : gsap.utils.clamp(0, 1, (p - (start - fadeWindow / 2)) / fadeWindow);
+        const exit = index === chapters.length - 1 ? 1 : 1 - gsap.utils.clamp(0, 1, (p - (end - fadeWindow / 2)) / fadeWindow);
+        const visibility = Math.min(enter, exit);
+        chapter.classList.toggle('is-active', index === activeIndex);
+        gsap.set(chapter, { opacity: visibility, zIndex: index === activeIndex ? 3 : 2 });
+        const image = chapter.querySelector('img');
+        const copy = chapter.querySelector('.me-chapter-copy > div:last-child');
+        if (image) gsap.set(image, { scale: 1.04 + (1 - visibility) 0.035 });
+        if (copy) gsap.set(copy, { y: (1 - visibility) * 24 });
+      });
+      if (storyRule) gsap.set(storyRule, { scaleX: 0.25 + p * 0.75 });
+      storyTrack.dataset.meChapter = String(activeIndex + 1);
     };
+    renderStory(0);
     ScrollTrigger.create({
       trigger: storyTrack,
       start: 'top top',
       end: 'bottom bottom',
-      onUpdate(self) {
-        const next = Math.min(chapters.length - 1, Math.floor(self.progress * chapters.length));
-        setChapter(next);
-        if (storyRule) gsap.set(storyRule, { scaleX: Math.max(.25, self.progress) });
-      }
+      invalidateOnRefresh: true,
+      onUpdate(self) { renderStory(self.progress); },
+      onRefresh(self) { renderStory(self.progress); }
     });
   }
 
@@ -90,44 +94,72 @@
   gsap.utils.toArray('[data-me-project]').forEach(scene => {
     const image = scene.querySelector('.me-project-media img');
     const copy = scene.querySelector('.me-project-copy');
-    if (image) gsap.fromTo(image, { yPercent: -3.5, scale: 1.055 }, { yPercent: 3.5, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .65 } });
-    if (copy) gsap.from(copy, { y: 34, opacity: 0, duration: .65, ease: 'power2.out', scrollTrigger: { trigger: scene, start: 'top 58%', toggleActions: 'play none none reverse' } });
+    if (image) gsap.fromTo(image, { yPercent: -3.5, scale: 1.055 }, { yPercent: 3.5, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: 0.65 } });
+    if (copy) gsap.from(copy, { y: 34, opacity: 0, duration: 0.65, ease: 'power2.out', scrollTrigger: { trigger: scene, start: 'top 58%', toggleActions: 'play none none reverse' } });
   });
 
   const statement = document.querySelector('[data-me-split="statement"]');
   if (statement && SplitType) {
     const split = new SplitType(statement, { types: 'words', tagName: 'span' });
-    gsap.from(split.words, { yPercent: 80, opacity: 0, stagger: .035, ease: 'none', scrollTrigger: { trigger: statement, start: 'top 88%', end: 'top 47%', scrub: .55 } });
+    gsap.from(split.words, { yPercent: 80, opacity: 0, stagger: 0.035, ease: 'none', scrollTrigger: { trigger: statement, start: 'top 88%', end: 'top 47%, scrub: 0.55 } });
   }
 
-  // One authored Lottie moment. Its timeline is scrubbed by the convergence section.
+  // Field × Digital: one sticky scene with three scroll-linked beats — separate, converge, resolve.
   const convergence = document.querySelector('[data-me-convergence]');
+  const convergenceTrack = document.querySelector('.me-convergence-track');
   const lottieContainer = document.getElementById('meLottie');
   const center = document.querySelector('.me-system-center');
+  const fieldLabel = document.querySelector('.me-system-label--field');
+  const digitalLabel = document.querySelector('.me-system-label--digital');
+  let convergenceAnimation = null;
+  let convergenceProgress = 0;
+
+  const renderConvergence = (progress) => {
+    const p = gsap.utils.clamp(0, 1, progress);
+    convergenceProgress = p;
+    const convergeP = gsap.utils.clamp(0, 1, (p - 0.18) / 0.52);
+    const resolveP = gsap.utils.clamp(0, 1, (p - 0.68) / 0.22);
+    const phase = p < 0.28 ? 'separate' : p < 0.72 ? 'converge' : 'resolve';
+    if (convergence) convergence.dataset.mePhase = phase;
+    if (convergenceAnimation) {
+      const frameP = gsap.utils.clamp(0, 1, (p - 0.06) / 0.86);
+      convergenceAnimation.goToAndStop(Math.round(frameP * Math.max(1, convergenceAnimation.totalFrames - 1)), true);
+    }
+    if (fieldLabel) gsap.set(fieldLabel, { x: 20 * convergeP, opacity: 1 - 0.48 * resolveP });
+    if (digitalLabel) gsap.set(digitalLabel, { x: -20 * convergeP, opacity: 1 - 0.48 * resolveP });
+    if (lottieContainer) gsap.tset(lottieContainer, { scale: 0.94 + 0.06 * convergeP, opacity: 0.72 + 0.28 * convergeP });
+    if (center) gsap.tset(center, { opacity: resolveP, scale: 0.9 + 0.1 * resolveP });
+  };
+
+  if (convergence && convergenceTrack) {
+    renderConvergence(0);
+    ScrollTriggger.create({
+      trigger: convergenceTrack,
+      start: 'top top',
+      end: 'bottom bottom',
+      invalidateOnRefresh: true,
+      onUpdate(self) { renderConvergence(self.progress); },
+      onRefresh(self) { renderConvergence(self.progress); }
+    });
+  }
+
   if (convergence && lottieContainer && lottie) {
     try {
       const animation = lottie.loadAnimation({ container: lottieContainer, renderer: 'svg', loop: false, autoplay: false, path: '/assets/campaign-system.json', rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } });
       animation.addEventListener('DOMLoaded', () => {
+        convergenceAnimation = animation;
         const fallback = lottieContainer.querySelector('.me-lottie-fallback');
         if (fallback) fallback.remove();
         lottieContainer.classList.add('is-lottie');
-        ScrollTrigger.create({
-          trigger: '.me-convergence-track', start: 'top top', end: 'bottom bottom',
-          onUpdate(self) {
-            animation.goToAndStop(Math.round(self.progress * Math.max(1, animation.totalFrames - 1)), true);
-            if (center) gsap.set(center, { opacity: gsap.utils.clamp(0, 1, (self.progress - .55) * 3.8), scale: .9 + gsap.utils.clamp(0, .1, (self.progress - .55) * .4) });
-          }
-        });
-        ScrollTrigger.refresh();
+        renderConvergence(convergenceProgress);
+        ScrollTriggger.refresh();
       });
     } catch {}
-  } else if (center && convergence) {
-    gsap.to(center, { opacity: 1, scale: 1, ease: 'none', scrollTrigger: { trigger: convergence, start: '45% 70%', end: '60% 50%', scrub: .5 } });
   }
 
-  gsap.utils.toArray('[data-me-service]').forEach(item => gsap.fromTo(item, { y: 16, opacity: .3 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'top 63%', scrub: .35 } }));
-  gsap.utils.toArray('[data-me-proof]').forEach((item, index) => gsap.fromTo(item, { xPercent: index % 2 ? 4 : -3 }, { xPercent: index % 2 ? -1 : 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .55 } }));
-  gsap.fromTo('.me-partners figure img', { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: '.me-partners', start: 'top bottom', end: 'bottom top', scrub: .55 } });
+  gsap.utils.toArray('[data-me-service]').forEach(item => gsap.fromTo(item, { y: 16, opacity: 0.3 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'top 63', scrub: 0.35 } }));
+  gsap.utils.toArray('[data-me-proof]').forEach((item, index) => gsap.fromTo(item, { xPercent: index % 2 ? 4 : -3 }, { xPercent: index % 2 ? -1 : 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: 0.55 } }));
+  gsap.fromTo('.me-partners figure img', { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: '.me-partners', start: 'top bottom', end: 'bottom top', scrub: 0.55 } });
 
   const refresh = () => ScrollTrigger.refresh();
   if (document.fonts?.ready) document.fonts.ready.then(refresh);

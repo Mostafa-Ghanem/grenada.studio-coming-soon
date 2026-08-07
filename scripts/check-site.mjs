@@ -36,6 +36,20 @@ if (!/split-type/.test(mobileEditorialHtml) || !/lottie-web/.test(mobileEditoria
 if (!/name="robots" content="noindex,nofollow"/.test(mobileEditorialHtml)) { console.error("mobile editorial experiment must stay noindex"); failed = true; }
 const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
 if (sitemap.includes("home-parallax") || sitemap.includes("home-mobile-editorial")) { console.error("experimental routes must stay outside sitemap"); failed = true; }
+
+const driftPairs = [
+  ["theme/mobile-editorial.js", "assets/mobile-editorial.js"],
+  ["theme/mobile-editorial.css", "assets/mobile-editorial.css"]
+];
+for (const [sourceRel, runtimeRel] of driftPairs) {
+  const sourceBytes = fs.readFileSync(path.join(root, sourceRel));
+  const runtimeBytes = fs.readFileSync(path.join(root, runtimeRel));
+  if (!sourceBytes.equals(runtimeBytes)) {
+    console.error(`source/runtime drift: ${sourceRel} != ${runtimeRel}`);
+    failed = true;
+  }
+}
+
 const css = fs.readFileSync(path.join(root, "assets/site.css"), "utf8");
 if (/transition\s*:\s*all\b/i.test(css)) { console.error("assets/site.css: transition: all found"); failed = true; }
 if (/user-scalable\s*=\s*no|maximum-scale\s*=\s*1/i.test(files.map(f=>fs.readFileSync(path.join(root,f),'utf8')).join('\n'))) { console.error("zoom disabling viewport found"); failed = true; }
