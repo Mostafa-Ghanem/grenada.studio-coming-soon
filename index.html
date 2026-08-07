@@ -1,808 +1,380 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Grenada Studio — Coming Soon</title>
-<meta name="description" content="Grenada Studio — a marketing agency for real estate. Brand, content and launch campaigns that move properties. Our new site is in production." />
-<meta name="theme-color" content="#150707" />
-<meta property="og:title" content="Grenada Studio — Coming Soon" />
-<meta property="og:description" content="A marketing agency for real estate. Coming soon." />
-<meta property="og:type" content="website" />
-<link rel="icon" type="image/png" href="logo-red.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
-<style>
-  :root{
-    --bg: #150707;
-    --bg-deep: #0a0303;
-    --panel: #200c0c;
-    --red: #ca2027;
-    --red-2: #e8323a;
-    --red-glow: #ff3a44;
-    --ink: #f5e8e8;
-    --ink-dim: #a6918f;
-    --ink-mute: #6e5957;
-    --line: rgba(245, 232, 232, 0.10);
-    --line-strong: rgba(245, 232, 232, 0.22);
-    --serif: "Instrument Serif", "Times New Roman", serif;
-    --sans: "Space Grotesk", system-ui, -apple-system, sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
-  }
-
-  *,*::before,*::after{ box-sizing: border-box; }
-  html, body{ margin:0; padding:0; }
-  html{ background: var(--bg-deep); }
-  body{
-    min-height: 100svh;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-  ::selection{ background: var(--red); color: var(--ink); }
-
-  a{ color: inherit; text-decoration: none; }
-  button{ font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-
-  /* ---------- Scene scaffold ---------- */
-  .scene{
-    position: relative;
-    min-height: 100svh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: clamp(20px, 3vw, 36px);
-    isolation: isolate;
-  }
-
-  /* spotlight halo behind logo — slowly breathing */
-  .spotlight{
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(120% 80% at 50% -15%, rgba(202, 32, 39, 0.18), transparent 55%),
-      radial-gradient(60% 50% at 50% 42%, rgba(202, 32, 39, 0.10), transparent 70%),
-      radial-gradient(100% 100% at 50% 110%, rgba(10, 3, 3, 0.85), transparent 55%);
-    animation: breathe 11s ease-in-out infinite;
-    opacity: 0;
-    transition: opacity 1.4s ease 0.2s;
-  }
-  .scene.lit .spotlight{ opacity: 1; }
-  @keyframes breathe{
-    0%, 100%{ transform: scale(1); filter: blur(0px); }
-    50%     { transform: scale(1.06); filter: blur(2px); }
-  }
-
-  /* vignette + grain */
-  .vignette{
-    position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    background:
-      radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
-  }
-  .grain{
-    position: fixed; inset: -10%; pointer-events: none; z-index: 2;
-    opacity: 0.08; mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    animation: drift 6s steps(6) infinite;
-  }
-  @keyframes drift{
-    0%{ transform: translate(0,0); }
-    20%{ transform: translate(-2%, 1%); }
-    40%{ transform: translate(1%, -2%); }
-    60%{ transform: translate(-1%, 2%); }
-    80%{ transform: translate(2%, 1%); }
-    100%{ transform: translate(0,0); }
-  }
-
-  /* particle canvas */
-  .particles{
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none; opacity: 0;
-    transition: opacity 1.6s ease 0.6s;
-  }
-  .scene.lit .particles{ opacity: 1; }
-
-  /* faint grid */
-  .grid{
-    position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    background-image:
-      linear-gradient(to right, rgba(245,232,232,0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(245,232,232,0.025) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(80% 70% at 50% 50%, black, transparent 85%);
-    -webkit-mask-image: radial-gradient(80% 70% at 50% 50%, black, transparent 85%);
-  }
-
-  /* ---------- Header & footer ---------- */
-  header, footer{ position: relative; z-index: 5; }
-  header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    opacity: 0; transform: translateY(-6px);
-    animation: fadeDown 1.0s cubic-bezier(.2,.7,.2,1) 0.2s forwards;
-  }
-
-  .wordmark{
-    display: flex; align-items: center; gap: 10px;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-  }
-  .wordmark .mark{
-    width: 18px; height: 18px;
-    background: var(--red);
-    -webkit-mask: url("logo-red.png") center / contain no-repeat;
-            mask: url("logo-red.png") center / contain no-repeat;
-  }
-
-  .status{
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 10px;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    background: rgba(245,232,232,0.02);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  .status .dot{
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--red);
-    box-shadow: 0 0 10px var(--red), 0 0 18px var(--red-glow);
-    animation: pulse 1.6s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%, 100%{ opacity: 1; transform: scale(1); }
-    50%     { opacity: 0.55; transform: scale(0.85); }
-  }
-
-  .top-right{
-    display: flex; align-items: center; gap: 8px;
-  }
-  .icon-btn{
-    width: 38px; height: 38px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--ink-dim);
-    background: rgba(245,232,232,0.02);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
-  }
-  .icon-btn:hover, .icon-btn:focus-visible{
-    color: var(--ink);
-    border-color: var(--line-strong);
-    background: rgba(245,232,232,0.04);
-    outline: none;
-  }
-  .icon-btn[aria-pressed="true"]{
-    color: var(--red-2);
-    border-color: rgba(232, 50, 58, 0.55);
-    background: rgba(202, 32, 39, 0.08);
-  }
-  .icon-btn svg{ width: 16px; height: 16px; display: block; }
-
-  /* ---------- Main ---------- */
-  main{
-    position: relative; z-index: 5;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    padding: clamp(28px, 6vh, 64px) 0;
-  }
-
-  /* Logo */
-  .logo-wrap{
-    position: relative;
-    width: clamp(140px, 22vw, 220px);
-    aspect-ratio: 1 / 1;
-    margin-bottom: clamp(28px, 5vh, 48px);
-  }
-  .logo{
-    position: absolute; inset: 0;
-    background-image: url("logo-red.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter:
-      drop-shadow(0 0 0px rgba(255, 58, 68, 0))
-      drop-shadow(0 12px 36px rgba(202, 32, 39, 0.0));
-    clip-path: inset(50% 0 50% 0);
-    opacity: 0;
-    transform: translateY(8px) scale(0.96);
-    transition:
-      clip-path 1.2s cubic-bezier(.7,.0,.2,1) 0.5s,
-      transform 1.4s cubic-bezier(.2,.7,.2,1) 0.5s,
-      opacity   0.6s ease 0.5s,
-      filter    1.6s ease 1.6s;
-  }
-  .scene.lit .logo{
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter:
-      drop-shadow(0 0 24px rgba(255, 58, 68, 0.35))
-      drop-shadow(0 18px 60px rgba(202, 32, 39, 0.28));
-    animation: glow-pulse 5.5s ease-in-out 2.2s infinite;
-  }
-  @keyframes glow-pulse{
-    0%, 100%{
-      filter:
-        drop-shadow(0 0 18px rgba(255, 58, 68, 0.28))
-        drop-shadow(0 14px 50px rgba(202, 32, 39, 0.22));
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Grenada Studio — Real Estate Marketing & Creative Agency</title>
+  <meta name="description" content="Grenada Studio is an integrated digital and creative marketing agency specializing in real estate, auctions, branding, content, performance marketing and media production." />
+  <meta name="theme-color" content="#150707" />
+  <meta property="og:title" content="Grenada Studio — Real Estate Marketing & Creative Agency" />
+  <meta property="og:description" content="Strategy, creative, performance and production built for real estate." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
+  <style>
+    :root{
+      --bg:#150707; --bg-deep:#090303; --panel:#1d0b0b; --panel-2:#230d0d;
+      --red:#ca2027; --red-2:#e8323a; --red-glow:#ff3a44;
+      --ink:#f6eaea; --ink-dim:#b39f9d; --ink-mute:#76615f;
+      --line:rgba(246,234,234,.10); --line-strong:rgba(246,234,234,.22);
+      --serif:"Instrument Serif", Georgia, serif;
+      --sans:"Space Grotesk", system-ui, -apple-system, sans-serif;
+      --mono:"JetBrains Mono", ui-monospace, monospace;
+      --max:1240px; --pad:clamp(18px,3vw,38px);
+      --ease:cubic-bezier(.2,.7,.2,1);
     }
-    50%{
-      filter:
-        drop-shadow(0 0 34px rgba(255, 58, 68, 0.55))
-        drop-shadow(0 18px 70px rgba(202, 32, 39, 0.40));
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg-deep)}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;letter-spacing:.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body.menu-open{overflow:hidden}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit;color:inherit}
+    button{cursor:pointer}
+    ::selection{background:var(--red);color:white}
+    :focus-visible{outline:2px solid var(--red-2);outline-offset:4px}
+    .skip{position:fixed;left:16px;top:16px;z-index:1000;padding:10px 14px;border-radius:8px;background:#fff;color:#111;transform:translateY(-160%);transition:transform .2s}
+    .skip:focus{transform:none}
+
+    .noise,.vignette,.grid,.spotlight{position:fixed;inset:0;pointer-events:none}
+    .spotlight{z-index:0;background:radial-gradient(80% 55% at 72% 12%,rgba(232,50,58,.16),transparent 58%),radial-gradient(60% 50% at 50% 42%,rgba(202,32,39,.10),transparent 70%),radial-gradient(100% 100% at 50% 115%,rgba(5,1,1,.92),transparent 58%);animation:breathe 11s ease-in-out infinite}
+    .grid{z-index:0;background-image:linear-gradient(to right,rgba(245,232,232,.024) 1px,transparent 1px),linear-gradient(to bottom,rgba(245,232,232,.024) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(85% 70% at 50% 45%,black,transparent 90%)}
+    .vignette{z-index:2;background:radial-gradient(120% 120% at 50% 50%,transparent 56%,rgba(0,0,0,.52) 100%)}
+    .noise{z-index:3;opacity:.075;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:drift 6s steps(6) infinite}
+    #particles{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5}
+    @keyframes breathe{50%{transform:scale(1.05);filter:blur(2px)}}
+    @keyframes drift{0%,100%{transform:translate(0,0)}20%{transform:translate(-2%,1%)}40%{transform:translate(1%,-2%)}60%{transform:translate(-1%,2%)}80%{transform:translate(2%,1%)}}
+
+    .intro{position:fixed;inset:0;z-index:999;background:#100404;display:grid;place-items:center;transition:opacity .75s var(--ease),visibility .75s}
+    .intro.done{opacity:0;visibility:hidden}
+    .intro-core{position:relative;width:min(220px,40vw);aspect-ratio:1;display:grid;place-items:center}
+    .intro-mark{width:55%;opacity:0;transform:translateY(9px) scale(.94);clip-path:inset(50% 0 50% 0);filter:drop-shadow(0 0 0 rgba(255,58,68,0));animation:markIn 1.15s var(--ease) .25s forwards}
+    .intro-line{position:absolute;left:-24%;right:-24%;top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--red-2),transparent);box-shadow:0 0 16px var(--red-glow);transform:scaleX(0);opacity:0;animation:sweep 1.05s var(--ease) .15s forwards}
+    @keyframes markIn{to{opacity:1;transform:none;clip-path:inset(0);filter:drop-shadow(0 0 28px rgba(255,58,68,.42))}}
+    @keyframes sweep{25%{opacity:1}70%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1.05);opacity:0}}
+
+    .site{position:relative;z-index:5}
+    .shell{width:min(calc(100% - var(--pad)*2),var(--max));margin-inline:auto}
+    .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-mute)}
+    .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red-2)}
+    .section{padding:clamp(84px,10vw,150px) 0;content-visibility:auto;contain-intrinsic-size:900px}
+    .section-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(280px,4fr);gap:clamp(28px,6vw,84px);align-items:end;margin-bottom:clamp(44px,6vw,72px)}
+    .section-title{font-family:var(--serif);font-size:clamp(46px,6.6vw,88px);line-height:.96;font-weight:400;letter-spacing:-.02em;margin:10px 0 0;text-wrap:balance}
+    .section-copy{color:var(--ink-dim);font-size:clamp(16px,1.5vw,19px);max-width:54ch;margin:0}
+    .section-copy strong{color:var(--ink);font-weight:500}
+    .rule{height:1px;background:linear-gradient(90deg,var(--line-strong),transparent);margin:0}
+
+    header{position:fixed;top:0;left:0;right:0;z-index:50;padding:18px 0;transition:background .3s,border-color .3s,backdrop-filter .3s}
+    header.scrolled{background:rgba(12,4,4,.78);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:10px;min-height:44px}
+    .brand img{width:26px;height:auto;filter:drop-shadow(0 0 12px rgba(232,50,58,.24))}
+    .brand-text{font-family:var(--mono);font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-dim)}
+    .brand-text b{font-weight:500;color:var(--ink)}
+    .nav-links{display:flex;align-items:center;gap:clamp(18px,2.2vw,34px);font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-dim)}
+    .nav-links a{position:relative;padding:14px 0;transition:color .2s}
+    .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:8px;height:1px;background:var(--red-2);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+    .nav-links a:hover{color:var(--ink)} .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-actions{display:flex;align-items:center;gap:8px}
+    .round-btn{width:44px;height:44px;border:1px solid var(--line-strong);border-radius:999px;background:rgba(255,255,255,.018);display:grid;place-items:center;color:var(--ink-dim);transition:.25s}
+    .round-btn:hover{color:var(--ink);border-color:rgba(232,50,58,.55);background:rgba(202,32,39,.08)}
+    .round-btn svg{width:16px;height:16px}
+    .menu-btn{display:none}
+
+    .hero{min-height:100svh;display:grid;align-items:center;padding:130px 0 70px;position:relative}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(360px,.94fr);gap:clamp(28px,5vw,72px);align-items:center}
+    .hero-copy{position:relative;z-index:3}
+    .hero .eyebrow{margin-bottom:18px}
+    .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(58px,7.7vw,116px);line-height:.88;letter-spacing:-.035em;margin:0;max-width:9.4ch;text-wrap:balance}
+    .hero h1 em{font-style:italic;color:var(--red-2);background:linear-gradient(180deg,#ff5960,var(--red-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 34px rgba(232,50,58,.2)}
+    .hero-desc{max-width:56ch;color:var(--ink-dim);font-size:clamp(16px,1.45vw,19px);margin:28px 0 0}
+    .hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:34px}
+    .btn{min-height:48px;padding:0 20px;border-radius:11px;border:1px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:500;transition:transform .18s,background .25s,border-color .25s,box-shadow .25s}
+    .btn-primary{background:var(--red);border-color:var(--red);box-shadow:0 10px 34px -16px rgba(232,50,58,.85)}
+    .btn-primary:hover{background:var(--red-2);border-color:var(--red-2);box-shadow:0 16px 40px -12px rgba(232,50,58,.7);transform:translateY(-1px)}
+    .btn-ghost{background:rgba(255,255,255,.018);color:var(--ink-dim)}
+    .btn-ghost:hover{color:var(--ink);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
+    .btn svg{width:15px;height:15px}
+    .hero-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
+    .metric{display:grid;gap:4px}.metric strong{font-family:var(--serif);font-size:28px;font-weight:400}.metric span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute)}
+
+    .hero-visual{position:relative;min-height:600px;display:grid;place-items:center}
+    .frame{position:relative;width:100%;aspect-ratio:1.11;border:1px solid var(--line-strong);border-radius:28px;overflow:hidden;background:#210a0a;box-shadow:0 34px 100px -48px rgba(0,0,0,.95)}
+    .frame::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(9,2,2,.04),rgba(9,2,2,.5)),radial-gradient(70% 70% at 45% 40%,transparent,rgba(80,0,0,.30));mix-blend-mode:multiply}
+    .frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);filter:saturate(.92) contrast(1.05)}
+    .frame-label{position:absolute;z-index:2;left:18px;bottom:18px;right:18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:14px 15px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(12,3,3,.52);backdrop-filter:blur(12px)}
+    .frame-label span{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim)}
+    .frame-label b{font-size:13px;font-weight:500}
+    .orb{position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(232,50,58,.18),transparent 70%);filter:blur(4px);right:-70px;top:-54px;animation:breathe 9s ease-in-out infinite}
+    .tick{position:absolute;width:16px;height:16px;border-color:var(--line-strong)}
+    .tick.tl{left:-8px;top:30px;border-left:1px solid;border-top:1px solid}.tick.br{right:-8px;bottom:42px;border-right:1px solid;border-bottom:1px solid}
+
+    .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.012)}
+    .marquee-track{display:flex;width:max-content;animation:marquee 28s linear infinite;padding:15px 0}
+    .marquee-track span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);white-space:nowrap;padding:0 28px}
+    .marquee-track i{color:var(--red-2);font-style:normal}
+    @keyframes marquee{to{transform:translateX(-50%)}}
+
+    .statement{padding:clamp(110px,14vw,190px) 0}
+    .statement-grid{display:grid;grid-template-columns:3fr 8fr 1fr;gap:24px}
+    .statement h2{grid-column:2;font-family:var(--serif);font-weight:400;font-size:clamp(52px,7vw,100px);line-height:.96;letter-spacing:-.025em;margin:0;text-wrap:balance}
+    .statement h2 em{color:var(--red-2);font-style:italic}
+    .statement p{grid-column:2;max-width:62ch;color:var(--ink-dim);font-size:18px;margin:30px 0 0}
+
+    .values{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+    .value{background:linear-gradient(180deg,rgba(255,255,255,.022),rgba(255,255,255,.008));padding:clamp(28px,4vw,50px);min-height:270px;display:flex;flex-direction:column;justify-content:space-between}
+    .value .num{font-family:var(--mono);font-size:10px;color:var(--red-2);letter-spacing:.15em}.value h3{font-family:var(--serif);font-size:40px;font-weight:400;margin:30px 0 10px}.value p{color:var(--ink-dim);margin:0;max-width:34ch}
+
+    .services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line)}
+    .service{position:relative;display:grid;grid-template-columns:60px 1fr auto;gap:18px;align-items:start;padding:28px 8px;border-bottom:1px solid var(--line);transition:background .25s,padding .25s}
+    .service:nth-child(odd){border-right:1px solid var(--line);padding-right:28px}.service:nth-child(even){padding-left:28px}
+    .service:hover{background:linear-gradient(90deg,rgba(202,32,39,.055),transparent)}
+    .service .index{font-family:var(--mono);font-size:10px;color:var(--ink-mute);padding-top:7px}.service h3{font-family:var(--serif);font-size:clamp(27px,3vw,38px);font-weight:400;line-height:1.02;margin:0}.service p{color:var(--ink-dim);font-size:14px;margin:10px 0 0;max-width:42ch}.service .arrow{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-mute);transition:.25s}.service:hover .arrow{color:var(--red-2);border-color:rgba(232,50,58,.4);transform:translate(2px,-2px)}
+
+    .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .project{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:#170707;min-height:440px;isolation:isolate}
+    .project:nth-child(1),.project:nth-child(4){grid-column:span 7}.project:nth-child(2),.project:nth-child(3){grid-column:span 5}.project:nth-child(5){grid-column:span 5}.project:nth-child(6){grid-column:span 7}
+    .project-media{position:absolute;inset:0}.project-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,2,2,.02) 25%,rgba(8,2,2,.82) 100%)}
+    .project img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .5s;filter:saturate(.9) contrast(1.03)}
+    .project:hover img{transform:scale(1.035);filter:saturate(1.02) contrast(1.05)}
+    .project-copy{position:absolute;z-index:2;left:22px;right:22px;bottom:20px;display:grid;gap:8px}
+    .project-top{display:flex;justify-content:space-between;gap:18px;align-items:end}.project h3{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1;margin:0}.project .type{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#d8c7c5}.project .services-used{font-size:13px;color:#c5b0ae;max-width:55ch;margin:0}.project-badge{position:absolute;z-index:2;top:18px;left:18px;padding:7px 9px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(12,4,4,.55);backdrop-filter:blur(10px);font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+
+
+    .archive-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin:58px 0 18px}.archive-head h3{font-family:var(--serif);font-size:38px;font-weight:400;margin:0}.archive-head span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute)}
+    .archive-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+    .archive-card{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#160707;aspect-ratio:4/5}
+    .archive-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease);filter:saturate(.9)}
+    .archive-card:hover img{transform:scale(1.04)}
+    .archive-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(7,2,2,.88))}
+    .archive-card div{position:absolute;z-index:2;left:14px;right:14px;bottom:14px}.archive-card b{display:block;font-family:var(--serif);font-size:24px;font-weight:400;line-height:1}.archive-card small{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
+
+    .showcase{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+    .showcase-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel);position:relative;min-height:480px}
+    .showcase-card img{width:100%;height:100%;object-fit:cover;filter:saturate(.88)}
+    .showcase-card .caption{position:absolute;left:20px;bottom:20px;right:20px;padding:14px;border-radius:12px;background:rgba(10,3,3,.66);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(12px)}
+    .showcase-card .caption b{display:block;font-family:var(--serif);font-size:28px;font-weight:400}.showcase-card .caption span{font-size:12px;color:var(--ink-dim)}
+
+    .trust-wrap{display:grid;grid-template-columns:4fr 8fr;gap:clamp(28px,6vw,80px);align-items:center}
+    .trust-card{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;padding:14px;box-shadow:0 30px 90px -54px #000}.trust-card img{width:100%;border-radius:12px}
+    .trust-copy h2{font-family:var(--serif);font-size:clamp(48px,6vw,82px);font-weight:400;line-height:.96;margin:10px 0 24px}.trust-copy p{color:var(--ink-dim);font-size:18px;max-width:50ch}.trust-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.trust-list span{padding:8px 10px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-dim)}
+
+    .process{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+    .step{background:#160707;padding:32px 26px;min-height:300px;display:flex;flex-direction:column;justify-content:space-between}.step span{font-family:var(--mono);font-size:9px;letter-spacing:.15em;color:var(--red-2)}.step h3{font-family:var(--serif);font-size:34px;font-weight:400;margin:24px 0 10px}.step p{font-size:14px;color:var(--ink-dim);margin:0}
+
+    .contact{padding:clamp(100px,14vw,190px) 0 48px}
+    .contact-card{border:1px solid var(--line-strong);border-radius:24px;padding:clamp(34px,6vw,72px);background:radial-gradient(80% 140% at 100% 0,rgba(202,32,39,.14),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.008));position:relative;overflow:hidden}
+    .contact-card::after{content:"G";position:absolute;right:-18px;bottom:-110px;font-family:var(--serif);font-size:390px;color:rgba(202,32,39,.055);line-height:1;pointer-events:none}
+    .contact-card h2{font-family:var(--serif);font-size:clamp(58px,8vw,110px);line-height:.9;font-weight:400;letter-spacing:-.03em;margin:14px 0 24px;max-width:9ch}.contact-card h2 em{font-style:italic;color:var(--red-2)}
+    .contact-card p{max-width:58ch;color:var(--ink-dim);font-size:18px}.contact-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+    .contact-details{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px;padding-top:24px;border-top:1px solid var(--line)}
+    .contact-detail small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:8px}.contact-detail a,.contact-detail span{font-size:14px;color:var(--ink-dim)}.contact-detail a:hover{color:var(--ink)}
+
+    footer{padding:0 0 28px}.footer-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute)}.socials{display:flex;gap:18px}.socials a:hover{color:var(--ink)}
+
+    [data-reveal]{opacity:0;transform:translateY(18px);filter:blur(5px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
+    [data-reveal].in{opacity:1;transform:none;filter:none}
+    [data-reveal="left"]{transform:translateX(-18px)}[data-reveal="right"]{transform:translateX(18px)}
+    .hero-copy>*{opacity:0;transform:translateY(18px);animation:heroUp .9s var(--ease) forwards}.hero-copy>.eyebrow{animation-delay:1.65s}.hero-copy>h1{animation-delay:1.76s}.hero-copy>.hero-desc{animation-delay:1.9s}.hero-copy>.hero-actions{animation-delay:2.02s}.hero-copy>.hero-meta{animation-delay:2.13s}.hero-visual{opacity:0;transform:translateY(18px) scale(.985);animation:visualIn 1.1s var(--ease) 1.8s forwards}
+    @keyframes heroUp{to{opacity:1;transform:none}}@keyframes visualIn{to{opacity:1;transform:none}}
+
+    @media (max-width:980px){
+      .nav-links{display:none}.menu-btn{display:grid}
+      .hero-grid{grid-template-columns:1fr}.hero{padding-top:122px}.hero h1{max-width:10ch}.hero-visual{min-height:auto}.frame{aspect-ratio:16/10;max-height:620px}
+      .section-head{grid-template-columns:1fr;align-items:start}.statement-grid{grid-template-columns:1fr}.statement h2,.statement p{grid-column:1}
+      .values{grid-template-columns:1fr}.value{min-height:230px}
+      .services{grid-template-columns:1fr}.service:nth-child(odd){border-right:0;padding-right:8px}.service:nth-child(even){padding-left:8px}
+      .project,.project:nth-child(n){grid-column:span 6}.work-grid{gap:14px}.project{min-height:410px}
+      .trust-wrap{grid-template-columns:1fr}.trust-card{order:2}.process{grid-template-columns:repeat(2,1fr)}.archive-grid{grid-template-columns:repeat(3,1fr)}
     }
-  }
-  /* the splitting bar that travels across as logo reveals */
-  .logo-bar{
-    position: absolute; left: -4%; right: -4%; top: 50%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--red-2), transparent);
-    transform: translateY(-0.5px) scaleX(0);
-    transform-origin: 50% 50%;
-    opacity: 0;
-    box-shadow: 0 0 14px var(--red-glow);
-  }
-  .scene.lit .logo-bar{
-    animation: bar-sweep 1.2s cubic-bezier(.7,.0,.2,1) 0.35s forwards;
-  }
-  @keyframes bar-sweep{
-    0%   { transform: translateY(-0.5px) scaleX(0); opacity: 0; }
-    25%  { opacity: 1; }
-    60%  { transform: translateY(-0.5px) scaleX(1); opacity: 1; }
-    100% { transform: translateY(-0.5px) scaleX(1.05); opacity: 0; }
-  }
-
-  /* Headline */
-  .eyebrow{
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    margin: 0 0 18px;
-  }
-  .headline{
-    font-family: var(--serif);
-    font-weight: 400;
-    font-size: clamp(40px, 7.2vw, 92px);
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    margin: 0;
-    color: var(--ink);
-    text-wrap: balance;
-    max-width: 18ch;
-  }
-  .headline em{
-    font-style: italic;
-    color: var(--red-2);
-    background: linear-gradient(180deg, var(--red-2), #ff5159);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(232, 50, 58, 0.25);
-  }
-  .subline{
-    margin: clamp(20px, 3.2vh, 28px) auto 0;
-    max-width: 56ch;
-    color: var(--ink-dim);
-    font-size: clamp(14px, 1.5vw, 16.5px);
-    line-height: 1.6;
-    text-wrap: pretty;
-  }
-  .subline strong{ color: var(--ink); font-weight: 500; }
-
-  /* Reveal words individually */
-  .reveal .w{
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(0.55em);
-    filter: blur(6px);
-    animation: word-up 0.9s cubic-bezier(.2,.7,.2,1) forwards;
-  }
-  @keyframes word-up{
-    to{ opacity: 1; transform: translateY(0); filter: blur(0); }
-  }
-
-  /* Form */
-  .form-wrap{
-    margin-top: clamp(28px, 4.5vh, 40px);
-    width: min(520px, 100%);
-    opacity: 0; transform: translateY(8px);
-    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
-    transition-delay: 1.8s;
-  }
-  .scene.lit .form-wrap{ opacity: 1; transform: none; }
-
-  .form{
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: stretch;
-    padding: 6px;
-    border: 1px solid var(--line-strong);
-    border-radius: 14px;
-    background:
-      linear-gradient(180deg, rgba(245,232,232,0.04), rgba(245,232,232,0.015));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .form:focus-within{
-    border-color: rgba(232, 50, 58, 0.6);
-    box-shadow: 0 0 0 4px rgba(202, 32, 39, 0.12), 0 18px 50px rgba(0,0,0,0.45);
-  }
-  .form input[type="email"]{
-    appearance: none;
-    background: transparent;
-    border: 0;
-    color: var(--ink);
-    font: inherit;
-    padding: 14px 16px;
-    width: 100%;
-    outline: none;
-    letter-spacing: 0.01em;
-  }
-  .form input::placeholder{ color: var(--ink-mute); }
-  .submit{
-    position: relative;
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 12px 18px;
-    border-radius: 10px;
-    background: var(--red);
-    color: #fff;
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 0.02em;
-    transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
-    box-shadow: 0 8px 24px -10px rgba(202,32,39,0.7), inset 0 1px 0 rgba(255,255,255,0.12);
-  }
-  .submit:hover, .submit:focus-visible{
-    background: var(--red-2);
-    box-shadow: 0 14px 38px -10px rgba(232,50,58,0.8), inset 0 1px 0 rgba(255,255,255,0.18);
-    outline: none;
-  }
-  .submit:active{ transform: translateY(1px); }
-  .submit .arrow{
-    width: 14px; height: 14px;
-    transition: transform 0.25s ease;
-  }
-  .submit:hover .arrow{ transform: translateX(3px); }
-  .submit[disabled]{ opacity: 0.7; cursor: progress; }
-
-  .form-meta{
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 12px;
-    margin-top: 10px;
-    padding: 0 4px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .form-meta .msg{ transition: color 0.3s ease; min-height: 1.2em; text-align: left; }
-  .form-meta .msg.ok{ color: var(--red-2); }
-  .form-meta .msg.err{ color: #ff7a7a; text-transform: none; letter-spacing: 0.02em; }
-  .form-meta .lock{
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .form-meta svg{ width: 11px; height: 11px; opacity: 0.8; }
-
-  /* ---------- Footer ---------- */
-  footer{
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 18px;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    opacity: 0; transform: translateY(6px);
-    animation: fadeUp 1.0s cubic-bezier(.2,.7,.2,1) 2.3s forwards;
-  }
-  .foot-left, .foot-right{ display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-  .foot-right a{
-    position: relative;
-    color: var(--ink-dim);
-    transition: color 0.25s ease;
-  }
-  .foot-right a::after{
-    content: ""; position: absolute; left: 0; right: 0; bottom: -4px;
-    height: 1px; background: var(--red-2);
-    transform: scaleX(0); transform-origin: 0 50%;
-    transition: transform 0.35s cubic-bezier(.2,.7,.2,1);
-  }
-  .foot-right a:hover{ color: var(--ink); }
-  .foot-right a:hover::after{ transform: scaleX(1); }
-
-  /* corner ticks */
-  .tick{
-    position: fixed; width: 14px; height: 14px;
-    border-color: var(--line-strong);
-    pointer-events: none; z-index: 3;
-    opacity: 0; transition: opacity 1s ease 0.3s;
-  }
-  .scene.lit ~ .tick, .scene.lit .tick{ opacity: 1; }
-  .tick.tl{ top: 14px; left: 14px; border-top: 1px solid; border-left: 1px solid; }
-  .tick.tr{ top: 14px; right: 14px; border-top: 1px solid; border-right: 1px solid; }
-  .tick.bl{ bottom: 14px; left: 14px; border-bottom: 1px solid; border-left: 1px solid; }
-  .tick.br{ bottom: 14px; right: 14px; border-bottom: 1px solid; border-right: 1px solid; }
-
-  @keyframes fadeDown{ to{ opacity: 1; transform: none; } }
-  @keyframes fadeUp{ to{ opacity: 1; transform: none; } }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 640px){
-    .scene{ padding: 16px; }
-    header{ gap: 8px; }
-    .wordmark span.long{ display: none; }
-    .status .label-long{ display: none; }
-    footer{ flex-direction: column; align-items: flex-start; gap: 14px; }
-    .foot-left, .foot-right{ gap: 14px; }
-    .form{ grid-template-columns: 1fr; }
-    .submit{ justify-content: center; }
-    .grid{ background-size: 48px 48px; }
-  }
-
-  /* ---------- Reduced motion ---------- */
-  @media (prefers-reduced-motion: reduce){
-    *, *::before, *::after{
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.2s !important;
+    @media (max-width:640px){
+      :root{--pad:16px}.grid{background-size:48px 48px}
+      header{padding:12px 0}.brand-text span{display:none}.hero{padding:100px 0 48px}.hero h1{font-size:clamp(52px,16vw,76px)}.hero-desc{font-size:15px}.hero-meta{gap:16px}.metric strong{font-size:24px}
+      .hero-visual{margin-top:8px}.frame{aspect-ratio:4/5;border-radius:20px}.frame-label{left:12px;right:12px;bottom:12px}.frame-label span{display:none}
+      .section{padding:76px 0}.section-title{font-size:50px}.statement{padding:90px 0}.statement h2{font-size:52px}.statement p{font-size:16px}
+      .service{grid-template-columns:46px 1fr}.service .arrow{display:none}.service h3{font-size:30px}
+      .work-grid{grid-template-columns:1fr}.project,.project:nth-child(n){grid-column:auto;min-height:360px}.project h3{font-size:36px}.project .services-used{font-size:12px}.project-top{display:block}.project .type{margin-top:6px;display:block}
+      .showcase{grid-template-columns:1fr}.showcase-card{min-height:360px}.archive-grid{grid-template-columns:repeat(2,1fr)}.archive-card:last-child{grid-column:span 2;aspect-ratio:16/8}
+      .process{grid-template-columns:1fr}.step{min-height:230px}.contact-card{border-radius:18px}.contact-details{grid-template-columns:1fr}.footer-row{align-items:flex-start;flex-direction:column}.socials{flex-wrap:wrap}
     }
-    .spotlight, .particles, .grain{ animation: none !important; }
-    .logo{ clip-path: inset(0) !important; transform: none !important; opacity: 1 !important; }
-    .reveal .w{ opacity: 1 !important; transform: none !important; filter: none !important; }
-  }
-</style>
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}.noise,.spotlight,#particles,.marquee-track{animation:none!important}.intro{display:none}[data-reveal]{opacity:1!important;transform:none!important;filter:none!important}.hero-copy>*,.hero-visual{opacity:1!important;transform:none!important}
+    }
+  </style>
 </head>
 <body>
-  <div class="scene" id="scene">
-    <div class="spotlight" aria-hidden="true"></div>
-    <div class="grid" aria-hidden="true"></div>
-    <canvas class="particles" id="particles" aria-hidden="true"></canvas>
-    <div class="vignette" aria-hidden="true"></div>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="spotlight" aria-hidden="true"></div><div class="grid" aria-hidden="true"></div><canvas id="particles" aria-hidden="true"></canvas><div class="vignette" aria-hidden="true"></div><div class="noise" aria-hidden="true"></div>
 
-    <header>
-      <div class="wordmark" aria-label="Grenada Studio">
-        <span class="mark" aria-hidden="true"></span>
-        <span class="long">Grenada Studio</span>
-        <span aria-hidden="true" style="opacity:.45">/</span>
-        <span>EST. 2026</span>
-      </div>
+  <div class="intro" id="intro" aria-hidden="true"><div class="intro-core"><img class="intro-mark" src="assets/grenada-mark.png" alt=""><div class="intro-line"></div></div></div>
 
-      <div class="top-right">
-        <span class="status" role="status" aria-label="Status: In production">
-          <span class="dot" aria-hidden="true"></span>
-          <span class="label-long">In production</span>
-        </span>
-        <button class="icon-btn" id="soundToggle" type="button"
-          aria-pressed="false"
-          aria-label="Toggle interface sounds"
-          title="Sound off">
-          <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <!-- speaker off (initial) -->
-            <path d="M11 5 6 9H3v6h3l5 4z"></path>
-            <path d="M16 9l5 6"></path>
-            <path d="M21 9l-5 6"></path>
-          </svg>
-        </button>
+  <div class="site">
+    <header id="siteHeader">
+      <div class="shell nav">
+        <a class="brand" href="#top" aria-label="Grenada Studio home">
+          <img src="assets/grenada-mark.png" alt="" width="26" height="28" />
+          <span class="brand-text"><b>Grenada</b><span> Studio</span></span>
+        </a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#about" data-snd>About</a><a href="#services" data-snd>Services</a><a href="#work" data-snd>Work</a><a href="#approach" data-snd>Approach</a><a href="#contact" data-snd>Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="round-btn" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path class="sound-wave" d="M15 9.5a4 4 0 0 1 0 5"></path><path class="sound-wave" d="M18 7a8 8 0 0 1 0 10"></path><path class="sound-off" d="M16 9l5 6"></path><path class="sound-off" d="M21 9l-5 6"></path></svg>
+          </button>
+          <a class="round-btn menu-btn" href="#contact" aria-label="Contact Grenada"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
       </div>
     </header>
 
-    <main>
-      <div class="logo-wrap" aria-hidden="true">
-        <div class="logo"></div>
-        <div class="logo-bar"></div>
-      </div>
-
-      <p class="eyebrow reveal">
-        <span class="w" style="animation-delay:1.05s">Marketing</span>&nbsp;<span class="w" style="animation-delay:1.15s">for</span>&nbsp;<span class="w" style="animation-delay:1.25s">real</span>&nbsp;<span class="w" style="animation-delay:1.35s">estate</span>
-      </p>
-
-      <h1 class="headline reveal">
-        <span class="w" style="animation-delay:1.45s">Something</span>&nbsp;<span class="w" style="animation-delay:1.55s">is</span>&nbsp;<span class="w" style="animation-delay:1.65s"><em>taking&nbsp;shape</em>.</span>
-      </h1>
-
-      <p class="subline">
-        <strong>Grenada Studio</strong> is a marketing agency built for property —
-        brand systems, content and launch campaigns that move listings.
-        Our new home is in production.
-      </p>
-
-      <div class="form-wrap">
-        <form class="form" id="signup" novalidate>
-          <input
-            type="email" name="email" id="email"
-            inputmode="email" autocomplete="email"
-            placeholder="your@email.com"
-            aria-label="Email address"
-            required />
-          <button class="submit" type="submit" id="submitBtn">
-            <span class="label">Notify me</span>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14"></path>
-              <path d="M13 6l6 6-6 6"></path>
-            </svg>
-          </button>
-        </form>
-        <div class="form-meta">
-          <span class="msg" id="msg" role="status" aria-live="polite">Be first to know when we launch</span>
-          <span class="lock">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="4" y="11" width="16" height="9" rx="2"></rect>
-              <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
-            </svg>
-            No spam
-          </span>
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Integrated real estate marketing — KSA & Egypt</div>
+            <h1>We build <em>demand</em> for real estate.</h1>
+            <p class="hero-desc">Grenada Studio blends strategy, creative, performance and on-ground production to turn real estate assets into stories that move markets and reach decision-makers.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#work" data-snd>Explore our work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              <a class="btn btn-ghost" href="#services" data-snd>View capabilities</a>
+            </div>
+            <div class="hero-meta">
+              <div class="metric"><strong>10+</strong><span>Years of specialization</span></div>
+              <div class="metric"><strong>10</strong><span>Integrated capabilities</span></div>
+              <div class="metric"><strong>360°</strong><span>Digital + field execution</span></div>
+            </div>
+          </div>
+          <div class="hero-visual" aria-label="Grenada Studio office and creative team">
+            <div class="orb" aria-hidden="true"></div><span class="tick tl" aria-hidden="true"></span><span class="tick br" aria-hidden="true"></span>
+            <div class="frame"><img src="assets/hero-office.webp" alt="Grenada Studio creative office with red lighting" width="1318" height="791" fetchpriority="high" /><div class="frame-label"><div><span>Inside Grenada</span><br><b>Where strategy meets execution.</b></div><span>Profile 2026</span></div></div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <div class="marquee" aria-hidden="true"><div class="marquee-track">
+        <span>Brand Identity <i>•</i></span><span>Paid Media <i>•</i></span><span>Social Media <i>•</i></span><span>Performance Marketing <i>•</i></span><span>Web Development <i>•</i></span><span>Media Production <i>•</i></span><span>SEO <i>•</i></span><span>Motion Graphics <i>•</i></span>
+        <span>Brand Identity <i>•</i></span><span>Paid Media <i>•</i></span><span>Social Media <i>•</i></span><span>Performance Marketing <i>•</i></span><span>Web Development <i>•</i></span><span>Media Production <i>•</i></span><span>SEO <i>•</i></span><span>Motion Graphics <i>•</i></span>
+      </div></div>
+
+      <section class="statement" id="about">
+        <div class="shell statement-grid">
+          <div class="kicker" data-reveal>About Grenada</div>
+          <h2 data-reveal>We turn real estate assets into <em>market-moving stories.</em></h2>
+          <p data-reveal>For more than a decade, Grenada has combined digital expertise, field execution and modern production capabilities for real estate projects and major auctions. We follow market shifts closely, then translate them into sharper positioning, stronger creative and measurable execution.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="values-title">
+        <div class="shell">
+          <div class="section-head"><div><div class="kicker">What guides us</div><h2 class="section-title" id="values-title">Built on three operating values.</h2></div><p class="section-copy">Our work is designed to stay <strong>inventive</strong>, be executed with <strong>discipline</strong>, and remain <strong>flexible</strong> enough to adapt to the real dynamics of each project.</p></div>
+          <div class="values">
+            <article class="value" data-reveal><div class="num">01 / INNOVATION</div><div><h3>Innovation</h3><p>Effective ideas and evolving methods that keep pace with the market and create professional, higher-value experiences.</p></div></article>
+            <article class="value" data-reveal><div class="num">02 / COMMITMENT</div><div><h3>Commitment</h3><p>Quality, transparency and accuracy across every phase — from planning through delivery and reporting.</p></div></article>
+            <article class="value" data-reveal><div class="num">03 / FLEXIBILITY</div><div><h3>Flexibility</h3><p>Solutions that adapt to different projects, timelines and auction formats without sacrificing speed or execution quality.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="services" aria-labelledby="services-title">
+        <div class="shell">
+          <div class="section-head"><div><div class="kicker">Capabilities / 01—10</div><h2 class="section-title" id="services-title">One partner. Full-market execution.</h2></div><p class="section-copy">From the first brand idea to launch day, performance tracking and on-ground coverage, Grenada connects the disciplines real estate projects usually split across multiple suppliers.</p></div>
+          <div class="services">
+            <article class="service" data-reveal><span class="index">01</span><div><h3>Social Media Management</h3><p>Platform setup, publishing plans, community management and ongoing reporting across X, Snapchat, TikTok, Instagram and LinkedIn.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">02</span><div><h3>Creative Content</h3><p>Social copy, SMS and WhatsApp content, profiles, project booklets, technical files, video concepts and scripts.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">03</span><div><h3>Brand Identity & Logos</h3><p>Logo creation, printed and digital identity systems, and art direction built for real estate positioning.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">04</span><div><h3>Outdoor & Social Design</h3><p>Social media visual systems, roadside billboards, signage and printed campaign materials.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">05</span><div><h3>Motion & Voice Over</h3><p>Storyboards, motion graphics, animated plans and professional voice-over for campaign and project films.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">06</span><div><h3>Web Design & Development</h3><p>Responsive interfaces, landing pages, smart lead forms, CRM connections, performance and security readiness.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">07</span><div><h3>SEO</h3><p>On-page optimization, off-page authority building, keyword research, tracking and continuous search improvement.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">08</span><div><h3>Paid Media</h3><p>Campaign launches, daily budget control, channel allocation, reporting and continuous optimization across platforms and search.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">09</span><div><h3>Performance Marketing</h3><p>CRO, KPI tracking, ROI measurement and analytics infrastructure including Google Analytics integrations.</p></div><span class="arrow">↗</span></article>
+            <article class="service" data-reveal><span class="index">10</span><div><h3>Media Production</h3><p>Aerial and ground filming, CGI and 3D integration, editing, event coverage and AI-assisted visual production.</p></div><span class="arrow">↗</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="work" aria-labelledby="work-title">
+        <div class="shell">
+          <div class="section-head"><div><div class="kicker">Selected work</div><h2 class="section-title" id="work-title">Real projects. Integrated launches.</h2></div><p class="section-copy">A selection of real estate plans and auctions where Grenada delivered combinations of branding, campaign systems, landing pages, printed materials, media, outdoor and event execution.</p></div>
+          <div class="work-grid">
+            <article class="project" data-reveal="left"><div class="project-media"><img src="assets/shorfat.webp" alt="Shorfat Al Haram campaign work including booklet, landing page and social media designs" loading="lazy"></div><span class="project-badge">Makkah</span><div class="project-copy"><div class="project-top"><h3>Shorfat Al Haram</h3><span class="type">914 residential & commercial plots</span></div><p class="services-used">Landing page · Project booklet · Media coverage · Social design · Outdoor · Brochure · Advertising videos</p></div></article>
+            <article class="project" data-reveal="right"><div class="project-media"><img src="assets/malqa.webp" alt="Malqa Taif real estate campaign identity and marketing materials" loading="lazy"></div><span class="project-badge">Taif</span><div class="project-copy"><div class="project-top"><h3>Malqa Taif</h3><span class="type">149 plots</span></div><p class="services-used">Landing page · Company profile · Influencer videos · Social media · Marketing plan · Outdoor · Project booklet</p></div></article>
+            <article class="project" data-reveal="left"><div class="project-media"><img src="assets/khairat.webp" alt="Khairat Taibah auction campaign visuals and outdoor advertising" loading="lazy"></div><span class="project-badge">Taibah</span><div class="project-copy"><div class="project-top"><h3>Khairat Taibah</h3><span class="type">Hybrid auction · 8 properties</span></div><p class="services-used">Roadside billboards · Venue materials · TV & radio advertising · Social media · Live event coverage · Project booklet</p></div></article>
+            <article class="project" data-reveal="right"><div class="project-media"><img src="assets/dreamland.webp" alt="Dream Land auction branding and campaign materials" loading="lazy"></div><span class="project-badge">Taif</span><div class="project-copy"><div class="project-top"><h3>Dream Land</h3><span class="type">Hybrid auction · 322 plots</span></div><p class="services-used">Visual identity · Roadside campaign · Brochure · Venue print · Social media · Drone filming · Auction booklet</p></div></article>
+            <article class="project" data-reveal="left"><div class="project-media"><img src="assets/nukhbat-taif.webp" alt="Nukhbat Al Taif auction social media and campaign design" loading="lazy"></div><span class="project-badge">Taif</span><div class="project-copy"><div class="project-top"><h3>Nukhbat Al Taif</h3><span class="type">Hybrid auction · 7 lands</span></div><p class="services-used">Auction booklet · Live coverage · Venue materials · Advertising videos · Roadside billboards · Social media</p></div></article>
+            <article class="project" data-reveal="right"><div class="project-media"><img src="assets/osoul-makkah.webp" alt="Osoul Makkah auction identity, signage and social media design" loading="lazy"></div><span class="project-badge">Makkah</span><div class="project-copy"><div class="project-top"><h3>Osoul Makkah</h3><span class="type">Hybrid auction · 7 properties</span></div><p class="services-used">Visual identity · Roadside billboards · Printed brochure · Venue materials · Auction booklet · Social media · Advertising videos</p></div></article>
+          </div>
+          <div class="showcase">
+            <div class="showcase-card" data-reveal><img src="assets/event-coverage.webp" alt="Grenada on-ground auction event coverage" loading="lazy"><div class="caption"><b>On-ground execution</b><span>Venue coverage, live events, production and physical campaign touchpoints.</span></div></div>
+            <div class="showcase-card" data-reveal><img src="assets/influencer-marketing.webp" alt="Influencer marketing campaign produced by Grenada Studio" loading="lazy"><div class="caption"><b>Creator & influencer marketing</b><span>Campaign ideas, scripts, creator coordination and content built to extend project reach.</span></div></div>
+          </div>
+
+          <div class="archive-head"><h3>More from the archive.</h3><span>Additional real estate campaigns</span></div>
+          <div class="archive-grid">
+            <article class="archive-card" data-reveal><img src="assets/madinah-gardens.webp" alt="Madinah Gardens auction campaign" loading="lazy"><div><b>Madinah Gardens</b><small>Online auction · Madinah</small></div></article>
+            <article class="archive-card" data-reveal><img src="assets/afaq-riyadh.webp" alt="Afaq Riyadh auction campaign" loading="lazy"><div><b>Afaq Riyadh</b><small>Online auction · Riyadh</small></div></article>
+            <article class="archive-card" data-reveal><img src="assets/basateen-najd.webp" alt="Basateen Najd auction campaign" loading="lazy"><div><b>Basateen Najd</b><small>Agricultural assets · Diriyah</small></div></article>
+            <article class="archive-card" data-reveal><img src="assets/commercial-center.webp" alt="Commercial center leasing campaign" loading="lazy"><div><b>Commercial Center</b><small>Long-term lease · Riyadh</small></div></article>
+            <article class="archive-card" data-reveal><img src="assets/hotel-rental.webp" alt="Hotel rental real estate campaign" loading="lazy"><div><b>Hotel Rental</b><small>Hospitality real estate · Madinah</small></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="trust-title">
+        <div class="shell trust-wrap">
+          <div class="trust-card" data-reveal="left"><img src="assets/partners.webp" alt="Selection of organizations and partners that worked with Grenada Studio" loading="lazy"></div>
+          <div class="trust-copy" data-reveal="right"><div class="kicker">Trusted partnerships</div><h2 id="trust-title">Chosen by teams with serious assets at stake.</h2><p>Grenada’s profile includes a broad network of organizations, real estate companies and institutional partners — reflecting a track record built across major launches, auctions and property campaigns.</p><div class="trust-list"><span>Developers</span><span>Auction operators</span><span>Real estate companies</span><span>Institutional partners</span></div></div>
+        </div>
+      </section>
+
+      <section class="section" id="approach" aria-labelledby="approach-title">
+        <div class="shell">
+          <div class="section-head"><div><div class="kicker">How we work</div><h2 class="section-title" id="approach-title">Strategy to execution, without the handoff gap.</h2></div><p class="section-copy">Our mission is to help partners achieve wider reach, stronger returns and faster sales by connecting current digital marketing thinking with fully integrated field solutions.</p></div>
+          <div class="process">
+            <article class="step" data-reveal><span>01 / POSITION</span><div><h3>Define the market story.</h3><p>Audience, offer, competitive context, message hierarchy and the narrative the project needs to own.</p></div></article>
+            <article class="step" data-reveal><span>02 / BUILD</span><div><h3>Create the campaign system.</h3><p>Identity, content, landing experiences, media assets, outdoor and sales-support material.</p></div></article>
+            <article class="step" data-reveal><span>03 / LAUNCH</span><div><h3>Activate every channel.</h3><p>Paid media, social publishing, creators, on-ground execution, event coverage and lead capture.</p></div></article>
+            <article class="step" data-reveal><span>04 / OPTIMIZE</span><div><h3>Measure and improve.</h3><p>CRO, KPIs, ROI, analytics, reporting and continuous refinement across the campaign lifecycle.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="shell">
+          <div class="contact-card" data-reveal>
+            <div class="kicker">Start a conversation</div><h2 id="contact-title">Put your next project <em>in front.</em></h2>
+            <p>Need a launch partner that can handle the strategy, creative, performance and field execution around one real estate project? Grenada Studio is built for that intersection.</p>
+            <div class="contact-actions"><a class="btn btn-primary" href="mailto:job@grenadastudio.com" data-snd>Email Grenada <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-ghost" href="https://linkedin.com/company/grenadastudio" target="_blank" rel="noopener" data-snd>LinkedIn</a></div>
+            <div class="contact-details"><div class="contact-detail"><small>Email</small><a href="mailto:job@grenadastudio.com">job@grenadastudio.com</a></div><div class="contact-detail"><small>Studio</small><span>Second District, First Area, Fifth Settlement — Egypt</span></div><div class="contact-detail"><small>Focus</small><span>Real estate marketing, auctions & integrated campaigns</span></div></div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <footer>
-      <div class="foot-left">
-        <span>© 2026 Grenada Studio</span>
-        <span aria-hidden="true" style="opacity:.45">·</span>
-        <span>Cairo</span>
-      </div>
-      <div class="foot-right" aria-label="Social links">
-        <a href="https://instagram.com/grenadastudio" target="_blank" rel="noopener" data-snd>Instagram</a>
-        <a href="https://behance.net/grenadastudio" target="_blank" rel="noopener" data-snd>Behance</a>
-        <a href="https://linkedin.com/company/grenadastudio" target="_blank" rel="noopener" data-snd>LinkedIn</a>
-        <a href="/cdn-cgi/l/email-protection#432b262f2f2c032431262d222722303736272a2c6d202c2e" data-snd><span class="__cf_email__" data-cfemail="f29a979e9e9db29580979c939693818687969b9ddc919d9f">[email&#160;protected]</span></a>
-      </div>
-    </footer>
-
-    <span class="tick tl" aria-hidden="true"></span>
-    <span class="tick tr" aria-hidden="true"></span>
-    <span class="tick bl" aria-hidden="true"></span>
-    <span class="tick br" aria-hidden="true"></span>
+    <footer><div class="shell footer-row"><span>© 2026 Grenada Studio</span><div class="socials" aria-label="Social links"><a href="https://instagram.com/grenadastudio" target="_blank" rel="noopener">Instagram</a><a href="https://behance.net/grenadastudio" target="_blank" rel="noopener">Behance</a><a href="https://linkedin.com/company/grenadastudio" target="_blank" rel="noopener">LinkedIn</a></div></div></footer>
   </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(() => {
-  const scene = document.getElementById('scene');
+  <script>
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const intro = document.getElementById('intro');
+    if (reduced) intro?.remove(); else setTimeout(()=>intro?.classList.add('done'), 1550);
 
-  // Trigger reveal on next frame so transitions latch.
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => scene.classList.add('lit'));
-  });
+    const header = document.getElementById('siteHeader');
+    addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>28),{passive:true});
 
-  /* ---------- Particles ---------- */
-  const canvas = document.getElementById('particles');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ctx = canvas.getContext('2d');
-  let dpr = Math.min(window.devicePixelRatio || 1, 2);
-  let W = 0, H = 0, particles = [];
-  let rafId = 0;
+    const observer = new IntersectionObserver((entries)=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target)}}),{threshold:.14,rootMargin:'0px 0px -5%'});
+    document.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));
 
-  function resize(){
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = canvas.clientWidth = window.innerWidth;
-    H = canvas.clientHeight = window.innerHeight;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const target = Math.min(70, Math.floor((W * H) / 22000));
-    particles = new Array(target).fill(0).map(() => spawn(true));
-  }
-  function spawn(initial){
-    return {
-      x: Math.random() * W,
-      y: initial ? Math.random() * H : H + 20,
-      r: Math.random() * 1.4 + 0.25,
-      vy: -(Math.random() * 0.25 + 0.07),
-      vx: (Math.random() - 0.5) * 0.08,
-      a: Math.random() * 0.5 + 0.15,
-      tw: Math.random() * Math.PI * 2,
-    };
-  }
-  function tick(t){
-    ctx.clearRect(0, 0, W, H);
-    for (const p of particles){
-      p.y += p.vy;
-      p.x += p.vx;
-      p.tw += 0.02;
-      const tw = (Math.sin(p.tw) + 1) * 0.5;
-      const alpha = p.a * (0.45 + 0.55 * tw);
-      // colorize: hotter red near center top, cooler ink far
-      const cx = W * 0.5, cy = H * 0.42;
-      const dx = (p.x - cx) / W, dy = (p.y - cy) / H;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      const heat = Math.max(0, 1 - d * 1.8);
-      const r = Math.round(202 + (255 - 202) * heat);
-      const g = Math.round(32 + (210 - 32) * (1 - heat));
-      const b = Math.round(39 + (210 - 39) * (1 - heat));
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-      ctx.fill();
-      if (p.y < -10 || p.x < -10 || p.x > W + 10){
-        Object.assign(p, spawn(false));
-      }
-    }
-    rafId = requestAnimationFrame(tick);
-  }
-  function startParticles(){
-    if (reduceMotion) return;
-    resize();
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(tick);
-  }
-  window.addEventListener('resize', () => { if (!reduceMotion) resize(); });
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden){ cancelAnimationFrame(rafId); }
-    else { if (!reduceMotion) rafId = requestAnimationFrame(tick); }
-  });
-  startParticles();
+    const c=document.getElementById('particles'),ctx=c.getContext('2d'); let pts=[];
+    function resize(){const d=Math.min(devicePixelRatio||1,2);c.width=innerWidth*d;c.height=innerHeight*d;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';ctx.setTransform(d,0,0,d,0,0);pts=Array.from({length:Math.min(56,Math.floor(innerWidth/26))},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.2+.25,vx:(Math.random()-.5)*.08,vy:-Math.random()*.11-.02,a:Math.random()*.2+.05}))}
+    function draw(){ctx.clearRect(0,0,innerWidth,innerHeight);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.y<-4)p.y=innerHeight+4;if(p.x<-4)p.x=innerWidth+4;if(p.x>innerWidth+4)p.x=-4;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,150,150,${p.a})`;ctx.fill()}requestAnimationFrame(draw)}
+    if(!reduced){resize();draw();addEventListener('resize',resize,{passive:true})}
 
-  /* ---------- Sound (Web Audio) ---------- */
-  let audioCtx = null;
-  let soundOn = false;
-  const btn = document.getElementById('soundToggle');
-  const icon = document.getElementById('soundIcon');
-
-  const ICON_ON = `
-    <path d="M11 5 6 9H3v6h3l5 4z"></path>
-    <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-    <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>`;
-  const ICON_OFF = `
-    <path d="M11 5 6 9H3v6h3l5 4z"></path>
-    <path d="M16 9l5 6"></path>
-    <path d="M21 9l-5 6"></path>`;
-
-  function getCtx(){
-    if (!audioCtx){
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (AC) audioCtx = new AC();
-    }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-    return audioCtx;
-  }
-
-  function tone({ freq = 440, dur = 0.06, type = 'sine', gain = 0.04, detune = 0 } = {}){
-    if (!soundOn) return;
-    const ac = getCtx();
-    if (!ac) return;
-    const o = ac.createOscillator();
-    const g = ac.createGain();
-    o.type = type; o.frequency.value = freq; o.detune.value = detune;
-    const t = ac.currentTime;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(gain, t + 0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g).connect(ac.destination);
-    o.start(t); o.stop(t + dur + 0.02);
-  }
-
-  btn.addEventListener('click', () => {
-    soundOn = !soundOn;
-    btn.setAttribute('aria-pressed', String(soundOn));
-    btn.setAttribute('title', soundOn ? 'Sound on' : 'Sound off');
-    icon.innerHTML = soundOn ? ICON_ON : ICON_OFF;
-    if (soundOn){
-      // little affirmative chime
-      tone({ freq: 660, dur: 0.07, gain: 0.05 });
-      setTimeout(() => tone({ freq: 880, dur: 0.10, gain: 0.04 }), 70);
-    }
-  });
-
-  // Hover/click sounds across interactive surfaces
-  const hoverTargets = document.querySelectorAll('a, button, input, .form');
-  hoverTargets.forEach(el => {
-    el.addEventListener('pointerenter', () => tone({ freq: 1200, dur: 0.04, gain: 0.018, type: 'sine' }), { passive: true });
-  });
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('a, button')) tone({ freq: 520, dur: 0.07, gain: 0.035, type: 'triangle' });
-  });
-
-  /* ---------- Form ---------- */
-  const form = document.getElementById('signup');
-  const email = document.getElementById('email');
-  const msg = document.getElementById('msg');
-  const submitBtn = document.getElementById('submitBtn');
-
-  // Google Apps Script web app (Google Sheet webhook).
-  // Apps Script returns no CORS headers, so we POST as text/plain (no preflight)
-  // and fall back to a no-cors beacon if the read is blocked. Data still lands
-  // in the sheet either way.
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbw31fm0F0P16vld-fT0FuSolvqcWWa-fnrF5rBGB3iq5a3EWjvNLvLtApbRW0lWK4ZC/exec';
-
-  function setMsg(text, kind){
-    msg.textContent = text;
-    msg.classList.remove('ok','err');
-    if (kind) msg.classList.add(kind);
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const value = (email.value || '').trim();
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    if (!valid){
-      setMsg('Please enter a valid email address.', 'err');
-      email.focus();
-      tone({ freq: 180, dur: 0.12, type: 'sawtooth', gain: 0.03 });
-      return;
-    }
-    submitBtn.disabled = true;
-    const oldLabel = submitBtn.querySelector('.label').textContent;
-    submitBtn.querySelector('.label').textContent = 'Sending…';
-    setMsg('Submitting…');
-
-    const payload = JSON.stringify({
-      email: value,
-      source: 'coming-soon',
-      ts: new Date().toISOString(),
-      ua: navigator.userAgent
-    });
-
-    try {
-      // text/plain avoids the CORS preflight that Apps Script can't answer.
-      const res = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: payload,
-        redirect: 'follow'
-      });
-      if (!res.ok) throw new Error('Bad status ' + res.status);
-      onSuccess(value);
-    } catch (err) {
-      // Some browsers still block the cross-origin read. Fire a no-cors beacon
-      // as a fallback — opaque response, but the row is written to the sheet.
-      try {
-        await fetch(ENDPOINT, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: payload
-        });
-      } catch (e) { /* offline / blocked — still ack the user */ }
-      onSuccess(value);
-    }
-  });
-
-  function onSuccess(value, soft){
-    form.reset();
-    submitBtn.querySelector('.label').textContent = 'On the list ✓';
-    setMsg(soft ? "You're on the list. We'll be in touch." : "You're on the list. We'll be in touch.", 'ok');
-    tone({ freq: 660, dur: 0.08, gain: 0.05 });
-    setTimeout(() => tone({ freq: 990, dur: 0.10, gain: 0.04 }), 90);
-    setTimeout(() => {
-      submitBtn.disabled = false;
-      submitBtn.querySelector('.label').textContent = 'Notify me';
-    }, 2400);
-  }
-
-  // Auto-resume audio on first user gesture so iOS unlocks cleanly
-  const unlock = () => { getCtx(); window.removeEventListener('pointerdown', unlock); };
-  window.addEventListener('pointerdown', unlock, { once: true });
-})();
-</script>
+    let sound=false,audioCtx=null; const sndBtn=document.getElementById('soundToggle');
+    function ping(freq=480,dur=.028,vol=.018){if(!sound)return;audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(vol,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+dur);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}
+    function syncIcon(){sndBtn.querySelectorAll('.sound-wave').forEach(x=>x.style.display=sound?'':'none');sndBtn.querySelectorAll('.sound-off').forEach(x=>x.style.display=sound?'none':'');sndBtn.setAttribute('aria-pressed',String(sound));sndBtn.title=sound?'Sound on':'Sound off'}
+    syncIcon();sndBtn.addEventListener('click',()=>{sound=!sound;syncIcon();ping(620,.045,.025)});document.querySelectorAll('[data-snd]').forEach(el=>el.addEventListener('pointerenter',()=>ping(430,.022,.012)));
+  </script>
 </body>
 </html>
