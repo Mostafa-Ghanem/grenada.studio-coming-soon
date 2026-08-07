@@ -101,7 +101,7 @@
   const statement = document.querySelector('[data-me-split="statement"]');
   if (statement && SplitType) {
     const split = new SplitType(statement, { types: 'words', tagName: 'span' });
-    gsap.from(split.words, { yPercent: 80, opacity: 0, stagger: .035, ease: 'none', scrollTrigger: { trigger: statement, start: 'top 88%', end: 'top 47%, scrub: .55 } });
+    gsap.from(split.words, { yPercent: 80, opacity: 0, stagger: .035, ease: 'none', scrollTrigger: { trigger: statement, start: 'top 88%', end: 'top 47%', scrub: .55 } });
   }
 
   // Field × Digital: one sticky scene with three scroll-linked beats — separate, converge, resolve.
@@ -157,7 +157,7 @@
     } catch {}
   }
 
-  gsap.utils.toArray('[data-me-service]').forEach(item => gsap.fromTo(item, { y: 16, opacity: .3 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'top 63%, scrub: .35 } }));
+  gsap.utils.toArray('[data-me-service]').forEach(item => gsap.fromTo(item, { y: 16, opacity: .3 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'top 63%', scrub: .35 } }));
   gsap.utils.toArray('[data-me-proof]').forEach((item, index) => gsap.fromTo(item, { xPercent: index % 2 ? 4 : -3 }, { xPercent: index % 2 ? -1 : 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .55 } }));
   gsap.fromTo('.me-partners figure img', { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: '.me-partners', start: 'top bottom', end: 'bottom top', scrub: .55 } });
 

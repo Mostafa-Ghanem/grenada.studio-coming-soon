@@ -50,7 +50,7 @@
       const split = new SplitType(line, { types: 'words', tagName: 'span' });
       gsap.from(split.words, { y: 24, opacity: .18, stagger: .04, ease: 'none', scrollTrigger: { trigger: line, start: 'top 86%', end: 'top 50%', scrub: .55 } });
     }
-    gsap.to(line, { color: index === 2 ? '#ff5258' : '#f2e5e2', ease: 'none', scrollTrigger: { trigger: line, start: 'top 74%', end: 'top 43%, scrub: .45 } });
+    gsap.to(line, { color: index === 2 ? '#ff5258' : '#f2e5e2', ease: 'none', scrollTrigger: { trigger: line, start: 'top 74%', end: 'top 43%', scrub: .45 } });
   });
 
   // Story chapters: CSS sticky owns the hold; scroll position directly blends the four scenes.
@@ -59,10 +59,10 @@
   const storyRule = document.querySelector('.me-story-rule span');
   if (storyTrack && chapters.length) {
     const segment = 1 / chapters.length;
-    const fadeWindow = Math.min(0.065, segment * 0.32);
+    const fadeWindow = Math.min(.065, segment * .32);
     const renderStory = (progress) => {
       const p = gsap.utils.clamp(0, 1, progress);
-      const activeIndex = Math.min(chapters.length - 1, Math.floor(Math.min(0.999999, p) * chapters.length));
+      const activeIndex = Math.min(chapters.length - 1, Math.floor(Math.min(.999999, p) * chapters.length));
       chapters.forEach((chapter, index) => {
         const start = index * segment;
         const end = (index + 1) * segment;
@@ -73,10 +73,10 @@
         gsap.set(chapter, { opacity: visibility, zIndex: index === activeIndex ? 3 : 2 });
         const image = chapter.querySelector('img');
         const copy = chapter.querySelector('.me-chapter-copy > div:last-child');
-        if (image) gsap.set(image, { scale: 1.04 + (1 - visibility) 0.035 });
+        if (image) gsap.set(image, { scale: 1.04 + (1 - visibility) * .035 });
         if (copy) gsap.set(copy, { y: (1 - visibility) * 24 });
       });
-      if (storyRule) gsap.set(storyRule, { scaleX: 0.25 + p * 0.75 });
+      if (storyRule) gsap.set(storyRule, { scaleX: .25 + p * .75 });
       storyTrack.dataset.meChapter = String(activeIndex + 1);
     };
     renderStory(0);
@@ -94,14 +94,14 @@
   gsap.utils.toArray('[data-me-project]').forEach(scene => {
     const image = scene.querySelector('.me-project-media img');
     const copy = scene.querySelector('.me-project-copy');
-    if (image) gsap.fromTo(image, { yPercent: -3.5, scale: 1.055 }, { yPercent: 3.5, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: 0.65 } });
-    if (copy) gsap.from(copy, { y: 34, opacity: 0, duration: 0.65, ease: 'power2.out', scrollTrigger: { trigger: scene, start: 'top 58%', toggleActions: 'play none none reverse' } });
+    if (image) gsap.fromTo(image, { yPercent: -3.5, scale: 1.055 }, { yPercent: 3.5, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .65 } });
+    if (copy) gsap.from(copy, { y: 34, opacity: 0, duration: .65, ease: 'power2.out', scrollTrigger: { trigger: scene, start: 'top 58%', toggleActions: 'play none none reverse' } });
   });
 
   const statement = document.querySelector('[data-me-split="statement"]');
   if (statement && SplitType) {
     const split = new SplitType(statement, { types: 'words', tagName: 'span' });
-    gsap.from(split.words, { yPercent: 80, opacity: 0, stagger: 0.035, ease: 'none', scrollTrigger: { trigger: statement, start: 'top 88%', end: 'top 47%, scrub: 0.55 } });
+    gsap.from(split.words, { yPercent: 80, opacity: 0, stagger: .035, ease: 'none', scrollTrigger: { trigger: statement, start: 'top 88%', end: 'top 47%', scrub: .55 } });
   }
 
   // Field × Digital: one sticky scene with three scroll-linked beats — separate, converge, resolve.
@@ -117,23 +117,23 @@
   const renderConvergence = (progress) => {
     const p = gsap.utils.clamp(0, 1, progress);
     convergenceProgress = p;
-    const convergeP = gsap.utils.clamp(0, 1, (p - 0.18) / 0.52);
-    const resolveP = gsap.utils.clamp(0, 1, (p - 0.68) / 0.22);
-    const phase = p < 0.28 ? 'separate' : p < 0.72 ? 'converge' : 'resolve';
+    const convergeP = gsap.utils.clamp(0, 1, (p - .18) / .52);
+    const resolveP = gsap.utils.clamp(0, 1, (p - .68) / .22);
+    const phase = p < .28 ? 'separate' : p < .72 ? 'converge' : 'resolve';
     if (convergence) convergence.dataset.mePhase = phase;
     if (convergenceAnimation) {
-      const frameP = gsap.utils.clamp(0, 1, (p - 0.06) / 0.86);
+      const frameP = gsap.utils.clamp(0, 1, (p - .06) / .86);
       convergenceAnimation.goToAndStop(Math.round(frameP * Math.max(1, convergenceAnimation.totalFrames - 1)), true);
     }
-    if (fieldLabel) gsap.set(fieldLabel, { x: 20 * convergeP, opacity: 1 - 0.48 * resolveP });
-    if (digitalLabel) gsap.set(digitalLabel, { x: -20 * convergeP, opacity: 1 - 0.48 * resolveP });
-    if (lottieContainer) gsap.tset(lottieContainer, { scale: 0.94 + 0.06 * convergeP, opacity: 0.72 + 0.28 * convergeP });
-    if (center) gsap.tset(center, { opacity: resolveP, scale: 0.9 + 0.1 * resolveP });
+    if (fieldLabel) gsap.set(fieldLabel, { x: 20 * convergeP, opacity: 1 - .48 * resolveP });
+    if (digitalLabel) gsap.set(digitalLabel, { x: -20 * convergeP, opacity: 1 - .48 * resolveP });
+    if (lottieContainer) gsap.set(lottieContainer, { scale: .94 + .06 * convergeP, opacity: .72 + .28 * convergeP });
+    if (center) gsap.set(center, { opacity: resolveP, scale: .9 + .1 * resolveP });
   };
 
   if (convergence && convergenceTrack) {
     renderConvergence(0);
-    ScrollTriggger.create({
+    ScrollTrigger.create({
       trigger: convergenceTrack,
       start: 'top top',
       end: 'bottom bottom',
@@ -152,14 +152,14 @@
         if (fallback) fallback.remove();
         lottieContainer.classList.add('is-lottie');
         renderConvergence(convergenceProgress);
-        ScrollTriggger.refresh();
+        ScrollTrigger.refresh();
       });
     } catch {}
   }
 
-  gsap.utils.toArray('[data-me-service]').forEach(item => gsap.fromTo(item, { y: 16, opacity: 0.3 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'top 63', scrub: 0.35 } }));
-  gsap.utils.toArray('[data-me-proof]').forEach((item, index) => gsap.fromTo(item, { xPercent: index % 2 ? 4 : -3 }, { xPercent: index % 2 ? -1 : 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: 0.55 } }));
-  gsap.fromTo('.me-partners figure img', { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: '.me-partners', start: 'top bottom', end: 'bottom top', scrub: 0.55 } });
+  gsap.utils.toArray('[data-me-service]').forEach(item => gsap.fromTo(item, { y: 16, opacity: .3 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'top 63%', scrub: .35 } }));
+  gsap.utils.toArray('[data-me-proof]').forEach((item, index) => gsap.fromTo(item, { xPercent: index % 2 ? 4 : -3 }, { xPercent: index % 2 ? -1 : 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .55 } }));
+  gsap.fromTo('.me-partners figure img', { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: '.me-partners', start: 'top bottom', end: 'bottom top', scrub: .55 } });
 
   const refresh = () => ScrollTrigger.refresh();
   if (document.fonts?.ready) document.fonts.ready.then(refresh);
