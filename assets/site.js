@@ -6,14 +6,18 @@
     const auditHorizontalOverflow=()=>{const vw=document.documentElement.clientWidth,sw=document.documentElement.scrollWidth;const offenders=[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.right>vw+1||r.left<-1});const report={scrollWidth:sw,clientWidth:vw,overflow:sw>vw,offenders:offenders.slice(0,12).map(el=>({tag:el.tagName,cls:el.className,left:Math.round(el.getBoundingClientRect().left),right:Math.round(el.getBoundingClientRect().right)}))};if(sw>vw)console.warn('[layout-audit]',report);else if(new URLSearchParams(location.search).has('layout-audit'))console.info('[layout-audit]',report)};
     addEventListener('load',()=>requestAnimationFrame(auditHorizontalOverflow),{once:true});
     const header = document.getElementById('siteHeader');
-    addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>28),{passive:true});
+    // Solid header after 28px; hide while scrolling down, show again on scroll up.
+    let lastY=scrollY;
+    const onScroll=()=>{const y=scrollY;header.classList.toggle('scrolled',y>28);if(!document.body.classList.contains('menu-open'))header.classList.toggle('is-hidden',y>lastY&&y>320);lastY=y};
+    onScroll();addEventListener('scroll',onScroll,{passive:true});
+    header.addEventListener('focusin',()=>header.classList.remove('is-hidden'));
 
     const menuBtn=document.getElementById('menuToggle'),mobileMenu=document.getElementById('mobileMenu');
     function setMenu(open){document.body.classList.toggle('menu-open',open);menuBtn?.setAttribute('aria-expanded',String(open));menuBtn?.setAttribute('aria-label',open?'Close navigation':'Open navigation')}
     menuBtn?.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
     mobileMenu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
     addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
-    addEventListener('resize',()=>{if(innerWidth>1024)setMenu(false)},{passive:true});
+    addEventListener('resize',()=>{if(innerWidth>960)setMenu(false)},{passive:true});
 
     const observer = new IntersectionObserver((entries)=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target)}}),{threshold:.14,rootMargin:'0px 0px -5%'});
     document.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));

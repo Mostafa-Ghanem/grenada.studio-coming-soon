@@ -20,24 +20,24 @@
   <div class="spotlight" aria-hidden="true"></div><div class="grid" aria-hidden="true"></div><canvas id="particles" aria-hidden="true"></canvas><div class="vignette" aria-hidden="true"></div><div class="noise" aria-hidden="true"></div>
   
   <div class="site">
-    <header id="siteHeader">
-    <div class="shell nav">
-      <a class="brand" href="/" aria-label="Grenada Studio home">
-        <img src="/assets/grenada-mark.svg" alt="" width="26" height="28" />
-        <span class="brand-text"><b>Grenada</b><span> Studio</span></span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation"><a href="/about/" data-snd>About</a><a href="/services/" aria-current="page" data-snd>Services</a><a href="/work/" data-snd>Work</a><a href="/approach/" data-snd>Approach</a><a href="/contact/" data-snd>Contact</a></nav>
-      <div class="nav-actions">
-        <button class="round-btn" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path class="sound-wave" d="M15 9.5a4 4 0 0 1 0 5"></path><path class="sound-wave" d="M18 7a8 8 0 0 1 0 10"></path><path class="sound-off" d="M16 9l5 6"></path><path class="sound-off" d="M21 9l-5 6"></path></svg>
-        </button>
-        <button class="round-btn menu-btn" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation">
-          <svg class="menu-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 8h14M5 16h14"/></svg>
-          <svg class="menu-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>
-        </button>
+    <header id="siteHeader" class="gh">
+    <div class="shell gh-bar">
+      <a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" /><span><b>Grenada</b> Studio</span></a>
+      <nav class="gh-nav" aria-label="Primary navigation"><a href="/about/" data-snd>About</a><div class="gh-has-mega"><a aria-haspopup="true" href="/services/" aria-current="page" data-snd>Services</a><div class="gh-mega" role="group" aria-label="Services"><div class="gh-mega-inner"><div class="gh-mega-col"><span class="gh-mega-kicker">Brand & Story</span><a href="/services/brand-identity/"><b>Brand Identity & Logos</b><small lang="ar">تصميم الهويات البصرية والشعارات</small></a><a href="/services/creative-content/"><b>Creative Content</b><small lang="ar">صناعة المحتوى الإبداعي</small></a></div><div class="gh-mega-col"><span class="gh-mega-kicker">Design & Motion</span><a href="/services/design/"><b>Outdoor & Social Design</b><small lang="ar">تصميم اللوحات الخارجية والسوشيال ميديا</small></a><a href="/services/motion-voice-over/"><b>Motion & Voice Over</b><small lang="ar">الموشن جرافيك والتعليق الصوتي</small></a></div><div class="gh-mega-col"><span class="gh-mega-kicker">Digital & Growth</span><a href="/services/social-media-management/"><b>Social Media Management</b><small lang="ar">إدارة منصات التواصل الاجتماعي</small></a><a href="/services/web-development/"><b>Web Design & Development</b><small lang="ar">تصميم وتطوير المواقع الإلكترونية</small></a><a href="/services/seo/"><b>SEO</b><small lang="ar">تحسين محركات البحث</small></a><a href="/services/paid-media/"><b>Paid Media</b><small lang="ar">الإعلانات الممولة</small></a><a href="/services/performance-marketing/"><b>Performance Marketing</b><small lang="ar">إدارة الأداء التسويقي</small></a></div><div class="gh-mega-col"><span class="gh-mega-kicker">Production & Field</span><a href="/services/media-production/"><b>Media Production</b><small lang="ar">الإنتاج الإعلامي</small></a></div><a class="gh-mega-all" href="/services/">All 10 services <span aria-hidden="true">↗</span></a></div></div></div><a href="/work/" data-snd>Work</a><a href="/approach/" data-snd>Approach</a><a href="/contact/" data-snd>Contact</a></nav>
+      <div class="gh-actions">
+        <button class="gh-icon" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path class="sound-wave" d="M15 9.5a4 4 0 0 1 0 5"></path><path class="sound-wave" d="M18 7a8 8 0 0 1 0 10"></path><path class="sound-off" d="M16 9l5 6"></path><path class="sound-off" d="M21 9l-5 6"></path></svg></button>
+        <a class="gh-cta" href="/contact/" data-snd>Start a project <span aria-hidden="true">↗</span></a>
+        <button class="gh-icon gh-burger" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation"><i></i><i></i></button>
       </div>
     </div>
-    <nav class="mobile-nav" id="mobileMenu" aria-label="Mobile navigation"><a href="/about/" data-snd>About</a><a href="/services/" aria-current="page" data-snd>Services</a><a href="/work/" data-snd>Work</a><a href="/approach/" data-snd>Approach</a><a href="/contact/" data-snd>Contact</a></nav>
+    <div class="gh-overlay" id="mobileMenu" aria-label="Mobile navigation">
+      <nav class="shell gh-overlay-nav"><a href="/about/" style="--i:0"><span>01</span>About</a><a href="/services/" aria-current="page" style="--i:1"><span>02</span>Services</a><a href="/work/" style="--i:2"><span>03</span>Work</a><a href="/approach/" style="--i:3"><span>04</span>Approach</a><a href="/contact/" style="--i:4"><span>05</span>Contact</a></nav>
+      <div class="shell gh-overlay-foot">
+        <a class="btn btn-primary" href="/contact/">Start a project ↗</a>
+        <a href="mailto:hello@grenadastudio.com">hello@grenadastudio.com</a>
+        <div class="gh-overlay-social"><a href="https://instagram.com/grenadastudio" target="_blank" rel="noopener">Instagram</a><a href="https://behance.net/grenadastudio" target="_blank" rel="noopener">Behance</a><a href="https://linkedin.com/company/grenadastudio" target="_blank" rel="noopener">LinkedIn</a></div>
+      </div>
+    </div>
   </header>
     <main id="main"><section class="page-hero service-hero" id="top"><div class="shell">
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/services/">Services</a><span aria-hidden="true">/</span><span aria-current="page">Motion & Voice Over</span></nav>
@@ -87,7 +87,19 @@
     <div class="sv-body"><div><h3>Outdoor & Social Design</h3><p lang="ar" dir="rtl" class="sv-ar">تصميم اللوحات الخارجية والسوشيال ميديا</p></div><p>Connected visual systems for social, roadside, venue and print touchpoints — built to stay recognizable at every scale.</p>
     <div class="sv-foot"><span>29 projects on this site</span><b aria-hidden="true">↗</b></div></div>
   </a></div></div></section><section class="template-cta"><div class="shell"><div class="contact-card" data-reveal><div class="kicker">Service / 05</div><h2>Need motion & voice over for a <em>real project?</em></h2><p>Build the scope around the asset, launch stage and channels that matter.</p><div class="contact-actions"><a class="btn btn-primary" href="mailto:hello@grenadastudio.com" data-snd>Start the conversation <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-ghost" href="/contact/" data-snd>Contact details</a></div></div></div></section></main>
-    <footer><div class="shell footer-row"><span>© 2026 Grenada Studio</span><div class="socials" aria-label="Social links"><a href="https://instagram.com/grenadastudio" target="_blank" rel="noopener">Instagram</a><a href="https://behance.net/grenadastudio" target="_blank" rel="noopener">Behance</a><a href="https://linkedin.com/company/grenadastudio" target="_blank" rel="noopener">LinkedIn</a></div></div></footer>
+    <footer class="gf">
+    <div class="shell">
+      <div class="gf-cols">
+        <div class="gf-col gf-about"><a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" loading="lazy" /><span><b>Grenada</b> Studio</span></a><p>Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.</p><p lang="ar" dir="rtl" class="gf-tag">نضعك في المقدمة</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
+        <nav class="gf-col" aria-label="Services"><h3>Services</h3><a href="/services/#brand">Brand & Story</a><a href="/services/#design">Design & Motion</a><a href="/services/#growth">Digital & Growth</a><a href="/services/#field">Production & Field</a><a href="/services/">All services</a></nav>
+        <nav class="gf-col" aria-label="Work"><h3>Work</h3><a href="/work/shorfat-al-haram/">Shorfat Al Haram</a><a href="/work/dream-land/">Dream Land</a><a href="/work/khairat-taibah/">Khairat Taibah</a><a href="/work/nukhbat-al-taif/">Nukhbat Al Taif</a><a href="/work/">All projects</a></nav>
+        <nav class="gf-col" aria-label="Studio"><h3>Studio</h3><a href="/about/">About</a><a href="/approach/">Approach</a><a href="/contact/">Contact</a></nav>
+        <div class="gf-col"><h3>Contact</h3><a href="mailto:hello@grenadastudio.com">hello@grenadastudio.com</a><address>Second District, First Area, Fifth Settlement — Egypt</address><div class="gf-social"><a href="https://instagram.com/grenadastudio" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a><a href="https://behance.net/grenadastudio" target="_blank" rel="noopener" aria-label="Behance">Behance</a><a href="https://linkedin.com/company/grenadastudio" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a></div></div>
+      </div>
+      <div class="gf-word" aria-hidden="true">GRENADA</div>
+      <div class="gf-bottom"><span>© 2026 Grenada Studio. All rights reserved.</span><span>Real estate marketing · KSA &amp; Egypt</span><a href="#top" class="gf-top" aria-label="Back to top">Back to top ↑</a></div>
+    </div>
+  </footer>
   </div>
   <script src="/assets/site.js" defer></script>
 </body>
