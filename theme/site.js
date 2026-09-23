@@ -43,5 +43,5 @@
         '',
         String(data.get('details')||'')
       ].join('\n');
-      location.href=`mailto:job@grenadastudio.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      location.href=`mailto:hello@grenadastudio.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }));

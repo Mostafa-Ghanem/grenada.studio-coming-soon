@@ -1,6 +1,6 @@
 export const site = {
   name: "Grenada Studio",
-  email: "job@grenadastudio.com",
+  email: "hello@grenadastudio.com",
   address: "Second District, First Area, Fifth Settlement — Egypt",
   focus: "Real estate marketing, auctions & integrated campaigns",
   description: "Grenada Studio is an integrated digital and creative marketing agency specializing in real estate, auctions, branding, content, performance marketing and media production.",
