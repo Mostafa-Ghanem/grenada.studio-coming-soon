@@ -1,30 +1,44 @@
-# Grenada Studio — Coming Soon
+# Grenada Studio — Website
 
-Static site for Cloudflare Pages.
+Static site for [grenadastudio.com](https://grenadastudio.com), hosted on Cloudflare Pages. No build step.
 
-## Deploy via GitHub
+## Structure
 
-1. Push **this folder's contents** (not the bundled file) to a GitHub repo.
-2. Cloudflare Pages → Create project → Connect repo.
-3. Build settings:
-   - **Framework preset:** None
-   - **Build command:** *(leave empty)*
-   - **Build output directory:** `/`  (or whichever folder you pushed)
-4. Deploy.
+```
+index.html        Main one-page site (hero, services, work, process, studio, contact)
+404.html          Not-found page (served automatically by Cloudflare Pages)
+assets/           styles.css, main.js, logos
+_headers          Security + cache headers (Cloudflare Pages)
+robots.txt, sitemap.xml
+```
 
-## Files
+## Local preview
 
-- `index.html` — the page.
-- `logo-red.png`, `logo-white.png` — the brand mark, transparent.
-- `_worker.js` — optional Pages Function that handles `POST /api/subscribe`.
-  - To enable, in the Pages dashboard add a **KV namespace binding** named
-    `SUBSCRIBERS`. Optional env vars: `RESEND_API_KEY`, `FROM_ADDRESS`,
-    `NOTIFY_ADDRESS` to forward signups by email.
-  - Delete this file if you'd rather point the form at Formspree / another
-    backend — just edit `ENDPOINT` near the bottom of `index.html`.
+```
+python3 -m http.server 8000
+```
 
-## Do NOT deploy the bundled file
-The `Grenada Studio - Coming Soon.html` self-contained bundle is for offline /
-Canva use. Deploying it to Pages can fail with a JSON unpack error because
-GitHub may normalise line endings inside the embedded payload.
- 
+## Deploy
+
+Cloudflare Pages → connect this repo:
+- **Framework preset:** None
+- **Build command:** *(empty)*
+- **Build output directory:** `/`
+- **Production branch:** `main`
+
+Every other branch gets its own preview URL automatically.
+
+## Workflow
+
+1. Branch off `main` for each change.
+2. Push → check the Cloudflare preview URL.
+3. Open a PR → merge to `main` → production deploy.
+
+## Contact form
+
+Submissions POST to a Google Apps Script web app (`ENDPOINT` in `assets/main.js`) that writes to a Google Sheet.
+The script must read the extra fields (`name`, `company`, `service`, `message`) — the old coming-soon form only sent `email`.
+
+## To do
+
+- Replace the three placeholder case studies in `#work` with real projects (images go in `assets/`).
