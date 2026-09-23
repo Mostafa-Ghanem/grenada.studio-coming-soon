@@ -72,3 +72,29 @@ export const services = [
 ];
 
 export const getService = (slug) => services.find((item) => item.slug === slug);
+
+// Pillars group the 10 services on /services/ and on the Work filters.
+export const pillars = [
+  { key: "brand", title: "Brand & Story", titleAr: "الهوية والمحتوى", copy: "What the project is called, how it looks and what it says.", slugs: ["brand-identity", "creative-content"] },
+  { key: "design", title: "Design & Motion", titleAr: "التصميم والموشن", copy: "Every surface the buyer sees, from a story post to a roadside billboard.", slugs: ["design", "motion-voice-over"] },
+  { key: "growth", title: "Digital & Growth", titleAr: "الرقمي والأداء", copy: "Platforms, landing pages, media spend and the numbers behind them.", slugs: ["social-media-management", "web-development", "seo", "paid-media", "performance-marketing"] },
+  { key: "field", title: "Production & Field", titleAr: "الإنتاج والميدان", copy: "Drone, film and live coverage on the ground and at the auction hall.", slugs: ["media-production"] }
+];
+
+// Arabic names (from the company profile) and a representative image per service.
+const meta = {
+  "social-media-management": { titleAr: "إدارة منصات التواصل الاجتماعي", image: "/assets/photos/billboards" },
+  "creative-content": { titleAr: "صناعة المحتوى الإبداعي", image: "/assets/work/shorfat-914-post" },
+  "brand-identity": { titleAr: "تصميم الهويات البصرية والشعارات", image: "/assets/work/dream-3d-26" },
+  "design": { titleAr: "تصميم اللوحات الخارجية والسوشيال ميديا", image: "/assets/work/khairat-road" },
+  "motion-voice-over": { titleAr: "الموشن جرافيك والتعليق الصوتي", image: "/assets/photos/film-set" },
+  "web-development": { titleAr: "تصميم وتطوير المواقع الإلكترونية", image: "/assets/photos/strategy" },
+  "seo": { titleAr: "تحسين محركات البحث", image: "/assets/photos/riyadh-night" },
+  "paid-media": { titleAr: "الإعلانات الممولة", image: "/assets/work/khairat-road-2" },
+  "performance-marketing": { titleAr: "إدارة الأداء التسويقي", image: "/assets/photos/architecture" },
+  "media-production": { titleAr: "الإنتاج الإعلامي", image: "/assets/work/shorfat-drone" }
+};
+for (const s of services) {
+  Object.assign(s, meta[s.slug]);
+  s.pillar = pillars.find((p) => p.slugs.includes(s.slug)).key;
+}

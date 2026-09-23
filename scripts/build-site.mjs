@@ -3,7 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { services } from "../theme/data/services.mjs";
 import { projects } from "../theme/data/projects.mjs";
-import { aboutPage, servicesIndexPage, servicePage, workIndexPage, caseStudyPage, approachPage, contactPage, notFoundPage } from "../theme/pages.mjs";
+import { servicesIndexPage, servicePage, workIndexPage } from "../theme/listing-pages.mjs";
+import { aboutPage, caseStudyPage, approachPage, contactPage, notFoundPage } from "../theme/pages.mjs";
 import { homePage } from "../theme/home-page.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -52,6 +53,7 @@ write("assets/site.css", read("theme/base.css"));
 write("assets/site.js", read("theme/site.js"));
 write("assets/parallax.css", read("theme/parallax.css"));
 write("assets/parallax.js", read("theme/parallax.js"));
+write("assets/work-filter.js", read("theme/work-filter.js"));
 write("assets/campaign-system.json", read("theme/campaign-system.json"));
 
 const routes = [

@@ -5,7 +5,7 @@ export const projects = [
     gallery: [["shorfat-site-2","Aerial view of the Shorfat Al Haram plots among the Makkah mountains"],["shorfat-drone","Drone shot of the Shorfat Al Haram masterplan at golden hour"],["shorfat-site-4","Wide aerial of the Shorfat Al Haram site and surrounding districts"],["shorfat-914-post","Shorfat Al Haram social media post announcing 914 plots"]],
     facts: [["914","residential & commercial plots"],["1.3M+ m²","total land area"],["Makkah","location"]], alt: "Aerial drone photograph of the Shorfat Al Haram site in Makkah",
     services: ["Landing page", "Project booklet", "Media coverage", "Social design", "Outdoor", "Brochure", "Advertising videos"],
-    serviceSlugs: ["web-development", "creative-content", "design", "media-production", "paid-media", "performance-marketing", "social-media-management"]
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "web-development"]
   },
   {
     slug: "malqa-taif", title: "Malqa Taif", location: "Taif", type: "149 plots",
@@ -19,7 +19,7 @@ export const projects = [
     gallery: [["khairat-road-2","Khairat Taibah digital billboard at a Madinah intersection"]],
     facts: [["~2M","campaign views"],["3,207","auction page visits"],["293","auction visitors"],["25","registered bidders"]], alt: "Khairat Taibah auction billboard on a Madinah road",
     services: ["Roadside billboards", "Venue materials", "TV & radio advertising", "Social media", "Live event coverage", "Project booklet"],
-    serviceSlugs: ["design", "social-media-management", "media-production", "creative-content"]
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "web-development", "media-production", "paid-media", "performance-marketing"]
   },
   {
     slug: "dream-land", title: "Dream Land", location: "Taif", type: "Hybrid auction · 322 plots",
@@ -27,7 +27,7 @@ export const projects = [
     gallery: [["dream-3d-23","3D render of Dream Land villas at sunset"],["dream-3d-26","3D render of the Dream Land central park"],["dream-3d-fx","3D render of Dream Land with its mosque at dusk"]],
     facts: [["322","residential & commercial plots"],["Hybrid","auction format"],["Taif","location"]], alt: "3D render of the Dream Land community in Taif at sunset",
     services: ["Visual identity", "Roadside campaign", "Brochure", "Venue print", "Social media", "Drone filming", "Auction booklet"],
-    serviceSlugs: ["brand-identity", "design", "social-media-management", "media-production", "creative-content", "paid-media"]
+    serviceSlugs: ["design", "creative-content", "brand-identity", "motion-voice-over"]
   },
   {
     slug: "nukhbat-al-taif", title: "Nukhbat Al Taif", location: "Taif", type: "Hybrid auction · 7 lands",
@@ -35,7 +35,7 @@ export const projects = [
     gallery: [["nukhbat-sign-1","Nukhbat Al Taif on-site auction sign in Al Hada"],["nukhbat-sign-2","Crew installing a Nukhbat Al Taif on-site sign"]],
     facts: [["7","commercial, agricultural & residential lands"],["Hybrid","auction format"],["Taif","location"]], alt: "Nukhbat Al Taif auction sign installed on site in Taif",
     services: ["Auction booklet", "Live coverage", "Venue materials", "Advertising videos", "Roadside billboards", "Social media"],
-    serviceSlugs: ["creative-content", "media-production", "design", "motion-voice-over", "social-media-management", "brand-identity"]
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "web-development", "media-production", "performance-marketing"]
   },
   {
     slug: "osoul-makkah", title: "Osoul Makkah", location: "Makkah", type: "Hybrid auction · 7 properties",
@@ -43,175 +43,192 @@ export const projects = [
     gallery: [["osoul-makkah-2","Drone view of an Osoul Makkah property"],["osoul-makkah-3","Aerial of the Osoul Makkah site and surrounding roads"]],
     facts: [["7","properties"],["Hybrid","auction format"],["Makkah","location"]], alt: "Drone photograph over central Makkah for the Osoul Makkah auction",
     services: ["Visual identity", "Roadside billboards", "Printed brochure", "Venue materials", "Auction booklet", "Social media", "Advertising videos"],
-    serviceSlugs: ["brand-identity", "design", "creative-content", "social-media-management", "motion-voice-over"]
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "web-development", "media-production", "performance-marketing"]
   },
   {
-    slug: "afaq-al-riyadh", title: "Afaq Al Riyadh", titleAr: "آفاق الرياض", location: "Jeddah & Khulais", type: "Real estate auction",
+    slug: "afaq-al-riyadh", title: "Afaq Al Riyadh", titleAr: "آفاق الرياض", location: "Jeddah & Khulais", type: "Online auction · Nov 2025",
     image: "/assets/work/afaq-al-riyadh-1.webp", imageM: "/assets/work/afaq-al-riyadh-1-m.webp", alt: "Afaq Al Riyadh auction — campaign photography",
+    facts: [["~1M", "campaign views"], ["171,823", "auction page visits"], ["139", "bids"], ["174", "brochure downloads"]],
     gallery: [["afaq-al-riyadh-2","Afaq Al Riyadh — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "aryaf-al-wusta", title: "Aryaf Al Wusta", titleAr: "أرياف الوسطى", location: "Central Region", type: "Real estate auction",
+    slug: "aryaf-al-wusta", title: "Aryaf Al Wusta", titleAr: "أرياف الوسطى", location: "Central Region", type: "Online auction · Aug 2026",
     image: "/assets/work/aryaf-al-wusta-1.webp", imageM: "/assets/work/aryaf-al-wusta-1-m.webp", alt: "Aryaf Al Wusta auction — campaign photography",
+    facts: [["387", "bids"], ["1,004", "auction page visits"], ["369", "auction visitors"], ["232", "brochure downloads"]],
     gallery: [["aryaf-al-wusta-2","Aryaf Al Wusta — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Paid & influencer media", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "paid-media", "performance-marketing"]
   },
   {
-    slug: "ajyad-makkah", title: "Ajyad Makkah", titleAr: "اجياد مكة", location: "Makkah", type: "Real estate auction",
+    slug: "ajyad-makkah", title: "Ajyad Makkah", titleAr: "اجياد مكة", location: "Makkah", type: "Hybrid auction · Oct 2025",
     image: "/assets/work/ajyad-makkah-1.webp", imageM: "/assets/work/ajyad-makkah-1-m.webp", alt: "Ajyad Makkah auction — campaign photography",
+    facts: [["~1.5M", "campaign views"], ["2,839", "auction page visits"], ["170", "registered interest"], ["672", "brochure downloads"]],
     gallery: [["ajyad-makkah-2","Ajyad Makkah — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Landing page", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "web-development", "media-production", "performance-marketing"]
   },
   {
-    slug: "basateen-najd", title: "Basateen Najd", titleAr: "بساتين نجد", location: "Najd", type: "Real estate auction",
+    slug: "basateen-najd", title: "Basateen Najd", titleAr: "بساتين نجد", location: "Najd", type: "Hybrid auction · Aug 2025",
     image: "/assets/work/basateen-najd-1.webp", imageM: "/assets/work/basateen-najd-1-m.webp", alt: "Basateen Najd auction — campaign photography",
+    facts: [["28", "bids"], ["Riyadh", "auction hall + online"]],
     gallery: [["basateen-najd-2","Basateen Najd — campaign photo 2"],["basateen-najd-3","Basateen Najd — campaign photo 3"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Paid & influencer media", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "paid-media", "performance-marketing"]
   },
   {
     slug: "bawabat-al-taif", title: "Bawabat Al Taif", titleAr: "بوابة الطائف", location: "Taif", type: "Real estate auction",
     image: "/assets/work/bawabat-al-taif-1.webp", imageM: "/assets/work/bawabat-al-taif-1-m.webp", alt: "Bawabat Al Taif auction — campaign photography",
     gallery: [],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Visual identity", "Marketing video & voice-over"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "brand-identity", "motion-voice-over"]
   },
   {
-    slug: "jawaher-al-gharbiya", title: "Jawaher Al Gharbiya", titleAr: "جواهر الغربية", location: "Western Region", type: "Real estate auction",
+    slug: "jawaher-al-gharbiya", title: "Jawaher Al Gharbiya", titleAr: "جواهر الغربية", location: "Western Region", type: "Online auction · Dec 2025",
     image: "/assets/work/jawaher-al-gharbiya-1.webp", imageM: "/assets/work/jawaher-al-gharbiya-1-m.webp", alt: "Jawaher Al Gharbiya auction — campaign photography",
+    facts: [["~1.5M", "campaign views"], ["448", "auction visitors"], ["407", "brochure downloads"]],
     gallery: [["jawaher-al-gharbiya-2","Jawaher Al Gharbiya — campaign photo 2"],["jawaher-al-gharbiya-3","Jawaher Al Gharbiya — campaign photo 3"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Paid & influencer media", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "paid-media", "performance-marketing"]
   },
   {
-    slug: "jawaher-taibah", title: "Jawaher Taibah", titleAr: "جواهر طيبة", location: "Madinah", type: "Real estate auction",
+    slug: "jawaher-taibah", title: "Jawaher Taibah", titleAr: "جواهر طيبة", location: "Madinah", type: "Online auction · Nov 2025",
     image: "/assets/work/jawaher-taibah-1.webp", imageM: "/assets/work/jawaher-taibah-1-m.webp", alt: "Jawaher Taibah auction — campaign photography",
+    facts: [["~2M", "campaign views"], ["175,196", "auction page visits"], ["118", "bids"], ["179", "brochure downloads"]],
     gallery: [["jawaher-taibah-2","Jawaher Taibah — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
     slug: "rubou-al-mamlaka", title: "Rubou Al Mamlaka", titleAr: "ربوع المملكة", location: "Saudi Arabia", type: "Real estate auction",
     image: "/assets/work/rubou-al-mamlaka-1.webp", imageM: "/assets/work/rubou-al-mamlaka-1-m.webp", alt: "Rubou Al Mamlaka auction — campaign photography",
     gallery: [["rubou-al-mamlaka-2","Rubou Al Mamlaka — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "sama-jazan", title: "Sama Jazan", titleAr: "سما جازان", location: "Jazan", type: "Real estate auction",
+    slug: "sama-jazan", title: "Sama Jazan", titleAr: "سما جازان", location: "Jazan", type: "Online auction · Nov 2025",
     image: "/assets/work/sama-jazan-1.webp", imageM: "/assets/work/sama-jazan-1-m.webp", alt: "Sama Jazan auction — campaign photography",
+    facts: [["~1.5M", "campaign views"], ["122,734", "auction page visits"], ["29", "bids"]],
     gallery: [["sama-jazan-2","Sama Jazan — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "safwat-makkah", title: "Safwat Makkah", titleAr: "صفوة مكة", location: "Makkah", type: "Real estate auction",
+    slug: "safwat-makkah", title: "Safwat Makkah", titleAr: "صفوة مكة", location: "Makkah", type: "Online auction · Jul 2026",
     image: "/assets/work/safwat-makkah-1.webp", imageM: "/assets/work/safwat-makkah-1-m.webp", alt: "Safwat Makkah auction — campaign photography",
+    facts: [["36", "campaign posts"], ["307", "auction page visits"], ["18", "registered interest"]],
     gallery: [],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Paid & influencer media", "Final report & lead tracking"],
+    serviceSlugs: ["design", "creative-content", "motion-voice-over", "paid-media", "performance-marketing"]
   },
   {
-    slug: "ghuroob-al-riyadh", title: "Ghuroob Al Riyadh", titleAr: "غروب الرياض", location: "Riyadh", type: "Real estate auction",
+    slug: "ghuroob-al-riyadh", title: "Ghuroob Al Riyadh", titleAr: "غروب الرياض", location: "Riyadh", type: "Online auction · Sep 2025",
     image: "/assets/work/ghuroob-al-riyadh-1.webp", imageM: "/assets/work/ghuroob-al-riyadh-1-m.webp", alt: "Ghuroob Al Riyadh auction — campaign photography",
+    facts: [["~2M", "campaign views"], ["147,453", "auction page visits"], ["371", "bids"], ["SAR 14.3M", "total sales"]],
     gallery: [["ghuroob-al-riyadh-2","Ghuroob Al Riyadh — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "performance-marketing"]
   },
   {
-    slug: "furas-al-gharbiya", title: "Furas Al Gharbiya", titleAr: "فرص الغربية", location: "Western Region", type: "Real estate auction",
+    slug: "furas-al-gharbiya", title: "Furas Al Gharbiya", titleAr: "فرص الغربية", location: "Western Region", type: "Online auction · Feb 2026",
     image: "/assets/work/furas-al-gharbiya-1.webp", imageM: "/assets/work/furas-al-gharbiya-1-m.webp", alt: "Furas Al Gharbiya auction — campaign photography",
+    facts: [["~2M", "campaign views"], ["70,000", "auction page visits"], ["300", "bids"], ["556", "auction visitors"]],
     gallery: [["furas-al-gharbiya-2","Furas Al Gharbiya — campaign photo 2"],["furas-al-gharbiya-3","Furas Al Gharbiya — campaign photo 3"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Visual identity", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "brand-identity", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
     slug: "kunooz-al-sharqiya", title: "Kunooz Al Sharqiya", titleAr: "كنوز الشرقية", location: "Eastern Province", type: "Real estate auction",
     image: "/assets/work/kunooz-al-sharqiya-1.webp", imageM: "/assets/work/kunooz-al-sharqiya-1-m.webp", alt: "Kunooz Al Sharqiya auction — campaign photography",
     gallery: [["kunooz-al-sharqiya-2","Kunooz Al Sharqiya — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Paid & influencer media", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "paid-media", "performance-marketing"]
   },
   {
-    slug: "logistics-auction", title: "Logistics Auction", titleAr: "اللوجستك", location: "Saudi Arabia", type: "Real estate auction",
+    slug: "logistics-auction", title: "Logistics Auction", titleAr: "اللوجستك", location: "Saudi Arabia", type: "Online auction · Mar 2026",
     image: "/assets/work/logistics-auction-1.webp", imageM: "/assets/work/logistics-auction-1-m.webp", alt: "Logistics Auction auction — campaign photography",
+    facts: [["~1M", "campaign views"], ["29,229", "auction page visits"], ["605", "bids"], ["365", "brochure downloads"]],
     gallery: [["logistics-auction-2","Logistics Auction — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
     slug: "amwaj-al-gharbiya", title: "Amwaj Al Gharbiya", titleAr: "امواج الغربية", location: "Western Region", type: "Real estate auction",
     image: "/assets/work/amwaj-al-gharbiya-1.webp", imageM: "/assets/work/amwaj-al-gharbiya-1-m.webp", alt: "Amwaj Al Gharbiya auction — campaign photography",
     gallery: [["amwaj-al-gharbiya-2","Amwaj Al Gharbiya — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Booklet & content", "Drone & property photography"],
+    serviceSlugs: ["creative-content", "media-production"]
   },
   {
     slug: "basateen-al-madinah", title: "Basateen Al Madinah", titleAr: "بساتين المدينة", location: "Madinah", type: "Real estate auction",
     image: "/assets/work/basateen-al-madinah-1.webp", imageM: "/assets/work/basateen-al-madinah-1-m.webp", alt: "Basateen Al Madinah auction — campaign photography",
     gallery: [["basateen-al-madinah-2","Basateen Al Madinah — campaign photo 2"],["basateen-al-madinah-3","Basateen Al Madinah — campaign photo 3"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Visual identity", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "brand-identity", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "tharawat-al-qassim", title: "Tharawat Al Qassim", titleAr: "ثروات القصيم", location: "Qassim", type: "Real estate auction",
+    slug: "tharawat-al-qassim", title: "Tharawat Al Qassim", titleAr: "ثروات القصيم", location: "Qassim", type: "Online auction · Aug 2026",
     image: "/assets/work/tharawat-al-qassim-1.webp", imageM: "/assets/work/tharawat-al-qassim-1-m.webp", alt: "Tharawat Al Qassim auction — campaign photography",
+    facts: [["730", "auction page visits"], ["251", "auction visitors"], ["106", "brochure downloads"]],
     gallery: [["tharawat-al-qassim-2","Tharawat Al Qassim — campaign photo 2"],["tharawat-al-qassim-3","Tharawat Al Qassim — campaign photo 3"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "performance-marketing"]
   },
   {
-    slug: "thimar-al-jouf", title: "Thimar Al Jouf", titleAr: "ثمارالجوف", location: "Al Jouf", type: "Real estate auction",
+    slug: "thimar-al-jouf", title: "Thimar Al Jouf", titleAr: "ثمارالجوف", location: "Al Jouf", type: "Online auction · Jun 2026",
     image: "/assets/work/thimar-al-jouf-1.webp", imageM: "/assets/work/thimar-al-jouf-1-m.webp", alt: "Thimar Al Jouf auction — campaign photography",
+    facts: [["~1M", "campaign views"], ["1,340", "auction page visits"], ["13", "properties"]],
     gallery: [["thimar-al-jouf-2","Thimar Al Jouf — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "diyar-al-riyadh", title: "Diyar Al Riyadh", titleAr: "ديار الرياض", location: "Riyadh", type: "Real estate auction",
+    slug: "diyar-al-riyadh", title: "Diyar Al Riyadh", titleAr: "ديار الرياض", location: "Riyadh", type: "Online auction · Jun 2026",
     image: "/assets/work/diyar-al-riyadh-1.webp", imageM: "/assets/work/diyar-al-riyadh-1-m.webp", alt: "Diyar Al Riyadh auction — campaign photography",
+    facts: [["~1M", "campaign views"], ["2,077", "auction page visits"], ["611", "auction visitors"], ["574", "brochure downloads"]],
     gallery: [["diyar-al-riyadh-2","Diyar Al Riyadh — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "rehab-makkah", title: "Rehab Makkah", titleAr: "رحاب مكة", location: "Makkah", type: "Real estate auction",
+    slug: "rehab-makkah", title: "Rehab Makkah", titleAr: "رحاب مكة", location: "Makkah", type: "Online auction · Jul 2025",
     image: "/assets/work/rehab-makkah-1.webp", imageM: "/assets/work/rehab-makkah-1-m.webp", alt: "Rehab Makkah auction — campaign photography",
+    facts: [["39", "bids"]],
     gallery: [["rehab-makkah-2","Rehab Makkah — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "kunooz-al-dammam", title: "Kunooz Al Dammam", titleAr: "كنوز الدمام", location: "Dammam", type: "Real estate auction",
+    slug: "kunooz-al-dammam", title: "Kunooz Al Dammam", titleAr: "كنوز الدمام", location: "Dammam", type: "Online auction · May 2026",
     image: "/assets/work/kunooz-al-dammam-1.webp", imageM: "/assets/work/kunooz-al-dammam-1-m.webp", alt: "Kunooz Al Dammam auction — campaign photography",
+    facts: [["~1M", "campaign views"], ["2,056", "auction page visits"], ["438", "brochure downloads"]],
     gallery: [],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Visual identity", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "brand-identity", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
-    slug: "lulua-al-gharbiya", title: "Lulua Al Gharbiya", titleAr: "لؤلؤة الغربية", location: "Western Region", type: "Real estate auction",
+    slug: "lulua-al-gharbiya", title: "Lulua Al Gharbiya", titleAr: "لؤلؤة الغربية", location: "Western Region", type: "Online auction · May 2026",
     image: "/assets/work/lulua-al-gharbiya-1.webp", imageM: "/assets/work/lulua-al-gharbiya-1-m.webp", alt: "Lulua Al Gharbiya auction — campaign photography",
+    facts: [["~1M", "campaign views"], ["2,561", "auction page visits"], ["1,236", "brochure downloads"], ["48", "bids"]],
     gallery: [["lulua-al-gharbiya-2","Lulua Al Gharbiya — campaign photo 2"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Visual identity", "Marketing video & voice-over", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "brand-identity", "motion-voice-over", "media-production", "performance-marketing"]
   },
   {
     slug: "masakin-al-riyadh", title: "Masakin Al Riyadh", titleAr: "مساكن الرياض", location: "Riyadh", type: "Real estate auction",
     image: "/assets/work/masakin-al-riyadh-1.webp", imageM: "/assets/work/masakin-al-riyadh-1-m.webp", alt: "Masakin Al Riyadh auction — campaign photography",
     gallery: [["masakin-al-riyadh-2","Masakin Al Riyadh — campaign photo 2"],["masakin-al-riyadh-3","Masakin Al Riyadh — campaign photo 3"]],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Outdoor & social design", "Booklet & content", "Drone & property photography"],
+    serviceSlugs: ["design", "creative-content", "media-production"]
   },
   {
     slug: "nuzul-al-riyadh", title: "Nuzul Al Riyadh", titleAr: "نزل الرياض", location: "Riyadh", type: "Real estate auction",
     image: "/assets/work/nuzul-al-riyadh-1.webp", imageM: "/assets/work/nuzul-al-riyadh-1-m.webp", alt: "Nuzul Al Riyadh auction — campaign photography",
     gallery: [],
-    services: ["Auction campaign", "Photography", "Social media design", "Auction booklet"],
-    serviceSlugs: ["media-production", "social-media-management", "design", "creative-content"]
+    services: ["Social media management", "Outdoor & social design", "Booklet & content", "Drone & property photography", "Final report & lead tracking"],
+    serviceSlugs: ["social-media-management", "design", "creative-content", "media-production", "performance-marketing"]
   }
 ];
 

@@ -83,3 +83,11 @@ Bold = already on the site. **Do not publish a count of auctions**: the Drive on
 25 more auction projects now have case-study pages with real campaign photos from `مزادات/` (drone shots, on-site signs, a few designs), in `assets/work/<slug>-N.webp`.
 They show the name, region and photos only. No invented numbers. Add facts per project from each folder's `التقرير النهائي` when available.
 Skipped for now (only site plans, maps or weak photos): خيرات جيزان, ديار نجران, كنوز الاحساء, الجوار, رواسي القصيم, نوادر سكراب مكة, واحة المدينة, نوادر السلي, درر مكة (portrait only), ديار المملكة, سنابل الخرج.
+
+## Added 2026-09-23 (round 3): final-report numbers and services per project
+
+- Every project's `serviceSlugs` now reflect the subfolders of its Drive folder (e.g. `تصوير الدرون` → Media Production, `ليندج بيدج` → Web, `تقرير العملاء`/`التقرير النهائي` → Performance Marketing). No project had SEO work in its folder, so SEO shows as a standalone service.
+- Facts from each `التقرير النهائي` are now on 17 case studies. Only marketing results are published: views, auction page visits, visitors, bids, brochure downloads, registered interest. Sale prices per lot and buyer names stay off the site. The exception is Ghuroob Al Riyadh's **total** sales (SAR 14.3M), which names no buyer.
+- Reports that could not be read (the PDF text is garbled): Basateen Al Madinah, Nuzul Al Riyadh, Wahat Al Madinah. Osoul Makkah's report is a 429 MB PDF, not processed yet.
+- Rehab Makkah and Basateen Najd: only the bid counts were unambiguous in the PDF, so only those are used.
+- Reports exist for auctions not yet on the site (no usable photos): خيرات جيزان, ديار نجران, الجوار, نوادر السلي, ديار المملكة, رواسي القصيم, سنابل الخرج.
