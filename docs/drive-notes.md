@@ -22,7 +22,7 @@ Typical auction folder: landing page (with photos + logos + icons), booklet, pri
 
 مساكن الرياض · درر مكة · امواج الغربية · لؤلؤة الغربية · ربوع المملكة · أرياف الوسطى · ثروات القصيم · اللوجستك · صفوة مكة · بوابة الطائف · ديار الرياض · ثمار الجوف · نوادر السلي · نزل الرياض · كنوز الشرقية · **خيرات طيبة** · سنابل الخرج · خيرات جيزان · كنوز الاحساء · اجياد مكة · فرص الغربية · **نخبة الطائف** · غروب الرياض · **أصول مكة** · واحة المدينة · الجوار · سما جازان · **شرفات الحرم** · نوادر سكراب مكة · كنوز الدمام · ديار المملكة · بساتين المدينة · رواسي القصيم · **دريم لاند** · واحة القصيم · شمال العاصمة · جواهر الغربية · جواهر طيبة · ديار نجران · بساتين نجد · آفاق الرياض · رحاب مكة
 
-Bold = already on the site. That is **42 named auction campaigns** (plus a test folder), which is a strong proof point for the homepage (*to confirm* the number with the team before publishing it).
+Bold = already on the site. **Do not publish a count of auctions**: the Drive only holds recent work. Grenada has run far more campaigns over the years (confirmed by the team, 2026-09-23).
 
 ## Company profile — key copy (Arabic original)
 
@@ -39,7 +39,7 @@ Bold = already on the site. That is **42 named auction campaigns** (plus a test 
 
 ## Project facts
 
-**Shorfat Al Haram (Makkah)**: 914 residential & commercial plots; area "تتجاوز 1.3 م2" in the profile. The site shows **1.3M+ m²**, but the unit is missing in the source, so *to confirm*. Deliverables: landing page, social, outdoor, booklet, teaser + marketing videos, brochure, reels. Assets: 8064×4536 drone/site photos, social posts in 4320px.
+**Shorfat Al Haram (Makkah)**: 914 residential & commercial plots; area over 1.3 million m² (confirmed by the team; the profile text omits the unit). Deliverables: landing page, social, outdoor, booklet, teaser + marketing videos, brochure, reels. Assets: 8064×4536 drone/site photos, social posts in 4320px.
 
 **Malqa Taif**: 149 commercial–residential plots, Al Wasit district, Taif. Deliverables incl. influencer videos and a marketing plan.
 
@@ -73,7 +73,13 @@ Bold = already on the site. That is **42 named auction campaigns** (plus a test 
 ## Ideas for next iterations
 
 1. Case studies with results: Khairat Taibah now shows its report numbers. Do the same for Osoul Makkah and Afaq Al Riyadh from their final reports.
-2. Homepage proof bar: "42 auction campaigns · 29 partner organisations · 10+ years" (*confirm* the 42).
+2. Homepage proof bar: "29 partner organisations · 10+ years". No auction count (see above).
 3. Video: Dream Land has 1080p landscape/portrait finals. A short muted loop could replace a still in the hero or case page (compress to under 3 MB first).
 4. Arabic version of the site: the whole profile is written in Arabic already.
 5. Add the remaining auctions as a searchable "archive" grid (name, city, type) on `/work/`.
+
+## Added 2026-09-23 (round 2)
+
+25 more auction projects now have case-study pages with real campaign photos from `مزادات/` (drone shots, on-site signs, a few designs), in `assets/work/<slug>-N.webp`.
+They show the name, region and photos only. No invented numbers. Add facts per project from each folder's `التقرير النهائي` when available.
+Skipped for now (only site plans, maps or weak photos): خيرات جيزان, ديار نجران, كنوز الاحساء, الجوار, رواسي القصيم, نوادر سكراب مكة, واحة المدينة, نوادر السلي, درر مكة (portrait only), ديار المملكة, سنابل الخرج.
