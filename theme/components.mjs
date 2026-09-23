@@ -104,10 +104,12 @@ export function serviceHero(service) {
 }
 
 export function caseHero(project) {
+  const [kind, when] = project.type.split(" · ");
   return `<section class="case-hero" id="top"><div class="shell">
     ${breadcrumb([{ label: "Work", href: "/work/" }, { label: project.title, href: `/work/${project.slug}/` }])}
-    <div class="case-hero-head" data-reveal><div><div class="kicker">Case study / ${project.location}</div><h1>${project.title}</h1></div><p>${project.type}</p></div>
-    <figure class="case-hero-media" data-reveal>${projectImg(project, { eager: true })}<figcaption>${project.location} · ${project.type}</figcaption></figure>
+    <div class="case-hero-head" data-reveal><div class="kicker">Case study</div><h1>${project.title}</h1>${project.titleAr ? `<p class="case-hero-ar" lang="ar" dir="rtl">${project.titleAr}</p>` : ""}
+    <ul class="case-chips"><li>${project.location}</li>${kind ? `<li>${kind}</li>` : ""}${when ? `<li>${when}</li>` : ""}</ul></div>
+    <figure class="case-hero-media" data-reveal>${projectImg(project, { eager: true })}</figure>
   </div></section>`;
 }
 

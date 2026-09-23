@@ -805,3 +805,44 @@ footer.gf{position:relative;margin-top:0;padding:clamp(70px,9vw,120px) 0 28px;bo
 .gh-has-mega.is-open .gh-mega{opacity:1;visibility:visible;transform:translate(-50%,0)}
 @media (max-width:420px){.gh-brand span{display:inline;font-size:10px;letter-spacing:.2em}.gh-brand em{display:none}}
 .gf-bottom{margin-top:clamp(48px,6vw,80px)}
+
+/* Case study v2 */
+.case-page .case-hero-head{display:block;margin-bottom:40px}
+.case-page .case-hero-head .kicker{margin-bottom:16px}
+.case-hero-ar{font-family:"Noto Kufi Arabic",sans-serif;font-size:clamp(20px,2.2vw,28px);color:var(--ink-dim);margin:14px 0 0;text-align:left}
+.case-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:24px 0 0}
+.case-chips li{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line-strong);border-radius:99px;color:var(--ink)}
+.case-chips li:first-child{background:var(--red-2);border-color:var(--red-2);color:#fff}
+.case-page .case-hero-media{aspect-ratio:16/8;background:#0b0303}
+.case-facts-grid[data-count="1"]{grid-template-columns:1fr}
+.case-facts-grid[data-count="2"]{grid-template-columns:repeat(2,1fr)}
+.case-facts-grid[data-count="3"]{grid-template-columns:repeat(3,1fr)}
+.case-facts-grid[data-count="4"]{grid-template-columns:repeat(4,1fr)}
+ol.case-scope{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px;border:0}
+ol.case-scope li{display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;border:1px solid var(--line);border-radius:99px;background:rgba(255,255,255,.02);font-size:16px}
+ol.case-scope li span{font-family:var(--mono);font-size:10px;color:var(--red-2);width:28px;height:28px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line-strong)}
+.case-svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.case-svc{position:relative;display:flex;flex-direction:column;gap:6px;padding:22px 48px 22px 22px;border:1px solid var(--line);border-radius:16px;background:var(--panel);transition:border-color .25s,transform .25s}
+.case-svc:hover{border-color:var(--red-2);transform:translateY(-3px)}
+.case-svc span{font-family:var(--mono);font-size:10px;color:var(--red-2)}
+.case-svc b{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.1}
+.case-svc small{font-family:"Noto Kufi Arabic",sans-serif;color:var(--ink-dim);font-size:12px;text-align:left}
+.case-svc i{position:absolute;right:20px;top:20px;font-style:normal;color:var(--red-2)}
+.case-page .next-project-link{grid-template-columns:minmax(0,4fr) minmax(0,7fr) auto;align-items:center}
+.next-project-media{border-radius:16px;overflow:hidden;aspect-ratio:16/10;border:1px solid var(--line)}
+.next-project-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.next-project-link:hover .next-project-media img{transform:scale(1.05)}
+.case-page .next-project-link .kicker{display:block;margin-bottom:12px}
+@media (max-width:820px){
+  .case-page .case-hero-media{aspect-ratio:4/3}
+  .case-facts-grid[data-count]{grid-template-columns:repeat(2,1fr)}
+  .case-facts-grid[data-count]>div:last-child:nth-child(odd){grid-column:1/-1}
+  .case-facts-grid>div{padding:20px 16px}
+  .case-facts-grid dt{font-size:38px}
+  ol.case-scope li{font-size:14px;padding:8px 14px 8px 8px}
+  .case-svc-grid{grid-template-columns:1fr}
+  .case-page .contact-card h2{font-size:clamp(40px,11vw,52px)}
+  .case-page .next-project-link{grid-template-columns:1fr auto;gap:16px}
+  .case-page .next-project-media{grid-column:1/-1}
+  .case-page .next-project-link h2{font-size:44px}
+}
