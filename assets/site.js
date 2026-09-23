@@ -8,7 +8,7 @@
     const header = document.getElementById('siteHeader');
     // Solid header after 28px; hide while scrolling down, show again on scroll up.
     let lastY=scrollY;
-    const onScroll=()=>{const y=scrollY;header.classList.toggle('scrolled',y>28);if(!document.body.classList.contains('menu-open'))header.classList.toggle('is-hidden',y>lastY&&y>320);lastY=y};
+    const onScroll=()=>{const y=scrollY;header.classList.toggle('scrolled',y>28);if(!document.body.classList.contains('menu-open'))header.classList.toggle('is-hidden',y>lastY&&y>320);document.documentElement.classList.toggle('header-hidden',header.classList.contains('is-hidden'));lastY=y};
     onScroll();addEventListener('scroll',onScroll,{passive:true});
     header.addEventListener('focusin',()=>header.classList.remove('is-hidden'));
     // Desktop mega-menu: also opens on click/tap and closes with Escape or an outside click.

@@ -9,7 +9,7 @@ const img = (base, alt, sizes = "(max-width: 820px) 100vw, 33vw") =>
 const projectsFor = (slug) => projects.filter((p) => p.serviceSlugs.includes(slug));
 
 // Flagship case studies shown first on /work/.
-const FEATURED = ["shorfat-al-haram", "dream-land", "khairat-taibah", "nukhbat-al-taif", "osoul-makkah", "malqa-taif"];
+const FEATURED = ["shorfat-al-haram", "dream-land", "khairat-taibah", "nukhbat-al-taif", "osoul-makkah", "ajyad-makkah"];
 
 function workCard(p) {
   const fact = p.facts?.[0];
@@ -82,9 +82,10 @@ export function workIndexPage() {
     modifier: "work-index-hero"
   });
   const featured = FEATURED.map((s) => projects.find((p) => p.slug === s)).filter(Boolean);
-  const rest = projects.filter((p) => !FEATURED.includes(p.slug));
+  const rest = projects.filter((p) => !FEATURED.includes(p.slug)).sort((a, b) => (a.slug === "malqa-taif") - (b.slug === "malqa-taif"));
   const counts = Object.fromEntries(services.map((s) => [s.slug, projectsFor(s.slug).length]));
-  const filters = `<div class="wk-filters" role="toolbar" aria-label="Filter projects by service">
+  const select = `<label class="wk-select"><span>Filter by service</span><select aria-label="Filter projects by service"><option value="all">All projects (${projects.length})</option>${pillars.map((pl) => `<optgroup label="${pl.title}">${pl.slugs.filter((s) => counts[s]).map((s) => `<option value="${s}">${getService(s).title} (${counts[s]})</option>`).join("")}</optgroup>`).join("")}</select></label>`;
+  const filters = select + `<div class="wk-filters" role="toolbar" aria-label="Filter projects by service">
     <button type="button" class="is-on" data-filter="all" aria-pressed="true">All <sup>${projects.length}</sup></button>
     ${pillars.map((pl) => `<span class="wk-filter-group" aria-hidden="true">${pl.title}</span>${pl.slugs.filter((s) => counts[s]).map((s) => `<button type="button" data-filter="${s}" aria-pressed="false">${getService(s).title} <sup>${counts[s]}</sup></button>`).join("")}`).join("")}
   </div>`;

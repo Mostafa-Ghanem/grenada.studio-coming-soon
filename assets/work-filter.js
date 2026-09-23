@@ -5,10 +5,13 @@
   const cards = [...document.querySelectorAll('.wk-section .wk-card')];
   const headings = [...document.querySelectorAll('.wk-heading')];
   const status = document.querySelector('.wk-status');
+  const select = document.querySelector('.wk-select select');
+  select?.addEventListener('change', () => apply(select.value, true));
 
   const apply = (key, push) => {
     if (!buttons.some((b) => b.dataset.filter === key)) key = 'all';
     buttons.forEach((b) => { const on = b.dataset.filter === key; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); });
+    if (select) select.value = key;
     let shown = 0;
     cards.forEach((c) => {
       const hit = key === 'all' || c.dataset.services.split(' ').includes(key);
