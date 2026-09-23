@@ -90,36 +90,57 @@
     gsap.from(h, { yPercent: 30, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: h, start: 'top 85%' } });
   });
 
-  /* ---------- Story: pinned, frames swap with scroll (desktop and mobile) ---------- */
+  /* ---------- Story (desktop): pinned, frames swap with scroll ---------- */
   const steps = gsap.utils.toArray('.px-story-step');
   const frames = gsap.utils.toArray('.px-story-frame');
-  mm.add({ desktop: '(min-width: 821px)', mobile: '(max-width: 820px)' }, (ctx) => {
-    const { desktop } = ctx.conditions;
+  mm.add('(min-width: 821px)', () => {
     gsap.set(frames, { autoAlpha: 0 });
     gsap.set(frames[0], { autoAlpha: 1 });
-    if (desktop) { gsap.set(steps, { opacity: .25 }); gsap.set(steps[0], { opacity: 1 }); }
-    else { gsap.set(steps, { autoAlpha: 0, position: 'absolute' }); gsap.set(steps[0], { autoAlpha: 1 }); }
-
+    gsap.set(steps, { opacity: .25 });
+    gsap.set(steps[0], { opacity: 1 });
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.px-story-stage',
-        start: desktop ? 'top 12%' : 'top top+=64',
-        end: `+=${steps.length * (desktop ? 65 : 80)}%`,
-        pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true,
-        onUpdate: (self) => setStage(Math.min(steps.length - 1, Math.floor(self.progress * steps.length * .999)))
+        trigger: '.px-story-stage', start: 'top 12%', end: `+=${steps.length * 55}%`,
+        pin: true, scrub: .5, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: (self) => setStage(Math.min(steps.length - 1, Math.round(self.animation.time())))
       }
     });
     steps.forEach((step, i) => {
       if (!i) return;
       const at = i - .5;
-      tl.to(frames[i - 1], { autoAlpha: 0, scale: .96, duration: .5 }, at)
-        .fromTo(frames[i], { autoAlpha: 0, scale: 1.12, clipPath: 'inset(18% 0% 18% 0% round 22px)' }, { autoAlpha: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 22px)', duration: .6 }, at)
-        .to(steps[i - 1], desktop ? { opacity: .25, duration: .4 } : { autoAlpha: 0, y: -24, duration: .22 }, at)
-        .fromTo(step, desktop ? { opacity: .25 } : { autoAlpha: 0, y: 24 }, desktop ? { opacity: 1, duration: .4 } : { autoAlpha: 1, y: 0, duration: .3 }, desktop ? at + .15 : at + .26);
+      tl.to(frames[i - 1], { autoAlpha: 0, scale: .96, duration: .45 }, at)
+        .fromTo(frames[i], { autoAlpha: 0, scale: 1.12, clipPath: 'inset(18% 0% 18% 0% round 22px)' }, { autoAlpha: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 22px)', duration: .55 }, at)
+        .to(steps[i - 1], { opacity: .25, duration: .35 }, at)
+        .fromTo(step, { opacity: .25 }, { opacity: 1, duration: .35 }, at + .15);
     });
     tl.to({}, { duration: .5 });
-    gsap.to('.px-story-counter i', { '--px-story-progress': 1, ease: 'none', scrollTrigger: { trigger: '.px-story-stage', start: desktop ? 'top 12%' : 'top top+=64', end: `+=${steps.length * (desktop ? 65 : 80)}%`, scrub: true } });
+    gsap.to('.px-story-counter i', { '--px-story-progress': 1, ease: 'none', scrollTrigger: { trigger: '.px-story-stage', start: 'top 12%', end: `+=${steps.length * 55}%`, scrub: true } });
     return () => gsap.set([...steps, ...frames], { clearProps: 'all' });
+  });
+
+  /* ---------- Story (mobile): pinned horizontal deck, next card peeks in from the right ---------- */
+  mm.add('(max-width: 820px)', () => {
+    const track = document.querySelector('.px-deck-track');
+    const cards = gsap.utils.toArray('.px-deck-card');
+    const now = document.querySelector('.px-deck-now');
+    if (!track || cards.length < 2) return;
+    const distance = () => track.scrollWidth - track.parentElement.clientWidth;
+    gsap.set(cards.slice(1), { scale: .9, opacity: .55 });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.px-deck', start: 'top top+=76', end: () => `+=${distance() * .9}`,
+        pin: true, scrub: .35, anticipatePin: 1, invalidateOnRefresh: true,
+        snap: { snapTo: 1 / (cards.length - 1), duration: { min: .15, max: .35 }, ease: 'power2.out' },
+        onUpdate: (self) => { if (now) now.textContent = String(Math.round(self.progress * (cards.length - 1)) + 1).padStart(2, '0'); }
+      }
+    });
+    tl.to(track, { x: () => -distance(), ease: 'none', duration: cards.length - 1 }, 0)
+      .to('.px-deck-bar b', { scaleX: 1, ease: 'none', duration: cards.length - 1 }, 0);
+    cards.forEach((card, i) => {
+      if (i) tl.to(card, { scale: 1, opacity: 1, ease: 'none', duration: 1 }, i - 1);
+      if (i < cards.length - 1) tl.to(card, { scale: .9, opacity: .55, ease: 'none', duration: 1 }, i);
+    });
+    return () => gsap.set([track, ...cards], { clearProps: 'all' });
   });
 
   /* ---------- Projects: clip-path unveil + parallax image ---------- */
@@ -150,16 +171,8 @@
   /* ---------- Proof numbers drift ---------- */
   gsap.utils.toArray('.px-proof-num').forEach((item, i) => gsap.fromTo(item, { xPercent: i % 2 ? 8 : -6 }, { xPercent: i % 2 ? -3 : 3, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .7 } }));
 
-  /* ---------- Partner wall: scroll speeds the marquee up ---------- */
-  const rows = gsap.utils.toArray('.pw-row');
-  ScrollTrigger.create({
-    trigger: '.pw', start: 'top bottom', end: 'bottom top',
-    onUpdate: (self) => {
-      const boost = 1 + Math.min(4, Math.abs(self.getVelocity()) / 600);
-      rows.forEach((r) => r.style.setProperty('--pw-speed', boost.toFixed(2)));
-    }
-  });
-  gsap.from('.pw-row', { opacity: 0, y: 40, stagger: .15, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.pw-rows', start: 'top 85%' } });
+  /* ---------- Partner wall: rows fade up once; marquee speed stays constant (CSS) ---------- */
+  gsap.from('.pw-row', { opacity: 0, y: 30, stagger: .12, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: '.pw-rows', start: 'top 88%' } });
 
   /* ---------- Closing: background zoom ---------- */
   gsap.fromTo('.px-closing-media img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.px-closing', start: 'top bottom', end: 'bottom bottom', scrub: .8 } });

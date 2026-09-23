@@ -8,7 +8,7 @@ export function header(active = "") {
   return `<header id="siteHeader">
     <div class="shell nav">
       <a class="brand" href="/" aria-label="Grenada Studio home">
-        <img src="/assets/grenada-mark.png" alt="" width="26" height="28" />
+        <img src="/assets/grenada-mark.svg" alt="" width="26" height="28" />
         <span class="brand-text"><b>Grenada</b><span> Studio</span></span>
       </a>
       <nav class="nav-links" aria-label="Primary navigation">${links}</nav>
@@ -33,7 +33,7 @@ export function footer() {
 export function decorations({ intro = false } = {}) {
   return `<a class="skip" href="#main">Skip to content</a>
   <div class="spotlight" aria-hidden="true"></div><div class="grid" aria-hidden="true"></div><canvas id="particles" aria-hidden="true"></canvas><div class="vignette" aria-hidden="true"></div><div class="noise" aria-hidden="true"></div>
-  ${intro ? `<div class="intro" id="intro" aria-hidden="true"><div class="intro-core"><img class="intro-mark" src="/assets/grenada-mark.png" alt="" width="121" height="130"><div class="intro-line"></div></div></div>` : ""}`;
+  ${intro ? `<div class="intro" id="intro" aria-hidden="true"><div class="intro-core"><img class="intro-mark" src="/assets/grenada-mark.svg" alt="" width="121" height="130"><div class="intro-line"></div></div></div>` : ""}`;
 }
 
 // Typographic partner wall: two counter-scrolling rows of partner names (Arabic + English).
