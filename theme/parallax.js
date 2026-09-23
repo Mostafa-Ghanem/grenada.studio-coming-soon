@@ -40,7 +40,11 @@
     let pastHero = false, atClose = false;
     const sync = () => dock.classList.toggle('is-on', pastHero && !atClose);
     new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting; sync(); }).observe(hero);
-    if (closing) new IntersectionObserver(([e]) => { atClose = e.isIntersecting; sync(); }).observe(closing);
+    // Hide the dock while the closing CTA or the footer is on screen.
+    const ends = [closing, document.querySelector('footer')].filter(Boolean);
+    const seen = new Set();
+    const endObs = new IntersectionObserver((entries) => { entries.forEach((e) => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)); atClose = seen.size > 0; sync(); });
+    ends.forEach((el) => endObs.observe(el));
   }
 
   /* ---------- Story step indicator (text counter) ---------- */

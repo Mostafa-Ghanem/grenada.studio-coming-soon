@@ -14,10 +14,14 @@ export function header(active = "") {
   const desktop = site.nav.map((item) => item.key === "services"
     ? `<div class="gh-has-mega">${link(item).replace("<a ", '<a aria-haspopup="true" ')}<div class="gh-mega" role="group" aria-label="Services"><div class="gh-mega-inner">${servicesMenu}<a class="gh-mega-all" href="/services/">All 10 services <span aria-hidden="true">↗</span></a></div></div></div>`
     : link(item)).join("");
-  const mobile = site.nav.map((item, i) => `<a href="${item.href}"${item.key === active ? ' aria-current="page"' : ""} style="--i:${i}"><span>0${i + 1}</span>${item.label}</a>`).join("");
+  const mobile = site.nav.map((item, i) => {
+    const a = `<a href="${item.href}"${item.key === active ? ' aria-current="page"' : ""}><span>0${i + 1}</span>${item.label}</a>`;
+    if (item.key !== "services") return `<div class="gh-m-item" style="--i:${i}">${a}</div>`;
+    return `<div class="gh-m-item" style="--i:${i}"><div class="gh-m-row">${a}<button type="button" class="gh-m-toggle" aria-expanded="false" aria-controls="ghMobileServices" aria-label="Show services"><i></i></button></div><div class="gh-m-sub" id="ghMobileServices">${pillars.map((p) => `<a href="/services/#${p.key}">${p.title}</a>`).join("")}<a href="/services/">All services ↗</a></div></div>`;
+  }).join("");
   return `<header id="siteHeader" class="gh">
     <div class="shell gh-bar">
-      <a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" /><span><b>Grenada</b> Studio</span></a>
+      <a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" /><span><b>Grenada</b> <em>Studio</em></span></a>
       <nav class="gh-nav" aria-label="Primary navigation">${desktop}</nav>
       <div class="gh-actions">
         <button class="gh-icon" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">${soundIcon}</button>
@@ -42,13 +46,12 @@ export function footer() {
   return `<footer class="gf">
     <div class="shell">
       <div class="gf-cols">
-        <div class="gf-col gf-about"><a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" loading="lazy" /><span><b>Grenada</b> Studio</span></a><p>Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.</p><p lang="ar" dir="rtl" class="gf-tag">نضعك في المقدمة</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
+        <div class="gf-col gf-about"><a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" loading="lazy" /><span><b>Grenada</b> Studio</span></a><p>Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
         <nav class="gf-col" aria-label="Services"><h3>Services</h3>${pillars.map((p) => `<a href="/services/#${p.key}">${p.title}</a>`).join("")}<a href="/services/">All services</a></nav>
         <nav class="gf-col" aria-label="Work"><h3>Work</h3>${featured.map(getProject).filter(Boolean).map((p) => `<a href="/work/${p.slug}/">${p.title}</a>`).join("")}<a href="/work/">All projects</a></nav>
         <nav class="gf-col" aria-label="Studio"><h3>Studio</h3>${site.nav.filter((n) => !["services", "work"].includes(n.key)).map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}</nav>
         <div class="gf-col"><h3>Contact</h3><a href="mailto:${site.email}">${site.email}</a><address>${site.address}</address><div class="gf-social">${social.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener" aria-label="${n}">${n}</a>`).join("")}</div></div>
       </div>
-      <div class="gf-word" aria-hidden="true">GRENADA</div>
       <div class="gf-bottom"><span>© ${year} Grenada Studio. All rights reserved.</span><span>Real estate marketing · KSA &amp; Egypt</span><a href="#top" class="gf-top" aria-label="Back to top">Back to top ↑</a></div>
     </div>
   </footer>`;

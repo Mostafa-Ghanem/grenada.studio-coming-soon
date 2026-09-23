@@ -11,6 +11,14 @@
     const onScroll=()=>{const y=scrollY;header.classList.toggle('scrolled',y>28);if(!document.body.classList.contains('menu-open'))header.classList.toggle('is-hidden',y>lastY&&y>320);lastY=y};
     onScroll();addEventListener('scroll',onScroll,{passive:true});
     header.addEventListener('focusin',()=>header.classList.remove('is-hidden'));
+    // Desktop mega-menu: also opens on click/tap and closes with Escape or an outside click.
+    const mega=header.querySelector('.gh-has-mega');
+    mega?.querySelector(':scope>a').addEventListener('click',e=>{if(matchMedia('(hover: none)').matches&&!mega.classList.contains('is-open')){e.preventDefault();mega.classList.add('is-open')}});
+    addEventListener('click',e=>{if(mega&&!mega.contains(e.target))mega.classList.remove('is-open')});
+    addEventListener('keydown',e=>{if(e.key==='Escape'){mega?.classList.remove('is-open');document.activeElement?.blur?.()}});
+    // Mobile menu: services sub-list.
+    const sub=header.querySelector('.gh-m-toggle');
+    sub?.addEventListener('click',()=>{const open=sub.getAttribute('aria-expanded')!=='true';sub.setAttribute('aria-expanded',String(open));sub.closest('.gh-m-item').classList.toggle('is-open',open)});
 
     const menuBtn=document.getElementById('menuToggle'),mobileMenu=document.getElementById('mobileMenu');
     function setMenu(open){document.body.classList.toggle('menu-open',open);menuBtn?.setAttribute('aria-expanded',String(open));menuBtn?.setAttribute('aria-label',open?'Close navigation':'Open navigation')}
