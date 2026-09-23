@@ -36,6 +36,12 @@ export function decorations({ intro = false } = {}) {
   ${intro ? `<div class="intro" id="intro" aria-hidden="true"><div class="intro-core"><img class="intro-mark" src="/assets/grenada-mark.svg" alt="" width="121" height="130"><div class="intro-line"></div></div></div>` : ""}`;
 }
 
+// Project image with a mobile variant when one exists.
+export function projectImg(project, { sizes = "100vw", eager = false, alt = project.alt } = {}) {
+  const set = project.imageM ? ` srcset="${project.imageM} 960w, ${project.image} 2000w" sizes="${sizes}"` : "";
+  return `<img src="${project.image}"${set} alt="${alt}" width="1600" height="900"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>`;
+}
+
 // Typographic partner wall: two counter-scrolling rows of partner names (Arabic + English).
 export function partnerWall({ title = `Chosen by teams with <em>serious assets at stake.</em>`, headingId = "partners-title" } = {}) {
   const half = Math.ceil(partners.length / 2);
@@ -74,7 +80,7 @@ export function caseHero(project) {
   return `<section class="case-hero" id="top"><div class="shell">
     ${breadcrumb([{ label: "Work", href: "/work/" }, { label: project.title, href: `/work/${project.slug}/` }])}
     <div class="case-hero-head" data-reveal><div><div class="kicker">Case study / ${project.location}</div><h1>${project.title}</h1></div><p>${project.type}</p></div>
-    <figure class="case-hero-media" data-reveal><img src="${project.image}" alt="${project.alt}" width="1319" height="791" fetchpriority="high"><figcaption>${project.location} · ${project.type}</figcaption></figure>
+    <figure class="case-hero-media" data-reveal>${projectImg(project, { eager: true })}<figcaption>${project.location} · ${project.type}</figcaption></figure>
   </div></section>`;
 }
 
@@ -83,7 +89,7 @@ export function globalCTA({ kicker = "Start a conversation", title = "Put your n
 }
 
 export function projectCard(project, index = 0) {
-  return `<a class="template-project-card" href="/work/${project.slug}/" data-reveal="${index % 2 ? "right" : "left"}"><div class="template-project-media"><img src="${project.image}" alt="${project.alt}" width="1319" height="791" loading="lazy"></div><div class="template-project-meta"><span>${project.location}</span><span>${project.type}</span></div><h3>${project.title}</h3><p>${project.services.join(" · ")}</p></a>`;
+  return `<a class="template-project-card" href="/work/${project.slug}/" data-reveal="${index % 2 ? "right" : "left"}"><div class="template-project-media">${projectImg(project, { sizes: "(max-width: 820px) 100vw, 50vw" })}</div><div class="template-project-meta"><span>${project.location}</span><span>${project.type}</span></div><h3>${project.title}</h3><p>${project.services.join(" · ")}</p></a>`;
 }
 
 export function serviceCard(service) {
