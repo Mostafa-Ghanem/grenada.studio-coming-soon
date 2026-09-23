@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-08-07T17:55:00.000Z",
+  "routes": [
+    "/",
+    "/home-parallax/",
+    "/home-mobile-editorial/",
+    "/about/",
+    "/services/",
+    "/services/social-media-management/",
+    "/services/creative-content/",
+    "/services/brand-identity/",
+    "/services/design/",
+    "/services/motion-voice-over/",
+    "/services/web-development/",
+    "/services/seo/",
+    "/services/paid-media/",
+    "/services/performance-marketing/",
+    "/services/media-production/",
+    "/work/",
+    "/work/shorfat-al-haram/",
+    "/work/malqa-taif/",
+    "/work/khairat-taibah/",
+    "/work/dream-land/",
+    "/work/nukhbat-al-taif/",
+    "/work/osoul-makkah/",
+    "/approach/",
+    "/contact/"
+  ]
+}
