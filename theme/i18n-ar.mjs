@@ -271,7 +271,7 @@ const num = String.raw`[~+]?\d[\d,.]*\+?`;
 const RULES = [
   [/^(.+) — Grenada Studio$/, (m) => `${t(m[1])} — جرينادا ستوديو`],
   [/^(.+) — (.+) in (.+)\. Selected campaign work by Grenada Studio\.$/, (m) => `${t(m[1])} — ${t(m[2])} في ${t(m[3])}. من أعمال جرينادا ستوديو.`],
-  [/^(.+) auction — campaign photography$/, (m) => `مزاد ${t(m[1])} — من تصوير الحملة`],
+  [/^(.+) auction — campaign photography$/, (m) => `${t(m[1]).startsWith("مزاد") ? "" : "مزاد "}${t(m[1])} — من تصوير الحملة`],
   [/^(.+) — campaign photo (\d+)$/, (m) => `${t(m[1])} — صورة من الحملة ${m[2]}`],
   [/^(\d+) projects? on this site$/, (m) => m[1] === "1" ? "مشروع واحد في الموقع" : `${m[1]} مشاريع في الموقع`],
   [/^(\d+) projects? used this service\.$/, (m) => m[1] === "1" ? "مشروع واحد استخدم هذه الخدمة." : `${m[1]} مشروعاً استخدم هذه الخدمة.`],

@@ -147,7 +147,7 @@ export const projects = [
     serviceSlugs: ["social-media-management", "design", "creative-content", "motion-voice-over", "media-production", "paid-media", "performance-marketing"]
   },
   {
-    slug: "logistics-auction", title: "Logistics Auction", titleAr: "المزاد اللوجستي", location: "Saudi Arabia", type: "Online auction · Mar 2026",
+    slug: "logistics-auction", title: "Logistics Auction", titleAr: "مزاد اللوجيستك", location: "Saudi Arabia", type: "Online auction · Mar 2026",
     image: "/assets/work/logistics-auction-1.webp", imageM: "/assets/work/logistics-auction-1-m.webp", alt: "Logistics Auction auction — campaign photography",
     facts: [["~1M", "campaign views"], ["29,229", "auction page visits"], ["605", "bids"], ["365", "brochure downloads"]],
     gallery: [["logistics-auction-2","Logistics Auction — campaign photo 2"]],
