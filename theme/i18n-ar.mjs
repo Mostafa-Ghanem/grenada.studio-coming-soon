@@ -119,7 +119,7 @@ const D = {
   // Work index
   "Real projects.": "مشاريع حقيقية.", "Real auctions.": "مزادات حقيقية.",
   "Plots, auctions and destination projects across Saudi Arabia, filmed, designed and launched by Grenada. Filter by the service you need to see it in the field.": "مخططات ومزادات ومشاريع وجهات في أنحاء المملكة، صوّرتها وصمّمتها وأطلقتها جرينادا. صفِّ الأعمال حسب الخدمة التي تحتاجها لتراها على أرض الواقع.",
-  "Shorfat Al Haram / Makkah": "شرفة الحرم / مكة المكرمة", "Filter by service": "تصفية حسب الخدمة", "All": "الكل",
+  "Shorfat Al Haram / Makkah": "شرفات الحرم / مكة المكرمة", "Filter by service": "تصفية حسب الخدمة", "All": "الكل",
   "Flagship case studies": "دراسات حالة رئيسية", "Auction campaigns": "حملات المزادات",
   "Next case study": "دراسة الحالة القادمة", "Make the next launch": "اجعل إطلاقك القادم", "worth showing.": "جديراً بالعرض.",
   "Bring Grenada in early enough to connect the story, campaign system and execution.": "أشرك جرينادا مبكراً لنربط القصة ومنظومة الحملة والتنفيذ.",
@@ -239,11 +239,11 @@ const D = {
   "Selected work / KSA": "أعمال مختارة / السعودية",
 
   // Gallery alts
-  "Aerial view of the Shorfat Al Haram plots among the Makkah mountains": "لقطة جوية لمخطط شرفة الحرم بين جبال مكة المكرمة",
-  "Drone shot of the Shorfat Al Haram masterplan at golden hour": "تصوير بالدرون للمخطط العام لشرفة الحرم وقت الغروب",
-  "Wide aerial of the Shorfat Al Haram site and surrounding districts": "لقطة جوية واسعة لموقع شرفة الحرم والأحياء المحيطة",
-  "Shorfat Al Haram social media post announcing 914 plots": "منشور سوشيال لشرفة الحرم يعلن عن 914 قطعة",
-  "Aerial drone photograph of the Shorfat Al Haram site in Makkah": "تصوير جوي بالدرون لموقع شرفة الحرم في مكة المكرمة",
+  "Aerial view of the Shorfat Al Haram plots among the Makkah mountains": "لقطة جوية لمخطط شرفات الحرم بين جبال مكة المكرمة",
+  "Drone shot of the Shorfat Al Haram masterplan at golden hour": "تصوير بالدرون للمخطط العام لشرفات الحرم وقت الغروب",
+  "Wide aerial of the Shorfat Al Haram site and surrounding districts": "لقطة جوية واسعة لموقع شرفات الحرم والأحياء المحيطة",
+  "Shorfat Al Haram social media post announcing 914 plots": "منشور سوشيال لشرفات الحرم يعلن عن 914 قطعة",
+  "Aerial drone photograph of the Shorfat Al Haram site in Makkah": "تصوير جوي بالدرون لموقع شرفات الحرم في مكة المكرمة",
   "Malqa Taif real estate campaign identity and marketing materials": "هوية حملة ملقا الطائف العقارية وموادها التسويقية",
   "Khairat Taibah digital billboard at a Madinah intersection": "لوحة رقمية لمزاد خيرات طيبة عند تقاطع في المدينة المنورة",
   "Khairat Taibah auction billboard on a Madinah road": "لوحة مزاد خيرات طيبة على طريق في المدينة المنورة",

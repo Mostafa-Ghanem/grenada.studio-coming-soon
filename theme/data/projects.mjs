@@ -1,6 +1,6 @@
 export const projects = [
   {
-    slug: "shorfat-al-haram", title: "Shorfat Al Haram", titleAr: "شرفة الحرم", location: "Makkah", type: "914 residential & commercial plots",
+    slug: "shorfat-al-haram", title: "Shorfat Al Haram", titleAr: "شرفات الحرم", location: "Makkah", type: "914 residential & commercial plots",
     image: "/assets/work/shorfat-site-1.webp", imageM: "/assets/work/shorfat-site-1-m.webp",
     gallery: [["shorfat-site-2","Aerial view of the Shorfat Al Haram plots among the Makkah mountains"],["shorfat-drone","Drone shot of the Shorfat Al Haram masterplan at golden hour"],["shorfat-site-4","Wide aerial of the Shorfat Al Haram site and surrounding districts"],["shorfat-914-post","Shorfat Al Haram social media post announcing 914 plots"]],
     facts: [["914","residential & commercial plots"],["1.3M+ m²","total land area"],["Makkah","location"]], alt: "Aerial drone photograph of the Shorfat Al Haram site in Makkah",
