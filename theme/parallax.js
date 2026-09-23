@@ -138,7 +138,8 @@
         onUpdate: (self) => { if (now) now.textContent = String(Math.round(self.progress * (cards.length - 1)) + 1).padStart(2, '0'); }
       }
     });
-    tl.to(track, { x: () => -distance(), ease: 'none', duration: cards.length - 1 }, 0)
+    const sign = root.dir === 'rtl' ? 1 : -1;
+    tl.to(track, { x: () => sign * distance(), ease: 'none', duration: cards.length - 1 }, 0)
       .to('.px-deck-bar b', { scaleX: 1, ease: 'none', duration: cards.length - 1 }, 0);
     cards.forEach((card, i) => {
       if (i) tl.to(card, { scale: 1, opacity: 1, ease: 'none', duration: 1 }, i - 1);
@@ -189,7 +190,7 @@
       btn.addEventListener('pointerleave', () => { x(0); y(0); });
     });
     const cursor = document.createElement('div');
-    cursor.className = 'px-cursor'; cursor.setAttribute('aria-hidden', 'true'); cursor.textContent = 'View';
+    cursor.className = 'px-cursor'; cursor.setAttribute('aria-hidden', 'true'); cursor.textContent = root.lang === 'ar' ? 'عرض' : 'View';
     document.body.appendChild(cursor);
     const cx = gsap.quickTo(cursor, 'x', { duration: .35, ease: 'power3' }), cy = gsap.quickTo(cursor, 'y', { duration: .35, ease: 'power3' });
     addEventListener('pointermove', (e) => { cx(e.clientX); cy(e.clientY); }, { passive: true });

@@ -1,3 +1,4 @@
+const AR=document.documentElement.lang==='ar';
 
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const intro = document.getElementById('intro');
@@ -21,7 +22,7 @@
     sub?.addEventListener('click',()=>{const open=sub.getAttribute('aria-expanded')!=='true';sub.setAttribute('aria-expanded',String(open));sub.closest('.gh-m-item').classList.toggle('is-open',open)});
 
     const menuBtn=document.getElementById('menuToggle'),mobileMenu=document.getElementById('mobileMenu');
-    function setMenu(open){document.body.classList.toggle('menu-open',open);menuBtn?.setAttribute('aria-expanded',String(open));menuBtn?.setAttribute('aria-label',open?'Close navigation':'Open navigation')}
+    function setMenu(open){document.body.classList.toggle('menu-open',open);menuBtn?.setAttribute('aria-expanded',String(open));menuBtn?.setAttribute('aria-label',AR?(open?'إغلاق القائمة':'فتح القائمة'):(open?'Close navigation':'Open navigation'))}
     menuBtn?.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
     mobileMenu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
     addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
@@ -37,7 +38,7 @@
 
     let sound=false,audioCtx=null; const sndBtn=document.getElementById('soundToggle');
     function ping(freq=480,dur=.028,vol=.018){if(!sound)return;audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(vol,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+dur);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}
-    function syncIcon(){if(!sndBtn)return;sndBtn.querySelectorAll('.sound-wave').forEach(x=>x.style.display=sound?'':'none');sndBtn.querySelectorAll('.sound-off').forEach(x=>x.style.display=sound?'none':'');sndBtn.setAttribute('aria-pressed',String(sound));sndBtn.title=sound?'Sound on':'Sound off'}
+    function syncIcon(){if(!sndBtn)return;sndBtn.querySelectorAll('.sound-wave').forEach(x=>x.style.display=sound?'':'none');sndBtn.querySelectorAll('.sound-off').forEach(x=>x.style.display=sound?'none':'');sndBtn.setAttribute('aria-pressed',String(sound));sndBtn.title=AR?(sound?'الصوت مفعّل':'الصوت مغلق'):(sound?'Sound on':'Sound off')}
     syncIcon();sndBtn?.addEventListener('click',()=>{sound=!sound;syncIcon();ping(620,.045,.025)});document.querySelectorAll('[data-snd]').forEach(el=>el.addEventListener('pointerenter',()=>ping(430,.022,.012)));
   
 
@@ -45,7 +46,7 @@
       e.preventDefault();
       if(!form.reportValidity()) return;
       const data=new FormData(form);
-      const subject=`Project enquiry — ${data.get('company')||data.get('name')||'Grenada Studio'}`;
+      const subject=`${AR?'استفسار عن مشروع':'Project enquiry'} — ${data.get('company')||data.get('name')||'Grenada Studio'}`;
       const body=[
         `Name: ${data.get('name')||''}`,
         `Company: ${data.get('company')||''}`,

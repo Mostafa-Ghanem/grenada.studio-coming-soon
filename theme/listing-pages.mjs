@@ -2,6 +2,7 @@ import { documentLayout } from "./layouts.mjs";
 import { services, pillars, getService } from "./data/services.mjs";
 import { projects } from "./data/projects.mjs";
 import { pageHero, serviceHero, globalCTA, projectImg } from "./components.mjs";
+import { L } from "./i18n.mjs";
 
 const arrow = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 const img = (base, alt, sizes = "(max-width: 820px) 100vw, 33vw") =>
@@ -15,7 +16,7 @@ function workCard(p) {
   const fact = p.facts?.[0];
   return `<a class="wk-card" href="/work/${p.slug}/" data-services="${p.serviceSlugs.join(" ")}">
     <div class="wk-media">${projectImg(p, { sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" })}${fact ? `<span class="wk-fact"><b>${fact[0]}</b> ${fact[1]}</span>` : ""}</div>
-    <div class="wk-meta"><span>${p.location}</span>${p.titleAr ? `<span lang="ar" dir="rtl">${p.titleAr}</span>` : ""}</div>
+    <div class="wk-meta"><span>${p.location}</span>${p.titleAr ? `<span lang="${L("ar", "en")}" dir="${L("rtl", "ltr")}">${L(p.titleAr, p.title)}</span>` : ""}</div>
     <h3>${p.title}</h3>
     <ul class="wk-tags">${p.serviceSlugs.slice(0, 3).map((s) => `<li>${getService(s)?.title ?? s}</li>`).join("")}${p.serviceSlugs.length > 3 ? `<li>+${p.serviceSlugs.length - 3}</li>` : ""}</ul>
   </a>`;
@@ -25,7 +26,7 @@ function serviceTile(s) {
   const n = projectsFor(s.slug).length;
   return `<a class="sv-tile" href="/services/${s.slug}/" data-reveal>
     <div class="sv-media">${img(s.image, "", "(max-width: 820px) 100vw, 40vw")}<span class="sv-num">${s.number}</span></div>
-    <div class="sv-body"><div><h3>${s.title}</h3><p lang="ar" dir="rtl" class="sv-ar">${s.titleAr}</p></div><p>${s.summary}</p>
+    <div class="sv-body"><div><h3>${s.title}</h3><p lang="${L("ar", "en")}" dir="${L("rtl", "ltr")}" class="sv-ar">${L(s.titleAr, s.title)}</p></div><p>${s.summary}</p>
     <div class="sv-foot"><span>${n ? `${n} project${n > 1 ? "s" : ""} on this site` : "Available as a standalone service"}</span><b aria-hidden="true">↗</b></div></div>
   </a>`;
 }
@@ -40,7 +41,7 @@ export function servicesIndexPage() {
   });
   const nav = `<nav class="sv-pillnav shell" aria-label="Service groups">${pillars.map((p, i) => `<a href="#${p.key}"><span>0${i + 1}</span>${p.title}</a>`).join("")}</nav>`;
   const groups = pillars.map((p, i) => `<section class="section sv-group" id="${p.key}" aria-labelledby="sv-${p.key}"><div class="shell">
-    <div class="sv-group-head" data-reveal><span class="sv-group-num">0${i + 1}</span><div><h2 id="sv-${p.key}">${p.title}</h2><p lang="ar" dir="rtl">${p.titleAr}</p></div><p class="sv-group-copy">${p.copy}</p></div>
+    <div class="sv-group-head" data-reveal><span class="sv-group-num">0${i + 1}</span><div><h2 id="sv-${p.key}">${p.title}</h2><p lang="${L("ar", "en")}" dir="${L("rtl", "ltr")}">${L(p.titleAr, p.title)}</p></div><p class="sv-group-copy">${p.copy}</p></div>
     <div class="sv-grid sv-grid--${p.slugs.length > 2 ? "many" : "pair"}">${p.slugs.map((slug) => serviceTile(getService(slug))).join("")}</div>
   </div></section>`).join("");
   return documentLayout({
@@ -58,7 +59,7 @@ export function servicePage(slug) {
   const hero = serviceHero(service);
   const intro = `<section class="section sv-intro"><div class="shell sv-intro-grid">
     <figure class="sv-intro-media" data-reveal>${img(service.image, `${service.title} — Grenada Studio`, "(max-width: 820px) 100vw, 50vw")}</figure>
-    <div data-reveal><div class="kicker">${pillar.title} · <span lang="ar">${service.titleAr}</span></div><p class="sv-intro-text">${service.intro}</p>
+    <div data-reveal><div class="kicker">${pillar.title} · <span lang="${L("ar", "en")}">${L(service.titleAr, service.title)}</span></div><p class="sv-intro-text">${service.intro}</p>
     <ol class="sv-caps">${service.capabilities.map((c, i) => `<li><span>${String(i + 1).padStart(2, "0")}</span>${c}</li>`).join("")}</ol></div>
   </div></section>`;
   const work = list.length ? `<section class="section sv-work"><div class="shell">

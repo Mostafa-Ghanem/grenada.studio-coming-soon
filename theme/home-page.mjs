@@ -3,6 +3,7 @@ import { services } from "./data/services.mjs";
 import { projects, getProject } from "./data/projects.mjs";
 import { site } from "./data/site.mjs";
 import { partnerWall, projectImg } from "./components.mjs";
+import { L } from "./i18n.mjs";
 
 // Responsive <img> for the licensed photos in /assets/photos (each has a 2200w and a 960w "-m" variant).
 const photo = (name, alt, { eager = false, sizes = "100vw", h = 1467 } = {}) =>
@@ -26,7 +27,7 @@ export function homePage() {
     <div class="px-hero-media" aria-hidden="true"><div class="px-hero-image">${photo("riyadh-night", "", { eager: true })}</div><div class="px-hero-shade"></div><div class="px-hero-gridfx"></div></div>
     <div class="shell px-hero-shell">
       <div class="px-hero-top"><span class="kicker">Real estate marketing · KSA &amp; Egypt</span><span class="px-live"><i></i>Grenada Studio / 2026</span></div>
-      <div class="px-hero-copy"><h1 class="px-hero-title">${words("We build <em>demand</em><br>for real estate.")}</h1><p class="px-hero-desc">Strategy, creative, performance and field execution — arranged as one system that moves projects, auctions and launches.</p><div class="px-hero-actions"><a class="btn btn-primary" href="/contact/" data-snd data-magnetic>Start a project <span aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="#work" data-snd>See the work</a></div></div>
+      <div class="px-hero-copy"><h1 class="px-hero-title">${words(L("We build <em>demand</em><br>for real estate.", "نصنع <em>الطلب</em><br>على العقار."))}</h1><p class="px-hero-desc">Strategy, creative, performance and field execution — arranged as one system that moves projects, auctions and launches.</p><div class="px-hero-actions"><a class="btn btn-primary" href="/contact/" data-snd data-magnetic>Start a project <span aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="#work" data-snd>See the work</a></div></div>
       <div class="px-hero-foot"><span>Scroll</span><span class="px-scroll-mark" aria-hidden="true"><i></i></span><span class="px-hero-stats"><b data-count="10">10</b>+ years · <b data-count="10">10</b> capabilities · <b>360°</b></span></div>
     </div>
   </section>`;
@@ -54,7 +55,7 @@ export function homePage() {
     bodyClass: "parallax-page home-page",
     intro: true,
     content: hero + manifesto + story + projectsSection + convergence + capabilityField + proof + partnerWall() + closing + dock,
-    extraHead: `<link rel="preload" as="image" href="/assets/photos/riyadh-night-m.webp" media="(max-width: 820px)" /><link rel="preload" as="image" href="/assets/photos/riyadh-night.webp" media="(min-width: 821px)" /><link rel="stylesheet" href="/assets/parallax.css" />`,
+    extraHead: `<link rel="preload" as="image" href="/assets/photos/riyadh-night-m.webp" media="(max-width: 820px)" /><link rel="preload" as="image" href="/assets/photos/riyadh-night.webp" media="(min-width: 821px)" /><link rel="stylesheet" href="/assets/parallax${L("", ".rtl")}.css" />`,
     extraScripts: `<script src="/assets/vendor/gsap.min.js" defer></script><script src="/assets/vendor/ScrollTrigger.min.js" defer></script><script src="/assets/parallax.js" defer></script>`
   });
 }

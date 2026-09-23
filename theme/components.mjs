@@ -2,6 +2,7 @@ import { site } from "./data/site.mjs";
 import { partners } from "./data/partners.mjs";
 import { pillars, getService } from "./data/services.mjs";
 import { getProject } from "./data/projects.mjs";
+import { L } from "./i18n.mjs";
 
 const arrow = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 
@@ -10,7 +11,7 @@ const social = [["Instagram", site.social.instagram], ["Behance", site.social.be
 
 export function header(active = "") {
   const link = (item) => `<a href="${item.href}"${item.key === active ? ' aria-current="page"' : ""} data-snd>${item.label}</a>`;
-  const servicesMenu = pillars.map((p) => `<div class="gh-mega-col"><span class="gh-mega-kicker">${p.title}</span>${p.slugs.map((slug) => { const s = getService(slug); return `<a href="/services/${slug}/"><b>${s.title}</b><small lang="ar">${s.titleAr}</small></a>`; }).join("")}</div>`).join("");
+  const servicesMenu = pillars.map((p) => `<div class="gh-mega-col"><span class="gh-mega-kicker">${p.title}</span>${p.slugs.map((slug) => { const s = getService(slug); return `<a href="/services/${slug}/"><b>${s.title}</b><small lang="${L("ar", "en")}">${L(s.titleAr, s.title)}</small></a>`; }).join("")}</div>`).join("");
   const desktop = site.nav.map((item) => item.key === "services"
     ? `<div class="gh-has-mega">${link(item).replace("<a ", '<a aria-haspopup="true" ')}<div class="gh-mega" role="group" aria-label="Services"><div class="gh-mega-inner">${servicesMenu}<a class="gh-mega-all" href="/services/">All 10 services <span aria-hidden="true">↗</span></a></div></div></div>`
     : link(item)).join("");
@@ -25,6 +26,7 @@ export function header(active = "") {
       <nav class="gh-nav" aria-label="Primary navigation">${desktop}</nav>
       <div class="gh-actions">
         <button class="gh-icon" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">${soundIcon}</button>
+        <a class="gh-lang" href="%%ALT_PATH%%" hreflang="${L("ar", "en")}" lang="${L("ar", "en")}">${L("عربي", "EN")}</a>
         <a class="gh-cta" href="/contact/" data-snd>Start a project <span aria-hidden="true">↗</span></a>
         <button class="gh-icon gh-burger" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open navigation"><i></i><i></i></button>
       </div>
@@ -34,6 +36,7 @@ export function header(active = "") {
       <div class="shell gh-overlay-foot">
         <a class="btn btn-primary" href="/contact/">Start a project ↗</a>
         <a href="mailto:${site.email}">${site.email}</a>
+        <a class="gh-lang-m" href="%%ALT_PATH%%" hreflang="${L("ar", "en")}" lang="${L("ar", "en")}">${L("النسخة العربية", "English version")}</a>
         <div class="gh-overlay-social">${social.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join("")}</div>
       </div>
     </div>
@@ -73,7 +76,7 @@ export function projectImg(project, { sizes = "100vw", eager = false, alt = proj
 export function partnerWall({ title = `Chosen by teams with <em>serious assets at stake.</em>`, headingId = "partners-title" } = {}) {
   const half = Math.ceil(partners.length / 2);
   const row = (items, dir) => {
-    const cells = items.map((p) => `<li class="pw-item"><span class="pw-ar" lang="ar" dir="rtl">${p.ar}</span><span class="pw-en">${p.en}</span></li>`).join("");
+    const cells = items.map((p) => `<li class="pw-item"><span class="pw-ar" lang="ar" dir="rtl">${p.ar}</span><span class="pw-en" lang="en">${p.en}</span></li>`).join("");
     return `<div class="pw-row pw-${dir}"><ul class="pw-track">${cells}</ul><ul class="pw-track" aria-hidden="true">${cells}</ul></div>`;
   };
   return `<section class="pw" aria-labelledby="${headingId}"><div class="shell pw-head"><div class="kicker">Trusted partnerships</div><h2 id="${headingId}">${title}</h2><p>Banks, developers, auction operators and institutions have trusted Grenada with launches where the asset — and the reputation — is on the line.</p><div class="pw-count"><b data-count="${partners.length}">${partners.length}</b><span>+ partner<br>organizations</span></div></div><div class="pw-rows">${row(partners.slice(0, half), "left")}${row(partners.slice(half), "right")}</div></section>`;
@@ -107,7 +110,7 @@ export function caseHero(project) {
   const [kind, when] = project.type.split(" · ");
   return `<section class="case-hero" id="top"><div class="shell">
     ${breadcrumb([{ label: "Work", href: "/work/" }, { label: project.title, href: `/work/${project.slug}/` }])}
-    <div class="case-hero-head" data-reveal><div class="kicker">Case study</div><h1>${project.title}</h1>${project.titleAr ? `<p class="case-hero-ar" lang="ar" dir="rtl">${project.titleAr}</p>` : ""}
+    <div class="case-hero-head" data-reveal><div class="kicker">Case study</div><h1>${project.title}</h1>${project.titleAr ? `<p class="case-hero-ar" lang="${L("ar", "en")}" dir="${L("rtl", "ltr")}">${L(project.titleAr, project.title)}</p>` : ""}
     <ul class="case-chips"><li>${project.location}</li>${kind ? `<li>${kind}</li>` : ""}${when ? `<li>${when}</li>` : ""}</ul></div>
     <figure class="case-hero-media" data-reveal>${projectImg(project, { eager: true })}</figure>
   </div></section>`;

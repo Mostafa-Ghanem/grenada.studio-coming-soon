@@ -18,7 +18,7 @@
       c.hidden = !hit; if (hit) shown += 1;
     });
     headings.forEach((h) => { const grid = h.nextElementSibling; h.hidden = grid && ![...grid.children].some((c) => !c.hidden); });
-    if (status) status.textContent = key === 'all' ? '' : `${shown} project${shown === 1 ? '' : 's'} · ${bar.querySelector(`[data-filter="${key}"]`).firstChild.textContent.trim()}`;
+    if (status) status.textContent = key === 'all' ? '' : `${document.documentElement.lang === 'ar' ? `${shown} ${shown === 1 ? 'مشروع' : 'مشاريع'}` : `${shown} project${shown === 1 ? '' : 's'}`} · ${bar.querySelector(`[data-filter="${key}"]`).firstChild.textContent.trim()}`;
     if (push) history.replaceState(null, '', key === 'all' ? location.pathname : `#${key}`);
   };
 

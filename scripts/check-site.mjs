@@ -9,6 +9,7 @@ const files = [
   ...services.map((s) => `services/${s.slug}/index.html`),
   ...projects.map((p) => `work/${p.slug}/index.html`)
 ];
+files.push(...files.map((f) => `ar/${f}`));
 let failed = false;
 for (const rel of files) {
   const p = path.join(root, rel);
@@ -18,11 +19,28 @@ for (const rel of files) {
     ["doctype", /^<!doctype html>/i.test(html)],
     ["main", /<main id="main">/.test(html)],
     ["single h1", (html.match(/<h1\b/g) || []).length === 1],
-    ["shared css", /href="\/assets\/site\.css"/.test(html)],
+    ["shared css", /href="\/assets\/site(\.rtl)?\.css"/.test(html)],
     ["shared js", /src="\/assets\/site\.js"/.test(html)],
     ["viewport", /width=device-width/.test(html)]
   ];
   for (const [label, ok] of checks) if (!ok) { console.error(`${rel}: ${label} failed`); failed = true; }
+}
+for (const rel of files.filter((f) => f.startsWith("ar/"))) {
+  const html = fs.readFileSync(path.join(root, rel), "utf8");
+  if (!/<html lang="ar" dir="rtl">/.test(html)) { console.error(`${rel}: missing lang="ar" dir="rtl"`); failed = true; }
+  if (!/href="\/assets\/site\.rtl\.css"/.test(html)) { console.error(`${rel}: missing RTL stylesheet`); failed = true; }
+  for (const [, href] of html.matchAll(/<a\b(?![^>]*class="gh-lang)[^>]*\shref="(\/[^"]*)"/g)) {
+    if (!href.startsWith("/ar/")) { console.error(`${rel}: link leaves the Arabic site: ${href}`); failed = true; }
+  }
+}
+const untranslated = JSON.parse(fs.readFileSync(path.join(root, "theme/untranslated.json"), "utf8"));
+if (Object.keys(untranslated).length) { console.error(`untranslated Arabic strings: ${Object.keys(untranslated).join(" | ")}`); failed = true; }
+// Every internal link must resolve to a generated page.
+for (const rel of files) {
+  const html = fs.readFileSync(path.join(root, rel), "utf8");
+  for (const [, href] of html.matchAll(/<a\b[^>]*\shref="(\/(?!assets\/)[^"#?]*)/g)) {
+    if (!fs.existsSync(path.join(root, href, "index.html"))) { console.error(`${rel}: broken link ${href}`); failed = true; }
+  }
 }
 const homeHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const [label, re] of [["home stylesheet", /href="\/assets\/parallax\.css"/], ["home script", /src="\/assets\/parallax\.js"/], ["self-hosted gsap", /src="\/assets\/vendor\/gsap\.min\.js"/], ["self-hosted ScrollTrigger", /src="\/assets\/vendor\/ScrollTrigger\.min\.js"/]]) {
@@ -43,7 +61,7 @@ for (const rel of files) {
   }
 }
 
-const driftPairs = [["theme/parallax.js", "assets/parallax.js"], ["theme/parallax.css", "assets/parallax.css"], ["theme/base.css", "assets/site.css"], ["theme/site.js", "assets/site.js"]];
+const driftPairs = [["theme/parallax.js", "assets/parallax.js"], ["theme/parallax.css", "assets/parallax.css"], ["theme/base.css", "assets/site.css"], ["theme/site.js", "assets/site.js"], ["theme/work-filter.js", "assets/work-filter.js"]];
 for (const [sourceRel, runtimeRel] of driftPairs) {
   if (!fs.readFileSync(path.join(root, sourceRel)).equals(fs.readFileSync(path.join(root, runtimeRel)))) {
     console.error(`source/runtime drift: ${sourceRel} != ${runtimeRel} (run npm run build)`);

@@ -846,3 +846,8 @@ ol.case-scope li span{font-family:var(--mono);font-size:10px;color:var(--red-2);
   .case-page .next-project-media{grid-column:1/-1}
   .case-page .next-project-link h2{font-size:44px}
 }
+
+/* Language switch */
+.gh-lang{display:inline-flex;align-items:center;height:36px;padding:0 12px;border:1px solid var(--line-strong);border-radius:99px;font-size:13px;color:var(--ink);transition:border-color .2s,background .2s}
+.gh-lang:hover{border-color:var(--red-2);background:rgba(232,50,58,.12)}
+.gh-lang-m{font-size:15px;color:var(--ink-dim);text-decoration:underline;text-underline-offset:4px}
