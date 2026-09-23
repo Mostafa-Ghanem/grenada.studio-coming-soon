@@ -1,124 +1,188 @@
-
 (() => {
-  const page = document.querySelector('.parallax-page [data-px-hero]');
-  if (!page) return;
+  const hero = document.querySelector('.parallax-page [data-px-hero]');
+  if (!hero) return;
 
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const mobile = matchMedia('(max-width: 820px)');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const root = document.documentElement;
   const gsap = window.gsap;
   const ScrollTrigger = window.ScrollTrigger;
 
-  const revealNative = () => {
-    const nodes = document.querySelectorAll('.px-project, .px-capability, .px-proof-row, .px-closing-grid');
-    const obs = new IntersectionObserver((entries) => {
-      for (const entry of entries) if (entry.isIntersecting) {
-        entry.target.classList.add('px-in');
-        obs.unobserve(entry.target);
-      }
-    }, { threshold: .12, rootMargin: '0px 0px -8%' });
-    nodes.forEach((node) => obs.observe(node));
+  /* ---------- Count-up numbers (works with or without GSAP) ---------- */
+  const fmt = (n) => Math.round(n).toLocaleString('en-US');
+  const countUp = (el) => {
+    const target = Number(el.dataset.count);
+    if (!target || reduce) return;
+    const start = performance.now(), dur = 1400;
+    const tick = (t) => {
+      const k = Math.min(1, (t - start) / dur);
+      el.textContent = fmt(target * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    el.textContent = '0';
+    requestAnimationFrame(tick);
   };
-  revealNative();
+  const countObs = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { countUp(e.target); countObs.unobserve(e.target); }
+  }), { threshold: .6 });
+  document.querySelectorAll('[data-count]').forEach((el) => countObs.observe(el));
 
-  if (!gsap || !ScrollTrigger || reduce.matches) {
+  /* ---------- Native reveal fallback ---------- */
+  const revealObs = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('px-in'); revealObs.unobserve(e.target); }
+  }), { threshold: .12, rootMargin: '0px 0px -8%' });
+  document.querySelectorAll('.px-project, .px-capability, .px-proof-row, .px-closing-grid, .pw-head').forEach((n) => revealObs.observe(n));
+
+  /* ---------- Mobile CTA dock: visible after the hero, hidden near the closing CTA ---------- */
+  const dock = document.querySelector('.px-dock');
+  const closing = document.querySelector('.px-closing');
+  if (dock) {
+    let pastHero = false, atClose = false;
+    const sync = () => dock.classList.toggle('is-on', pastHero && !atClose);
+    new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting; sync(); }).observe(hero);
+    if (closing) new IntersectionObserver(([e]) => { atClose = e.isIntersecting; sync(); }).observe(closing);
+  }
+
+  /* ---------- Story step indicator (text counter) ---------- */
+  const storyNow = document.querySelector('.px-story-now');
+  const setStage = (i) => {
+    if (storyNow) storyNow.textContent = String(i + 1).padStart(2, '0');
+    document.querySelectorAll('.px-story-step').forEach((s, j) => s.classList.toggle('is-active', j === i));
+  };
+
+  if (!gsap || !ScrollTrigger || reduce) {
     root.classList.add('px-motion-reduced');
+    document.querySelectorAll('.hw-in').forEach((w) => { w.style.transform = 'none'; });
     return;
   }
 
   gsap.registerPlugin(ScrollTrigger);
   root.classList.add('px-gsap');
   const mm = gsap.matchMedia();
+  gsap.set('.hw-in', { yPercent: 110 });
 
-  gsap.to('.px-progress span', {
-    scaleX: 1,
-    ease: 'none',
-    scrollTrigger: { trigger: document.documentElement, start: 'top top', end: 'bottom bottom', scrub: true }
-  });
+  /* ---------- Page progress ---------- */
+  gsap.to('.px-progress span', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.documentElement, start: 'top top', end: 'bottom bottom', scrub: true } });
 
-  const heroTl = gsap.timeline({
-    scrollTrigger: { trigger: '.px-hero', start: 'top top', end: 'bottom top', scrub: .7 }
-  });
-  heroTl.to('.px-hero-image', { yPercent: 13, scale: 1.10, ease: 'none' }, 0)
-        .to('.px-hero-gridfx', { yPercent: 7, ease: 'none' }, 0)
-        .to('.px-hero-copy', { yPercent: -18, opacity: .28, ease: 'none' }, 0)
-        .to('.px-hero-foot', { yPercent: -35, opacity: 0, ease: 'none' }, 0);
+  /* ---------- Hero entrance (after the logo intro) ---------- */
+  const intro = document.getElementById('intro');
+  const introDelay = intro ? 1.35 : .1;
+  gsap.timeline({ delay: introDelay, defaults: { ease: 'power4.out' } })
+    .fromTo('.px-hero-image', { scale: 1.18 }, { scale: 1.04, duration: 2.4, ease: 'power2.out' }, 0)
+    .fromTo('.hw-in', { yPercent: 110, rotate: 4 }, { yPercent: 0, rotate: 0, duration: 1.2, stagger: .07 }, .1)
+    .from('.px-hero-desc, .px-hero-actions, .px-hero-top, .px-hero-foot', { y: 24, opacity: 0, duration: .9, stagger: .08 }, .55);
 
+  /* ---------- Hero scroll-away ---------- */
+  gsap.timeline({ scrollTrigger: { trigger: '.px-hero', start: 'top top', end: 'bottom top', scrub: .7 } })
+    .to('.px-hero-media', { yPercent: 14, ease: 'none' }, 0)
+    .to('.px-hero-copy', { yPercent: -16, opacity: .2, ease: 'none' }, 0)
+    .to('.px-hero-foot', { yPercent: -40, opacity: 0, ease: 'none' }, 0);
+
+  /* ---------- Manifesto: words light up as you read ---------- */
   const words = gsap.utils.toArray('.px-word');
-  words.forEach((word, index) => gsap.to(word, {
-    color: index === words.length - 1 ? '#ff5258' : '#f2e5e2',
-    ease: 'none',
-    scrollTrigger: { trigger: word, start: 'top 72%', end: 'top 43%', scrub: .55 }
+  words.forEach((word, i) => gsap.to(word, {
+    color: i === words.length - 1 ? '#ff5258' : '#f2e5e2', ease: 'none',
+    scrollTrigger: { trigger: word, start: 'top 78%', end: 'top 48%', scrub: .5 }
   }));
 
-  mm.add('(min-width: 821px)', () => {
-    const steps = gsap.utils.toArray('.px-story-step');
-    const frames = gsap.utils.toArray('.px-story-frame');
-    gsap.set(steps, { opacity: .28 });
-    gsap.set(frames, { autoAlpha: 0, scale: 1.035 });
-    gsap.set(steps[0], { opacity: 1 });
-    gsap.set(frames[0], { autoAlpha: 1, scale: 1 });
+  /* ---------- Section headings: masked rise ---------- */
+  gsap.utils.toArray('.px-story-head h2, .px-work-intro h2, .px-convergence-head h2, .px-capabilities-head h2, .pw-head h2, .px-closing h2').forEach((h) => {
+    gsap.from(h, { yPercent: 30, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: h, start: 'top 85%' } });
+  });
 
-    const story = gsap.timeline({
+  /* ---------- Story: pinned, frames swap with scroll (desktop and mobile) ---------- */
+  const steps = gsap.utils.toArray('.px-story-step');
+  const frames = gsap.utils.toArray('.px-story-frame');
+  mm.add({ desktop: '(min-width: 821px)', mobile: '(max-width: 820px)' }, (ctx) => {
+    const { desktop } = ctx.conditions;
+    gsap.set(frames, { autoAlpha: 0 });
+    gsap.set(frames[0], { autoAlpha: 1 });
+    if (desktop) { gsap.set(steps, { opacity: .25 }); gsap.set(steps[0], { opacity: 1 }); }
+    else { gsap.set(steps, { autoAlpha: 0, position: 'absolute' }); gsap.set(steps[0], { autoAlpha: 1 }); }
+
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: '.px-story-stage',
-        start: 'top 12%',
-        end: '+=260%',
-        pin: true,
-        scrub: .75,
-        anticipatePin: 1,
-        invalidateOnRefresh: true
+        start: desktop ? 'top 12%' : 'top top+=64',
+        end: `+=${steps.length * (desktop ? 65 : 80)}%`,
+        pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: (self) => setStage(Math.min(steps.length - 1, Math.floor(self.progress * steps.length * .999)))
       }
     });
     steps.forEach((step, i) => {
-      const label = `stage${i}`;
-      story.addLabel(label, i);
-      if (i > 0) {
-        story.to(steps[i - 1], { opacity: .22, y: -12, duration: .28 }, label)
-             .to(frames[i - 1], { autoAlpha: 0, scale: .985, duration: .32 }, label)
-             .fromTo(frames[i], { autoAlpha: 0, scale: 1.045, yPercent: 3 }, { autoAlpha: 1, scale: 1, yPercent: 0, duration: .42 }, label + '+=.05')
-             .to(step, { opacity: 1, y: 0, duration: .35 }, label + '+=.08');
-      }
+      if (!i) return;
+      const at = i - .5;
+      tl.to(frames[i - 1], { autoAlpha: 0, scale: .96, duration: .5 }, at)
+        .fromTo(frames[i], { autoAlpha: 0, scale: 1.12, clipPath: 'inset(18% 0% 18% 0% round 22px)' }, { autoAlpha: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 22px)', duration: .6 }, at)
+        .to(steps[i - 1], desktop ? { opacity: .25, duration: .4 } : { autoAlpha: 0, y: -24, duration: .22 }, at)
+        .fromTo(step, desktop ? { opacity: .25 } : { autoAlpha: 0, y: 24 }, desktop ? { opacity: 1, duration: .4 } : { autoAlpha: 1, y: 0, duration: .3 }, desktop ? at + .15 : at + .26);
     });
-    gsap.to('.px-story-counter i', {
-      '--px-story-progress': 1,
-      scrollTrigger: { trigger: '.px-story-stage', start: 'top 12%', end: '+=260%', scrub: true }
-    });
+    tl.to({}, { duration: .5 });
+    gsap.to('.px-story-counter i', { '--px-story-progress': 1, ease: 'none', scrollTrigger: { trigger: '.px-story-stage', start: desktop ? 'top 12%' : 'top top+=64', end: `+=${steps.length * (desktop ? 65 : 80)}%`, scrub: true } });
+    return () => gsap.set([...steps, ...frames], { clearProps: 'all' });
+  });
 
-    gsap.utils.toArray('.px-project').forEach((scene) => {
-      const image = scene.querySelector('.px-project-media img');
-      const number = scene.querySelector('.px-project-number');
-      const info = scene.querySelector('.px-project-info');
-      gsap.fromTo(image, { yPercent: -8, scale: 1.065 }, { yPercent: 8, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .8 } });
-      gsap.from(number, { y: 60, opacity: 0, ease: 'none', scrollTrigger: { trigger: scene, start: 'top 68%', end: 'top 38%', scrub: .55 } });
-      gsap.from(info, { y: 42, opacity: 0, duration: .7, scrollTrigger: { trigger: scene, start: 'top 56%', toggleActions: 'play none none reverse' } });
-    });
+  /* ---------- Projects: clip-path unveil + parallax image ---------- */
+  gsap.utils.toArray('.px-project').forEach((scene) => {
+    const media = scene.querySelector('.px-project-media');
+    const image = media.querySelector('img');
+    gsap.fromTo(media, { clipPath: 'inset(14% 8% 14% 8% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 22px)', ease: 'none', scrollTrigger: { trigger: scene, start: 'top 95%', end: 'top 30%', scrub: .6 } });
+    gsap.fromTo(image, { yPercent: -8, scale: 1.12 }, { yPercent: 8, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .8 } });
+    gsap.from(scene.querySelector('.px-project-number'), { y: 80, opacity: 0, ease: 'none', scrollTrigger: { trigger: scene, start: 'top 70%', end: 'top 35%', scrub: .5 } });
+    gsap.from(scene.querySelector('.px-project-info'), { y: 40, opacity: 0, duration: .8, ease: 'power3.out', scrollTrigger: { trigger: scene, start: 'top 55%' } });
+  });
 
-    gsap.fromTo('.px-plane-field', { xPercent: -7, yPercent: 3 }, { xPercent: 5, yPercent: -3, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom top', scrub: .8 } });
-    gsap.fromTo('.px-plane-digital', { xPercent: 7, yPercent: -3 }, { xPercent: -5, yPercent: 3, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom top', scrub: .8 } });
-    gsap.fromTo('.px-convergence-word', { scale: .84, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top 68%', end: 'center 48%', scrub: .6 } });
-
+  /* ---------- Convergence: the two planes slide into each other ---------- */
+  mm.add('(min-width: 821px)', () => {
+    gsap.fromTo('.px-plane-field', { xPercent: -12, rotate: -3 }, { xPercent: 6, rotate: 0, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom 40%', scrub: .8 } });
+    gsap.fromTo('.px-plane-digital', { xPercent: 12, rotate: 3 }, { xPercent: -6, rotate: 0, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom 40%', scrub: .8 } });
     gsap.utils.toArray('.px-capability').forEach((item) => {
-      const depth = Number(item.dataset.depth || 1);
-      gsap.fromTo(item, { y: 18 + depth * 13, opacity: .22 }, { y: -(depth * 9), opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'bottom 34%', scrub: .65 } });
+      const d = Number(item.dataset.depth || 1);
+      gsap.fromTo(item, { y: 18 + d * 13, opacity: .2 }, { y: -(d * 9), opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'bottom 35%', scrub: .6 } });
     });
-
-    gsap.utils.toArray('[data-px-proof]').forEach((item, i) => gsap.fromTo(item, { xPercent: i % 2 ? 7 : -5 }, { xPercent: i % 2 ? -3 : 3, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .7 } }));
-    gsap.fromTo('.px-partners-media img', { yPercent: -6, scale: 1.04 }, { yPercent: 6, scale: 1, ease: 'none', scrollTrigger: { trigger: '.px-partners', start: 'top bottom', end: 'bottom top', scrub: .8 } });
   });
-
   mm.add('(max-width: 820px)', () => {
-    gsap.utils.toArray('.px-story-step').forEach((step) => gsap.from(step, { y: 30, opacity: 0, duration: .55, scrollTrigger: { trigger: step, start: 'top 84%', toggleActions: 'play none none none' } }));
-    gsap.utils.toArray('.px-story-frame').forEach((frame) => gsap.fromTo(frame.querySelector('img'), { yPercent: -4, scale: 1.04 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: .6 } }));
-    gsap.utils.toArray('.px-project').forEach((scene) => {
-      const image = scene.querySelector('.px-project-media img');
-      gsap.fromTo(image, { yPercent: -4, scale: 1.035 }, { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .55 } });
-    });
-    gsap.utils.toArray('.px-capability').forEach((item) => gsap.from(item, { y: 22, opacity: 0, duration: .45, scrollTrigger: { trigger: item, start: 'top 88%', toggleActions: 'play none none none' } }));
+    gsap.utils.toArray('.px-plane').forEach((p, i) => gsap.fromTo(p, { xPercent: i ? 40 : -40, rotate: i ? 6 : -6, opacity: 0 }, { xPercent: 0, rotate: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: p, start: 'top 95%', end: 'top 45%', scrub: .5 } }));
+    gsap.utils.toArray('.px-capability').forEach((item, i) => gsap.from(item, { xPercent: i % 2 ? 30 : -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: item, start: 'top 95%', end: 'top 70%', scrub: .5 } }));
   });
+  gsap.fromTo('.px-convergence-word', { scale: .7, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top 70%', end: 'center 50%', scrub: .6 } });
+
+  /* ---------- Proof numbers drift ---------- */
+  gsap.utils.toArray('.px-proof-num').forEach((item, i) => gsap.fromTo(item, { xPercent: i % 2 ? 8 : -6 }, { xPercent: i % 2 ? -3 : 3, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .7 } }));
+
+  /* ---------- Partner wall: scroll speeds the marquee up ---------- */
+  const rows = gsap.utils.toArray('.pw-row');
+  ScrollTrigger.create({
+    trigger: '.pw', start: 'top bottom', end: 'bottom top',
+    onUpdate: (self) => {
+      const boost = 1 + Math.min(4, Math.abs(self.getVelocity()) / 600);
+      rows.forEach((r) => r.style.setProperty('--pw-speed', boost.toFixed(2)));
+    }
+  });
+  gsap.from('.pw-row', { opacity: 0, y: 40, stagger: .15, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.pw-rows', start: 'top 85%' } });
+
+  /* ---------- Closing: background zoom ---------- */
+  gsap.fromTo('.px-closing-media img', { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.px-closing', start: 'top bottom', end: 'bottom bottom', scrub: .8 } });
+
+  /* ---------- Desktop: magnetic buttons + "View" cursor on projects ---------- */
+  if (finePointer) {
+    document.querySelectorAll('[data-magnetic]').forEach((btn) => {
+      const x = gsap.quickTo(btn, 'x', { duration: .4, ease: 'power3' }), y = gsap.quickTo(btn, 'y', { duration: .4, ease: 'power3' });
+      btn.addEventListener('pointermove', (e) => { const r = btn.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * .3); y((e.clientY - r.top - r.height / 2) * .4); });
+      btn.addEventListener('pointerleave', () => { x(0); y(0); });
+    });
+    const cursor = document.createElement('div');
+    cursor.className = 'px-cursor'; cursor.setAttribute('aria-hidden', 'true'); cursor.textContent = 'View';
+    document.body.appendChild(cursor);
+    const cx = gsap.quickTo(cursor, 'x', { duration: .35, ease: 'power3' }), cy = gsap.quickTo(cursor, 'y', { duration: .35, ease: 'power3' });
+    addEventListener('pointermove', (e) => { cx(e.clientX); cy(e.clientY); }, { passive: true });
+    document.querySelectorAll('[data-cursor]').forEach((el) => {
+      el.addEventListener('pointerenter', () => cursor.classList.add('is-on'));
+      el.addEventListener('pointerleave', () => cursor.classList.remove('is-on'));
+    });
+  }
 
   const refresh = () => ScrollTrigger.refresh();
   if (document.fonts?.ready) document.fonts.ready.then(refresh);
   addEventListener('load', refresh, { once: true });
-  addEventListener('orientationchange', () => setTimeout(refresh, 240), { passive: true });
 })();

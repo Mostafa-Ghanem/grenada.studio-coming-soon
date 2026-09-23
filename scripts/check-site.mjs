@@ -5,7 +5,7 @@ import { projects } from "../theme/data/projects.mjs";
 
 const root = path.resolve(new URL("..", import.meta.url).pathname);
 const files = [
-  "index.html", "home-parallax/index.html", "home-mobile-editorial/index.html", "about/index.html", "services/index.html", "work/index.html", "approach/index.html", "contact/index.html",
+  "index.html", "about/index.html", "services/index.html", "work/index.html", "approach/index.html", "contact/index.html",
   ...services.map((s) => `services/${s.slug}/index.html`),
   ...projects.map((p) => `work/${p.slug}/index.html`)
 ];
@@ -24,28 +24,29 @@ for (const rel of files) {
   ];
   for (const [label, ok] of checks) if (!ok) { console.error(`${rel}: ${label} failed`); failed = true; }
 }
-const parallaxHtml = fs.readFileSync(path.join(root, "home-parallax/index.html"), "utf8");
-if (!/href="\/assets\/parallax\.css"/.test(parallaxHtml)) { console.error("parallax stylesheet missing"); failed = true; }
-if (!/src="\/assets\/parallax\.js"/.test(parallaxHtml)) { console.error("parallax script missing"); failed = true; }
-if (!/ScrollTrigger\.min\.js/.test(parallaxHtml)) { console.error("ScrollTrigger dependency missing"); failed = true; }
-if (!/name="robots" content="noindex,nofollow"/.test(parallaxHtml)) { console.error("experimental page must stay noindex"); failed = true; }
-const mobileEditorialHtml = fs.readFileSync(path.join(root, "home-mobile-editorial/index.html"), "utf8");
-if (!/href="\/assets\/mobile-editorial\.css"/.test(mobileEditorialHtml)) { console.error("mobile editorial stylesheet missing"); failed = true; }
-if (!/src="\/assets\/mobile-editorial\.js"/.test(mobileEditorialHtml)) { console.error("mobile editorial script missing"); failed = true; }
-if (!/split-type/.test(mobileEditorialHtml) || !/lottie-web/.test(mobileEditorialHtml) || !/ScrollTrigger\.min\.js/.test(mobileEditorialHtml)) { console.error("mobile editorial motion dependencies missing"); failed = true; }
-if (!/name="robots" content="noindex,nofollow"/.test(mobileEditorialHtml)) { console.error("mobile editorial experiment must stay noindex"); failed = true; }
-const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
-if (sitemap.includes("home-parallax") || sitemap.includes("home-mobile-editorial")) { console.error("experimental routes must stay outside sitemap"); failed = true; }
+const homeHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
+for (const [label, re] of [["home stylesheet", /href="\/assets\/parallax\.css"/], ["home script", /src="\/assets\/parallax\.js"/], ["self-hosted gsap", /src="\/assets\/vendor\/gsap\.min\.js"/], ["self-hosted ScrollTrigger", /src="\/assets\/vendor\/ScrollTrigger\.min\.js"/]]) {
+  if (!re.test(homeHtml)) { console.error(`index.html: ${label} missing`); failed = true; }
+}
+if (/noindex/.test(homeHtml)) { console.error("index.html must be indexable"); failed = true; }
 
-const driftPairs = [
-  ["theme/mobile-editorial.js", "assets/mobile-editorial.js"],
-  ["theme/mobile-editorial.css", "assets/mobile-editorial.css"]
-];
+// Every local asset referenced by a generated page must exist.
+for (const rel of files) {
+  const html = fs.readFileSync(path.join(root, rel), "utf8");
+  for (const [, ref] of html.matchAll(/(?:src|href)="(\/assets\/[^"#?]+)"/g)) {
+    if (!fs.existsSync(path.join(root, ref))) { console.error(`${rel}: missing asset ${ref}`); failed = true; }
+  }
+  for (const [, set] of html.matchAll(/srcset="([^"]+)"/g)) {
+    for (const ref of set.split(",").map((x) => x.trim().split(/\s+/)[0])) {
+      if (ref.startsWith("/") && !fs.existsSync(path.join(root, ref))) { console.error(`${rel}: missing srcset asset ${ref}`); failed = true; }
+    }
+  }
+}
+
+const driftPairs = [["theme/parallax.js", "assets/parallax.js"], ["theme/parallax.css", "assets/parallax.css"], ["theme/base.css", "assets/site.css"], ["theme/site.js", "assets/site.js"]];
 for (const [sourceRel, runtimeRel] of driftPairs) {
-  const sourceBytes = fs.readFileSync(path.join(root, sourceRel));
-  const runtimeBytes = fs.readFileSync(path.join(root, runtimeRel));
-  if (!sourceBytes.equals(runtimeBytes)) {
-    console.error(`source/runtime drift: ${sourceRel} != ${runtimeRel}`);
+  if (!fs.readFileSync(path.join(root, sourceRel)).equals(fs.readFileSync(path.join(root, runtimeRel)))) {
+    console.error(`source/runtime drift: ${sourceRel} != ${runtimeRel} (run npm run build)`);
     failed = true;
   }
 }

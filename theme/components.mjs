@@ -1,4 +1,5 @@
 import { site } from "./data/site.mjs";
+import { partners } from "./data/partners.mjs";
 
 const arrow = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 
@@ -33,6 +34,16 @@ export function decorations({ intro = false } = {}) {
   return `<a class="skip" href="#main">Skip to content</a>
   <div class="spotlight" aria-hidden="true"></div><div class="grid" aria-hidden="true"></div><canvas id="particles" aria-hidden="true"></canvas><div class="vignette" aria-hidden="true"></div><div class="noise" aria-hidden="true"></div>
   ${intro ? `<div class="intro" id="intro" aria-hidden="true"><div class="intro-core"><img class="intro-mark" src="/assets/grenada-mark.png" alt="" width="121" height="130"><div class="intro-line"></div></div></div>` : ""}`;
+}
+
+// Typographic partner wall: two counter-scrolling rows of partner names (Arabic + English).
+export function partnerWall({ title = `Chosen by teams with <em>serious assets at stake.</em>`, headingId = "partners-title" } = {}) {
+  const half = Math.ceil(partners.length / 2);
+  const row = (items, dir) => {
+    const cells = items.map((p) => `<li class="pw-item"><span class="pw-ar" lang="ar" dir="rtl">${p.ar}</span><span class="pw-en">${p.en}</span></li>`).join("");
+    return `<div class="pw-row pw-${dir}"><ul class="pw-track">${cells}</ul><ul class="pw-track" aria-hidden="true">${cells}</ul></div>`;
+  };
+  return `<section class="pw" aria-labelledby="${headingId}"><div class="shell pw-head"><div class="kicker">Trusted partnerships</div><h2 id="${headingId}">${title}</h2><p>Banks, developers, auction operators and institutions have trusted Grenada with launches where the asset — and the reputation — is on the line.</p><div class="pw-count"><b data-count="${partners.length}">${partners.length}</b><span>+ partner<br>organizations</span></div></div><div class="pw-rows">${row(partners.slice(0, half), "left")}${row(partners.slice(half), "right")}</div></section>`;
 }
 
 export function breadcrumb(items = []) {
