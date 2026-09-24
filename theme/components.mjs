@@ -117,7 +117,7 @@ export function caseHero(project) {
 }
 
 export function globalCTA({ kicker = "Start a conversation", title = "Put your next project <em>in front.</em>", text = "Bring strategy, creative, performance and field execution into one connected project team.", button = "Email Grenada", href = `mailto:${site.email}` } = {}) {
-  return `<section class="template-cta"><div class="shell"><div class="contact-card" data-reveal><div class="kicker">${kicker}</div><h2>${title}</h2><p>${text}</p><div class="contact-actions"><a class="btn btn-primary" href="${href}" data-snd>${button} ${arrow}</a><a class="btn btn-ghost" href="/contact/" data-snd>Contact details</a></div></div></div></section>`;
+  return `<section class="template-cta"><div class="shell"><div class="contact-card cta-card" data-reveal><div class="cta-media" aria-hidden="true"><img src="/assets/photos/hero-riyadh.webp" srcset="/assets/photos/hero-riyadh-m.webp 960w, /assets/photos/hero-riyadh.webp 2200w" sizes="(max-width: 820px) 100vw, 50vw" alt="" width="2200" height="1467" loading="lazy" decoding="async"></div><div class="cta-body"><div class="kicker">${kicker}</div><h2>${title}</h2><p>${text}</p><div class="contact-actions"><a class="btn btn-primary" href="${href}" data-snd>${button} ${arrow}</a><a class="btn btn-ghost" href="/contact/" data-snd>Contact details</a></div><a class="cta-mail" href="mailto:${site.email}">${site.email}</a></div></div></div></section>`;
 }
 
 export function projectCard(project, index = 0) {

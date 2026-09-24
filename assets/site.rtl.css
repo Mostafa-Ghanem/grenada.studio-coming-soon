@@ -867,6 +867,26 @@ ol.case-scope li span{font-family:var(--mono);font-size:10px;color:var(--red-2);
   .template-statement .statement-grid>p{font-size:16px;padding-top:18px}
 }
 
+/* Global CTA card: copy + city image, no empty half */
+.template-cta .cta-card{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:0;padding:0;overflow:hidden;min-height:520px}
+.template-cta .cta-card::after{display:none}
+.template-cta .cta-body{grid-column:1;grid-row:1;position:relative;z-index:1;padding:clamp(40px,5vw,72px);display:flex;flex-direction:column;justify-content:center}
+.template-cta .cta-card h2{max-width:14ch;margin:16px 0 22px}
+.template-cta .cta-card p{max-width:46ch}
+.template-cta .cta-media{grid-column:2;grid-row:1;position:relative;margin:0}
+.template-cta .cta-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.8)}
+.template-cta .cta-media{-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 55%);mask-image:linear-gradient(90deg,transparent 0%,#000 55%)}
+.template-cta .cta-media::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(202,32,39,.28),transparent 55%)}
+.cta-mail{display:inline-block;margin-top:28px;color:var(--ink-dim);font-size:14px;border-bottom:1px solid var(--line-strong);padding-bottom:3px;width:max-content;transition:color .2s,border-color .2s}
+.cta-mail:hover{color:var(--ink);border-color:var(--red-2)}
+@media (max-width:820px){
+  .template-cta .cta-card{grid-template-columns:1fr;min-height:0}
+  .template-cta .cta-media{grid-column:1;grid-row:1;height:200px}
+  .template-cta .cta-media{-webkit-mask-image:linear-gradient(0deg,transparent 0%,#000 60%);mask-image:linear-gradient(0deg,transparent 0%,#000 60%)}
+  .template-cta .cta-body{grid-row:2;padding:28px 22px 32px}
+  .template-cta .cta-card h2{font-size:clamp(40px,11vw,52px)}
+}
+
 /* Arabic (RTL) edition — appended after the auto-flipped base stylesheet. */
 html[dir=rtl]{
   --serif:"Noto Kufi Arabic","Instrument Serif",serif;
@@ -895,3 +915,6 @@ html[dir=rtl] .next-project-link h2{font-size:clamp(30px,4.4vw,60px)}
   html[dir=rtl] .page-hero h1,html[dir=rtl] .case-hero h1,html[dir=rtl] .service-hero h1{font-size:clamp(32px,9vw,44px)}
   html[dir=rtl] :is(.section-title,.contact-card h2,.px-closing h2,.pw-head h2,.px-work-intro h2,.px-story-head h2,.px-convergence-head h2,.px-capabilities-head h2,.case-overview-copy h2,.editorial-copy h2,.statement-grid h2,.px-manifesto h2){font-size:clamp(26px,7.4vw,36px)}
 }
+html[dir=rtl] .template-cta .cta-media{-webkit-mask-image:linear-gradient(270deg,transparent 0%,#000 55%);mask-image:linear-gradient(270deg,transparent 0%,#000 55%)}
+html[dir=rtl] .template-cta .cta-card h2{font-size:clamp(34px,3.8vw,56px)}
+@media (max-width:820px){html[dir=rtl] .template-cta .cta-media{-webkit-mask-image:linear-gradient(0deg,transparent 0%,#000 60%);mask-image:linear-gradient(0deg,transparent 0%,#000 60%)}html[dir=rtl] .template-cta .cta-card h2{font-size:clamp(28px,8vw,36px)}}
