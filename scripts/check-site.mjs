@@ -19,8 +19,8 @@ for (const rel of files) {
     ["doctype", /^<!doctype html>/i.test(html)],
     ["main", /<main id="main">/.test(html)],
     ["single h1", (html.match(/<h1\b/g) || []).length === 1],
-    ["shared css", /href="\/assets\/site(\.rtl)?\.css"/.test(html)],
-    ["shared js", /src="\/assets\/site\.js"/.test(html)],
+    ["shared css", /href="\/assets\/site(\.rtl)?\.css(\?v=\w+)?"/.test(html)],
+    ["shared js", /src="\/assets\/site\.js(\?v=\w+)?"/.test(html)],
     ["viewport", /width=device-width/.test(html)]
   ];
   for (const [label, ok] of checks) if (!ok) { console.error(`${rel}: ${label} failed`); failed = true; }
@@ -28,7 +28,7 @@ for (const rel of files) {
 for (const rel of files.filter((f) => f.startsWith("ar/"))) {
   const html = fs.readFileSync(path.join(root, rel), "utf8");
   if (!/<html lang="ar" dir="rtl">/.test(html)) { console.error(`${rel}: missing lang="ar" dir="rtl"`); failed = true; }
-  if (!/href="\/assets\/site\.rtl\.css"/.test(html)) { console.error(`${rel}: missing RTL stylesheet`); failed = true; }
+  if (!/href="\/assets\/site\.rtl\.css/.test(html)) { console.error(`${rel}: missing RTL stylesheet`); failed = true; }
   for (const [, href] of html.matchAll(/<a\b(?![^>]*class="gh-lang)[^>]*\shref="(\/[^"]*)"/g)) {
     if (!href.startsWith("/ar/")) { console.error(`${rel}: link leaves the Arabic site: ${href}`); failed = true; }
   }
@@ -43,7 +43,7 @@ for (const rel of files) {
   }
 }
 const homeHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
-for (const [label, re] of [["home stylesheet", /href="\/assets\/parallax\.css"/], ["home script", /src="\/assets\/parallax\.js"/], ["self-hosted gsap", /src="\/assets\/vendor\/gsap\.min\.js"/], ["self-hosted ScrollTrigger", /src="\/assets\/vendor\/ScrollTrigger\.min\.js"/]]) {
+for (const [label, re] of [["home stylesheet", /href="\/assets\/parallax\.css(\?v=\w+)?"/], ["home script", /src="\/assets\/parallax\.js(\?v=\w+)?"/], ["self-hosted gsap", /src="\/assets\/vendor\/gsap\.min\.js"/], ["self-hosted ScrollTrigger", /src="\/assets\/vendor\/ScrollTrigger\.min\.js"/]]) {
   if (!re.test(homeHtml)) { console.error(`index.html: ${label} missing`); failed = true; }
 }
 if (/noindex/.test(homeHtml)) { console.error("index.html must be indexable"); failed = true; }

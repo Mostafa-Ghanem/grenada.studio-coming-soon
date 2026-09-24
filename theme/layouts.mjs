@@ -1,6 +1,14 @@
 import { site } from "./data/site.mjs";
 import { header, footer, decorations } from "./components.mjs";
 import { i18n, L } from "./i18n.mjs";
+import fs from "node:fs";
+import crypto from "node:crypto";
+
+// Cache-busting version for the shared CSS/JS (Cloudflare caches /assets for a week).
+const themeDir = new URL(".", import.meta.url);
+const V = crypto.createHash("sha1")
+  .update(["base.css", "rtl.css", "site.js", "parallax.css", "parallax.js", "work-filter.js"].map((f) => fs.readFileSync(new URL(f, themeDir))).join(""))
+  .digest("hex").slice(0, 8);
 
 function esc(value = "") {
   return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
@@ -43,5 +51,6 @@ export function documentLayout({ title, description = site.description, active =
   </div>
   <script src="/assets/site.js" defer></script>${scriptExtras}
 </body>
-</html>`.replace(/%%ALT_PATH%%/g, ar ? enPath : arPath);
+</html>`.replace(/%%ALT_PATH%%/g, ar ? enPath : arPath)
+    .replace(/(\/assets\/(?:site|site\.rtl|parallax|parallax\.rtl|work-filter)\.(?:css|js))"/g, `$1?v=${V}"`);
 }
