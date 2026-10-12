@@ -921,8 +921,8 @@ html:not([dir=rtl]) .case-svc small,html:not([dir=rtl]) .wk-meta span[lang]{font
 html em,html i,html cite{font-style:normal!important}
 html :is(h1,h2,h3,em) em,html h1 em,html h2 em{color:var(--red-2)}
 html body *{letter-spacing:0!important;text-transform:none!important}
-html :is(.section-title,.hero h1,.statement h2,.trust-copy h2,.contact-card h2,.page-hero-copy h1,.editorial-copy h2,.service-hero-copy h1,.case-hero h1,.case-overview-copy h2,.next-project-link h2,.sv-group-head h2,.wk-heading,.gf-word,.template-statement .statement-grid>h2,.px-hero-title,.px-manifesto h2,.px-story-head h2,.px-work-intro h2,.px-project-info h3,.px-capabilities-head h2,.pw-head h2,.pw-cta p,.px-closing h2,.px-stats-head h2,.px-convergence-head h2,.gh-overlay-nav .gh-m-item>a,.gh-m-row>a){font-family:var(--serif)!important;font-weight:700!important;line-height:1.02!important}
-html :is(.px-hero-title,.hero h1){font-size:var(--fs-display)!important;line-height:.98!important}
+html :is(.section-title,.hero h1,.statement h2,.trust-copy h2,.contact-card h2,.page-hero-copy h1,.editorial-copy h2,.service-hero-copy h1,.case-hero h1,.case-overview-copy h2,.next-project-link h2,.sv-group-head h2,.wk-heading,.gf-word,.template-statement .statement-grid>h2,.px-hero-title,.px-manifesto h2,.px-story-head h2,.px-work-intro h2,.px-project-info h3,.px-capabilities-head h2,.pw-head h2,.pw-cta p,.px-closing h2,.px-stats-head h2,.px-convergence-head h2,.gh-overlay-nav .gh-m-item>a,.gh-m-row>a){font-family:var(--serif)!important;font-weight:700!important;line-height:1.14!important}
+html :is(.px-hero-title,.hero h1){font-size:var(--fs-display)!important;line-height:1.08!important}
 html :is(.page-hero-copy h1,.service-hero-copy h1,.case-hero h1){font-size:var(--fs-h1)!important}
 html :is(.section-title,.statement h2,.trust-copy h2,.contact-card h2,.editorial-copy h2,.case-overview-copy h2,.next-project-link h2,.sv-group-head h2,.template-statement .statement-grid>h2,.px-manifesto h2,.px-story-head h2,.px-work-intro h2,.px-capabilities-head h2,.pw-head h2,.px-closing h2,.px-stats-head h2,.px-convergence-head h2,.px-project-info h3){font-size:var(--fs-h2)!important}
 html :is(.pw-cta p,.wk-heading){font-size:clamp(26px,1.6vw + 14px,44px)!important}
@@ -964,3 +964,5 @@ html :is(.px-stat,.case-facts-grid>div){position:relative;overflow:hidden;isolat
 html :is(.px-stat,.case-facts-grid>div)::before{content:"";position:absolute;inset:0 auto auto 0;width:78%;height:58%;background:linear-gradient(160deg,rgba(202,1,20,.55),rgba(99,0,0,.15) 60%,transparent);clip-path:polygon(0 0,82% 0,100% 100%,0 100%);z-index:-1;pointer-events:none}
 html[dir=rtl] :is(.px-stat,.case-facts-grid>div)::before{inset:0 0 auto auto;background:linear-gradient(200deg,rgba(202,1,20,.55),rgba(99,0,0,.15) 60%,transparent);clip-path:polygon(18% 0,100% 0,100% 100%,0 100%)}
 @media (max-width:640px){html .px-hero-top .px-live{display:none}html .px-hero-top>.kicker{max-width:calc(100% - 32px)}html .px-hero-shards{width:70vw;opacity:.32}}
+html .page-hero-grid .page-hero-copy h1{font-size:clamp(40px,3vw + 16px,80px)!important}
+html .wk-filter-group{font-size:var(--en-xs,14px)!important}

@@ -48,7 +48,7 @@ export function servicesIndexPage() {
   return documentLayout({
     title: "Services", active: "services", path: "/services/",
     description: "Grenada Studio services: brand identity, content, outdoor and social design, motion, social media, web, SEO, paid media, performance marketing and media production for real estate.",
-    content: hero + nav + groups + globalCTA({ kicker: "Build the right scope", title: "Pick one service, or <em>the whole launch.</em>", text: "Tell us about the asset and the timeline. We will propose the right mix.", button: "Discuss your project" })
+    content: hero + nav + groups + globalCTA({ kicker: "Build the right scope", title: "Pick one service, or <em>the whole launch.</em>", text: "Tell us about the asset and the timeline, and we will propose the right mix", button: "Discuss your project" })
   });
 }
 
@@ -80,7 +80,7 @@ export function workIndexPage() {
   const hero = pageHero({
     kicker: "Work",
     title: "Real projects. <em>Real auctions.</em>",
-    summary: "Plots, auctions and destination projects across Saudi Arabia, filmed, designed and launched by Grenada. Filter by the service you need to see it in the field.",
+    summary: "Plots, auctions and destination projects across Saudi Arabia, filmed, designed and launched by Grenada, filterable by the service you need to see it in the field",
     breadcrumbItems: [{ label: "Work", href: "/work/" }],
     visual: `<div class="page-media-frame">${projectImg(projects[0], { eager: true, sizes: "(max-width: 820px) 100vw, 45vw" })}<span>Shorfat Al Haram / Makkah</span></div>`,
     modifier: "work-index-hero"

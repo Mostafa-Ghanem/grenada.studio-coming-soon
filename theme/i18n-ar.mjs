@@ -31,7 +31,7 @@ const D = {
   "All 10 services": "جميع الخدمات العشر", "All services ↗": "جميع الخدمات ↗", "All services": "جميع الخدمات", "All projects": "جميع المشاريع",
   "Start a project": "ابدأ مشروعك", "Start a project ↗": "ابدأ مشروعك ↗",
   "Sama Mall, Second Floor, 5th Settlement — Cairo, Egypt": "سما مول، الدور الثاني، التجمع الخامس — القاهرة، مصر",
-  "© 2026 Grenada Studio. All rights reserved.": "© 2026 جرينادا ستوديو. جميع الحقوق محفوظة.",
+  "© 2026 Grenada Studio · All rights reserved": "© 2026 جرينادا ستوديو · جميع الحقوق محفوظة",
   "Back to top ↑": "إلى الأعلى ↑", "Back to top": "إلى الأعلى",
   "Grenada Studio home": "الصفحة الرئيسية لجرينادا ستوديو", "Primary navigation": "القائمة الرئيسية",
   "Toggle interface sounds": "تشغيل أو إيقاف أصوات الواجهة", "Sound off": "الصوت مغلق", "Open navigation": "فتح القائمة",
@@ -108,7 +108,7 @@ const D = {
   "Drone, film and live coverage on the ground and at the auction hall.": "تصوير جوي وأفلام وتغطية حية في الموقع وفي قاعة المزاد.",
   "Available as a standalone service": "متاحة كخدمة مستقلة",
   "Build the right scope": "حدّد النطاق المناسب", "Pick one service, or": "اختر خدمة واحدة، أو", "the whole launch.": "الإطلاق كاملاً.",
-  "Tell us about the asset and the timeline. We will propose the right mix.": "أخبرنا عن الأصل والجدول الزمني، ونقترح لك المزيج المناسب.",
+  "Tell us about the asset and the timeline, and we will propose the right mix": "أخبرنا عن الأصل والجدول الزمني، ونقترح لك المزيج المناسب.",
   "Discuss your project": "ناقش مشروعك",
   "Grenada Studio services: brand identity, content, outdoor and social design, motion, social media, web, SEO, paid media, performance marketing and media production for real estate.": "خدمات جرينادا ستوديو: الهوية البصرية، المحتوى، تصميم اللوحات والسوشيال، الموشن، إدارة السوشيال ميديا، المواقع، تحسين محركات البحث، الإعلانات الممولة، تسويق الأداء والإنتاج الإعلامي للعقار.",
 
@@ -119,7 +119,7 @@ const D = {
 
   // Work index
   "Real projects.": "مشاريع حقيقية.", "Real auctions.": "مزادات حقيقية.",
-  "Plots, auctions and destination projects across Saudi Arabia, filmed, designed and launched by Grenada. Filter by the service you need to see it in the field.": "مخططات ومزادات ومشاريع وجهات في أنحاء المملكة، صوّرتها وصمّمتها وأطلقتها جرينادا. صفِّ الأعمال حسب الخدمة التي تحتاجها لتراها على أرض الواقع.",
+  "Plots, auctions and destination projects across Saudi Arabia, filmed, designed and launched by Grenada, filterable by the service you need to see it in the field": "مخططات ومزادات ومشاريع وجهات في أنحاء المملكة، صوّرتها وصمّمتها وأطلقتها جرينادا، صفِّ الأعمال حسب الخدمة التي تحتاجها لتراها على أرض الواقع.",
   "Shorfat Al Haram / Makkah": "شرفات الحرم / مكة المكرمة", "Filter by service": "تصفية حسب الخدمة", "All": "الكل",
   "Flagship case studies": "دراسات حالة رئيسية", "Auction campaigns": "حملات المزادات",
   "Next case study": "دراسة الحالة القادمة", "Make the next launch": "اجعل إطلاقك القادم", "worth showing.": "جديراً بالعرض.",
@@ -133,7 +133,7 @@ const D = {
   "From the campaign": "من الحملة", "Shot, designed and installed by Grenada.": "تصوير وتصميم وتركيب جرينادا.",
   "Selected frames from the project's photography, renders and live placements.": "لقطات مختارة من تصوير المشروع والتصاميم ثلاثية الأبعاد والإعلانات في الموقع.",
   "Services on this project": "الخدمات في هذا المشروع", "The services behind it.": "الخدمات التي صنعته.",
-  "Each one is also available on its own. Open a service to see how it works and where else we used it.": "كل خدمة متاحة منفردة أيضاً. افتح الخدمة لتعرف كيف تعمل وأين استخدمناها.",
+  "Each one is also available on its own: open a service to see how it works and where else we used it": "كل خدمة متاحة منفردة أيضاً، افتح الخدمة لتعرف كيف تعمل وأين استخدمناها.",
   "Build the next case study": "لنصنع دراسة الحالة القادمة", "Your project can use the same": "مشروعك يستحق نفس", "integrated model.": "النموذج المتكامل.",
   "Define the right mix of strategy, creative, media, web, production and field execution around the asset.": "نحدد المزيج المناسب من الاستراتيجية والإبداع والإعلام والمواقع والإنتاج والتنفيذ الميداني حول الأصل.",
   "Next project": "المشروع التالي",

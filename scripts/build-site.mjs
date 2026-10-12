@@ -55,8 +55,17 @@ const pages = () => [
   ["404.html", notFoundPage()]
 ];
 
+// House style: no full stop at the end of a line of copy (headings, paragraphs, labels).
+// A "." that closes a text run (followed by a closing tag or <br>) is dropped; decimals, "..." and "Co." stay.
+const stripStops = (html) => {
+  const keep = [];
+  html = html.replace(/<(script|style|title)\b[\s\S]*?<\/\1>/g, (m) => `<!--s${keep.push(m) - 1}-->`);
+  html = html.replace(/(>[^<>]*?[^\d\s.<>])\.(\s*)(?=<\/(?!a>)|<br|<em|<span)/g, (m, a, ws, off, all) => (/\bCo$/.test(a) ? m : a + (/^\s*<(em|span class="hw")/.test(all.slice(off + m.length, off + m.length + 30)) && /<h[1-3]|<h[1-3][^>]*>[^]*$/.test(all.slice(Math.max(0, off - 400), off)) && !/<\/h[1-3]>/.test(all.slice(Math.max(0, off - 400), off).split(/<h[1-3]/).pop()) ? "<br>" : ws)));
+  return html.replace(/<!--s(\d+)-->/g, (m, i) => keep[i]);
+};
+
 i18n.lang = "en";
-for (const [file, html] of pages()) write(file, html);
+for (const [file, html] of pages()) write(file, stripStops(html));
 
 // Arabic (Saudi) edition under /ar/: same templates, translated copy, RTL stylesheet.
 i18n.lang = "ar";
@@ -64,7 +73,7 @@ const untranslated = new Map();
 for (const [file, html] of pages()) {
   const { html: ar, misses } = translateHtml(html);
   for (const m of misses) untranslated.set(m, file);
-  write(`ar/${file}`, ar.replace(/↗/g, "↖").replace(/(<a\b(?![^>]*class="gh-lang)[^>]*\shref=")\/(?!assets\/|ar\/)/g, "$1/ar/"));
+  write(`ar/${file}`, stripStops(ar).replace(/↗/g, "↖").replace(/(<a\b(?![^>]*class="gh-lang)[^>]*\shref=")\/(?!assets\/|ar\/)/g, "$1/ar/"));
 }
 i18n.lang = "en";
 write("theme/untranslated.json", JSON.stringify(Object.fromEntries(untranslated), null, 2) + "\n");

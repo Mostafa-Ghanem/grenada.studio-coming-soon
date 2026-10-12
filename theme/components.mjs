@@ -60,7 +60,7 @@ export function footer() {
         <nav class="gf-col" aria-label="Studio"><h3>Studio</h3>${site.nav.filter((n) => !["services", "work"].includes(n.key)).map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}</nav>
         <div class="gf-col"><h3>Contact</h3><a href="mailto:${site.email}">${site.email}</a><address>${site.address}</address><div class="gf-social">${social.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener" aria-label="${n}">${n}</a>`).join("")}</div></div>
       </div>
-      <div class="gf-bottom"><span>© ${year} Grenada Studio. All rights reserved.</span><span>Digital &amp; creative marketing agency · KSA &amp; Egypt</span><a href="#top" class="gf-top" aria-label="Back to top">Back to top ↑</a></div>
+      <div class="gf-bottom"><span>© ${year} Grenada Studio · All rights reserved</span><span>Digital &amp; creative marketing agency · KSA &amp; Egypt</span><a href="#top" class="gf-top" aria-label="Back to top">Back to top ↑</a></div>
     </div>
   </footer>`;
 }
