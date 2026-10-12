@@ -39,7 +39,7 @@ export function documentLayout({ title, description = site.description, active =
   <link rel="alternate" hreflang="x-default" href="https://grenadastudio.com${enPath}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Kufi+Arabic:wght@400;500;600&${ar ? "family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&" : ""}family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
   <link rel="stylesheet" href="/assets/site${ar ? ".rtl" : ""}.css" />${headExtras}
 </head>
 <body class="${bodyClass}">

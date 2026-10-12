@@ -780,7 +780,7 @@ footer.gf{position:relative;margin-top:0;padding:clamp(70px,9vw,120px) 0 28px;bo
 .gf-col a:hover{color:#fff}
 .gf-about p{margin:0;color:var(--ink-dim);max-width:34ch;line-height:1.6}
 .gf-about .gh-brand{margin-bottom:10px}
-.gf-tag{font-family:"Noto Kufi Arabic",sans-serif;font-size:18px!important;color:#fff!important}
+.gf-tag{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:18px!important;color:#fff!important}
 .gf-btn{margin-top:8px}
 .gf-about .gf-btn{color:#fff}
 .gf-social{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
@@ -809,7 +809,7 @@ footer.gf{position:relative;margin-top:0;padding:clamp(70px,9vw,120px) 0 28px;bo
 /* Case study v2 */
 .case-page .case-hero-head{display:block;margin-bottom:40px}
 .case-page .case-hero-head .kicker{margin-bottom:16px}
-.case-hero-ar{font-family:"Noto Kufi Arabic",sans-serif;font-size:clamp(20px,2.2vw,28px);color:var(--ink-dim);margin:14px 0 0;text-align:left}
+.case-hero-ar{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:clamp(20px,2.2vw,28px);color:var(--ink-dim);margin:14px 0 0;text-align:left}
 .case-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:24px 0 0}
 .case-chips li{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line-strong);border-radius:99px;color:var(--ink)}
 .case-chips li:first-child{background:var(--red-2);border-color:var(--red-2);color:#fff}
@@ -826,7 +826,7 @@ ol.case-scope li span{font-family:var(--mono);font-size:10px;color:var(--red-2);
 .case-svc:hover{border-color:var(--red-2);transform:translateY(-3px)}
 .case-svc span{font-family:var(--mono);font-size:10px;color:var(--red-2)}
 .case-svc b{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.1}
-.case-svc small{font-family:"Noto Kufi Arabic",sans-serif;color:var(--ink-dim);font-size:12px;text-align:left}
+.case-svc small{font-family:"IBM Plex Sans Arabic",sans-serif;color:var(--ink-dim);font-size:12px;text-align:left}
 .case-svc i{position:absolute;right:20px;top:20px;font-style:normal;color:var(--red-2)}
 .case-page .next-project-link{grid-template-columns:minmax(0,4fr) minmax(0,7fr) auto;align-items:center}
 .next-project-media{border-radius:16px;overflow:hidden;aspect-ratio:16/10;border:1px solid var(--line)}

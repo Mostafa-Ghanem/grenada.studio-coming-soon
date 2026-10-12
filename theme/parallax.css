@@ -76,7 +76,7 @@
 @keyframes pwLeft{to{transform:translateX(-100%)}}@keyframes pwRight{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 .pw-item{display:grid;gap:10px;align-content:center;min-width:clamp(220px,22vw,320px);padding:28px 30px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,.008));transition:border-color .3s,background-color .3s}
 .pw-item:hover{border-color:rgba(232,50,58,.55);background-color:rgba(232,50,58,.06)}
-.pw-ar{font-family:"Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;font-size:clamp(20px,1.8vw,26px);font-weight:600;color:#f3e7e5;line-height:1.35}
+.pw-ar{font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;font-size:clamp(20px,1.8vw,26px);font-weight:600;color:#f3e7e5;line-height:1.35}
 .pw-en{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute,#8a7471)}
 
 /* Mobile CTA dock */
