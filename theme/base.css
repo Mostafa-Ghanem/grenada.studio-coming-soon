@@ -898,3 +898,14 @@ html[dir=rtl] .gh-nav>a,html[dir=rtl] .gh-has-mega>a,html[dir=rtl] .gh-cta,html[
 html[dir=rtl] .gh-brand span{font-size:clamp(13px,.2vw + 11px,15px)}
 @media (max-width:1180px) and (min-width:1025px){.gh-nav>a,.gh-has-mega>a{padding:10px 10px}}
 .btn-ghost{color:var(--ink)}
+
+/* ===== English type scale: fluid sizes with a 14px floor (mirrors theme/rtl.css) ===== */
+html:not([dir=rtl]){--en-xs:clamp(14px,.2vw + 12.5px,16px);--en-sm:clamp(15px,.3vw + 13px,18px);--en-body:clamp(17px,.35vw + 13.5px,20px);--en-lead:clamp(19px,.55vw + 14px,24px)}
+html:not([dir=rtl]) body{font-size:var(--en-body)}
+html:not([dir=rtl]) :is(.kicker,.breadcrumbs,.breadcrumbs a,.breadcrumbs span,dd,label>span,.form-note,.case-chips li,.wk-tags li,.wk-meta span,.wk-fact,.wk-select span,.template-project-meta span,.page-media-frame span,.sv-foot span,.case-svc small,.case-svc span,.case-scope li span,.px-capability span,.gf-col h3,.gf-bottom span,.gf-top,.gf-social a,.gh-brand span,.gh-brand b,.gh-brand em,.px-hero-foot,.px-hero-foot span,.px-hero-stats,.px-hero-stats b,.px-live,.px-story-frame figcaption span,.px-deck-bar,.sv-num,.wk-filters sup,.sv-pillnav a span,.sv-caps li span,.contact-panel dt,.pw-en,.px-project-arrow){font-size:var(--en-xs)!important}
+html:not([dir=rtl]) :is(.btn,.gh-cta,.gh-nav>a,.gh-has-mega>a,.wk-filters button,.px-project-services,.template-project-card p,.sv-body p,.contact-panel dd,.gf-col a,.gf-col li,.sv-pillnav a,.sv-caps li,input,select,textarea){font-size:var(--en-sm)!important}
+html:not([dir=rtl]) p{font-size:var(--en-body)}
+html:not([dir=rtl]) :is(.px-hero-desc,.page-hero-copy>p,.service-hero-copy>p,.case-hero p,.sv-intro-text,.statement-grid p,.cta-body p){font-size:var(--en-lead)!important;line-height:1.6}
+html:not([dir=rtl]) .case-svc small,html:not([dir=rtl]) .wk-meta span[lang]{font-size:var(--en-sm)!important}
+.page-hero h1{overflow-wrap:normal;word-break:normal;hyphens:manual}.contact-page-hero h1{font-size:clamp(46px,5.4vw,96px)}.contact-page-hero .page-hero-copy{max-width:min(100%,900px)}
+.contact-page-hero h1{max-width:15ch}

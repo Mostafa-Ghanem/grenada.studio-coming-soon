@@ -1,11 +1,12 @@
-// Arabic typography audit: lists visible text below 14px or in a non-approved family on every /ar/ route.
+// Typography audit (Arabic by default, LANG_AUDIT=en for English): lists visible text below 14px or in a non-approved family on every /ar/ route.
 import fs from "node:fs";
 const { chromium } = await import(process.env.PW || "playwright");
 const manifest = JSON.parse(fs.readFileSync(new URL("../theme/generated-manifest.json", import.meta.url)));
 const routes = (manifest.routes || manifest.pages || manifest).filter?.((r) => typeof r === "string") ?? [];
-const arRoutes = (routes.length ? routes : ["/"]).map((r) => "/ar" + (r === "/" ? "/" : r)).filter((r) => !r.includes("404"));
+const EN = process.env.LANG_AUDIT === "en";
+const arRoutes = (routes.length ? routes : ["/"]).map((r) => (EN ? "" : "/ar") + r).filter((r) => !r.includes("404"));
 const widths = (process.env.WIDTHS || "390,820,1440").split(",").map(Number);
-const MIN = 14, OK = /^"?(IBM Plex Sans Arabic)"?$/;
+const MIN = 14, OK = EN ? /^"?(Instrument Serif|Space Grotesk|JetBrains Mono|IBM Plex Sans Arabic)"?$/ : /^"?(IBM Plex Sans Arabic)"?$/;
 const b = await chromium.launch();
 const issues = new Map();
 for (const w of widths) {
