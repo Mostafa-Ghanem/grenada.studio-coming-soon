@@ -3,6 +3,10 @@ import { partners } from "./data/partners.mjs";
 import { pillars, getService } from "./data/services.mjs";
 import { getProject } from "./data/projects.mjs";
 import { L } from "./i18n.mjs";
+import fs from "node:fs";
+const LOGOS = JSON.parse(fs.readFileSync(new URL("./data/logos.json", import.meta.url)));
+// Official Grenada lockups (brand guidelines). Wordmark follows currentColor; the mark stays brand red.
+export const logo = (name, cls = "gh-logo") => { const [vb, body] = LOGOS[name]; return `<svg class="${cls}" viewBox="${vb}" role="img" aria-label="Grenada Studio" focusable="false">${body}</svg>`; };
 
 const arrow = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 
@@ -22,7 +26,7 @@ export function header(active = "") {
   }).join("");
   return `<header id="siteHeader" class="gh">
     <div class="shell gh-bar">
-      <a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" /><span><b>Grenada</b> <em>Studio</em></span></a>
+      <a class="gh-brand" href="/" aria-label="Grenada Studio home">${logo(L("full-en", "full-ar"))}</a>
       <nav class="gh-nav" aria-label="Primary navigation">${desktop}</nav>
       <div class="gh-actions">
         <button class="gh-icon" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle interface sounds" title="Sound off">${soundIcon}</button>
@@ -49,7 +53,7 @@ export function footer() {
   return `<footer class="gf">
     <div class="shell">
       <div class="gf-cols">
-        <div class="gf-col gf-about"><a class="gh-brand" href="/" aria-label="Grenada Studio home"><img src="/assets/grenada-mark.svg" alt="" width="30" height="32" loading="lazy" /><span><b>Grenada</b> Studio</span></a><p>Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
+        <div class="gf-col gf-about"><a class="gh-brand gf-brand" href="/" aria-label="Grenada Studio home">${logo(L("full-en", "full-ar"), "gh-logo gf-logo")}</a><p>Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
         <nav class="gf-col" aria-label="Services"><h3>Services</h3>${pillars.map((p) => `<a href="/services/#${p.key}">${p.title}</a>`).join("")}<a href="/services/">All services</a></nav>
         <nav class="gf-col" aria-label="Work"><h3>Work</h3>${featured.map(getProject).filter(Boolean).map((p) => `<a href="/work/${p.slug}/">${p.title}</a>`).join("")}<a href="/work/">All projects</a></nav>
         <nav class="gf-col" aria-label="Studio"><h3>Studio</h3>${site.nav.filter((n) => !["services", "work"].includes(n.key)).map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}</nav>

@@ -937,6 +937,11 @@ html .case-facts-grid dt{font-size:clamp(30px,2.2vw + 16px,60px)!important;white
 html .px-project-facts dt{font-size:clamp(26px,1.4vw + 16px,44px)!important}
 html :is(.kicker,.gh-mega-kicker,.gf-col h3,.wk-filter-group,.wk-select span){font-weight:700!important}
 html :is(p,li,dd,label,input,select,textarea,button,.btn){font-family:var(--sans)}
+/* Official logo lockup: min digital width 150px (brand guidelines) */
+.gh-brand{color:var(--ink);line-height:0}
+.gh-logo{display:block;height:clamp(22px,.9vw + 14px,30px);width:auto;min-width:150px;overflow:visible}
+.gh-brand:hover .gh-logo{opacity:.9}
+.gf-logo{height:clamp(30px,1.2vw + 18px,40px)}
 
 /* Arabic (RTL) edition — appended after the auto-flipped base stylesheet. */
 html[dir=rtl]{
