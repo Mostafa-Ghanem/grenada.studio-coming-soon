@@ -72,3 +72,6 @@ html[dir=rtl] .contact-panel h2{font-size:clamp(22px,1.2vw + 14px,34px)!importan
 /* Brand: Mersal Bold for H1/H2, Almarai for H3/body (guidelines AR hierarchy) */
 html[dir=rtl] :is(h1,h2,.px-hero-title,.section-title,.px-project-info h3){font-family:var(--serif)!important;font-weight:700!important}
 html[dir=rtl] :is(h3,.px-capability,.case-svc b,.sv-block-title,.contact-panel h2,.pw-ar){font-family:var(--sans)!important;font-weight:700!important}
+/* Arabic display line spacing: Mersal's tall Arabic forms need room between lines */
+html[dir=rtl] body :is(h1,h2,h3,.px-hero-title,.pw-cta p,.gh-m-row>a):not(#_){line-height:1.45!important}
+html[dir=rtl] body :is(.px-hero-title,.page-hero h1,.case-hero h1,.service-hero h1):not(#_){line-height:1.38!important}
