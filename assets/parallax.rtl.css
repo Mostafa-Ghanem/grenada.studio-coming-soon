@@ -184,3 +184,8 @@ html[dir=rtl] .px-stats-head h2{font-size:clamp(32px,4.2vw,62px);line-height:1.2
 @media (max-width:820px){.px-manifesto-grid,.px-work-intro{grid-template-columns:1fr}.px-manifesto h2{font-size:clamp(40px,10vw,64px)}}
 html[dir=rtl] .px-manifesto h2{font-size:clamp(34px,4.6vw,70px);line-height:1.25}
 .px-stat-num{direction:ltr;unicode-bidi:isolate}
+.px-hero-top,.px-hero-top .kicker,.px-live{font-size:clamp(14px,.35vw + 10px,17px)!important}
+.px-hero-foot{font-size:clamp(13px,.3vw + 9.5px,16px)!important}
+.px-hero-desc{font-size:clamp(18px,.7vw + 12px,24px);max-width:56ch}
+html[dir=rtl] .px-hero-desc{font-size:clamp(19px,.75vw + 13px,26px);line-height:1.8}
+html[dir=rtl] .px-hero-top,html[dir=rtl] .px-hero-top .kicker,html[dir=rtl] .px-live{font-size:clamp(15px,.35vw + 11px,18px)!important}
