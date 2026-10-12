@@ -1,9 +1,9 @@
 /* Arabic (RTL) edition — appended after the auto-flipped base stylesheet. */
 html[dir=rtl]{
   /* One Arabic family everywhere (see .claude/skills/arabic-typography). */
-  --serif:"IBM Plex Sans Arabic","Space Grotesk",system-ui,sans-serif;
-  --sans:"IBM Plex Sans Arabic","Space Grotesk",system-ui,sans-serif;
-  --mono:"IBM Plex Sans Arabic","Space Grotesk",system-ui,sans-serif;
+  --serif:"Mersal","Almarai",system-ui,sans-serif;
+  --sans:"Almarai",system-ui,sans-serif;
+  --mono:"Almarai",system-ui,sans-serif;
   --ar-xs:clamp(14px,.2vw + 12.5px,16px);
   --ar-sm:clamp(15px,.3vw + 13px,18px);
   --ar-body:clamp(17px,.4vw + 13.5px,20px);
@@ -23,7 +23,7 @@ html[dir=rtl] em{color:var(--red-2)}
 html[dir=rtl] :is(dt,.px-proof-num,.error-code){line-height:1.15!important}
 html[dir=rtl] p{line-height:1.85}
 
-html[dir=rtl] [lang=en]{font-family:"Space Grotesk",system-ui,sans-serif;direction:ltr;unicode-bidi:isolate}
+html[dir=rtl] [lang=en]{font-family:"Almarai",system-ui,sans-serif;direction:ltr;unicode-bidi:isolate}
 /* Directional glyphs */
 html[dir=rtl] :is(.btn,.px-project-arrow,.next-project-link,.sv-foot) svg{transform:scaleX(-1)}
 /* Display sizes: Kufi is wider and taller than the Latin serif. */
@@ -56,7 +56,7 @@ html[dir=rtl] :is(.section-title,.contact-card h2,.px-closing h2,.pw-head h2,.px
 html[dir=rtl] :is(h3,.px-story-step h3,.px-deck-body h3,.approach-row h3,.sv-block-title,.case-svc b,.wk-card h3,.template-project-card h3,.px-capability,.pw-ar){font-size:var(--ar-h3)!important;font-weight:600}
 html[dir=rtl] .sv-block-title{font-weight:700}
 /* numbers: same family as their labels */
-html[dir=rtl] :is(.px-stat-num,.px-project-facts dt,.case-facts-grid dt,.px-project-number,.pw-count b,.px-story-step>span,.approach-row>span,.error-code){font-family:var(--sans);font-weight:600}
+html[dir=rtl] :is(.px-stat-num,.px-project-facts dt,.case-facts-grid dt,.px-project-number,.pw-count b,.px-story-step>span,.approach-row>span,.error-code){font-family:var(--serif);font-weight:700}
 html[dir=rtl] .px-stat-num{font-size:var(--ar-num)!important}
 html[dir=rtl] .case-facts-grid dt{font-size:clamp(30px,2.2vw + 16px,60px)!important;white-space:nowrap}
 html[dir=rtl] .px-project-facts dt{font-size:clamp(28px,1.6vw + 18px,44px)!important}
@@ -68,3 +68,7 @@ html[dir=rtl] :is(.sv-pillnav a,.sv-caps li){font-size:var(--ar-sm)!important}
 html[dir=rtl] :is(.px-project-info h3,.next-project-link h2){font-size:clamp(36px,3.4vw + 14px,84px)!important;font-weight:700}
 html[dir=rtl] .contact-panel dt{font-size:var(--ar-xs)!important}
 html[dir=rtl] .contact-panel h2{font-size:clamp(22px,1.2vw + 14px,34px)!important;direction:ltr;text-align:right;overflow-wrap:anywhere}
+
+/* Brand: Mersal Bold for H1/H2, Almarai for H3/body (guidelines AR hierarchy) */
+html[dir=rtl] :is(h1,h2,.px-hero-title,.section-title,.px-project-info h3){font-family:var(--serif)!important;font-weight:700!important}
+html[dir=rtl] :is(h3,.px-capability,.case-svc b,.sv-block-title,.contact-panel h2,.pw-ar){font-family:var(--sans)!important;font-weight:700!important}

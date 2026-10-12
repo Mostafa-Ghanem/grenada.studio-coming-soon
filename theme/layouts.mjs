@@ -28,7 +28,7 @@ export function documentLayout({ title, description = site.description, active =
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>${esc(fullTitle)}</title>
   <meta name="description" content="${esc(description)}" />
-  <meta name="theme-color" content="#150707" />
+  <meta name="theme-color" content="#1e0000" />
   <meta property="og:title" content="${esc(fullTitle)}" />
   <meta property="og:description" content="${esc(description)}" />
   <meta property="og:type" content="website" />
@@ -41,10 +41,10 @@ export function documentLayout({ title, description = site.description, active =
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#120404" />
+  <link rel="preload" href="/assets/fonts/Mersal-Bold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" />
   <link rel="stylesheet" href="/assets/site${ar ? ".rtl" : ""}.css" />${headExtras}
 </head>
 <body class="${bodyClass}">

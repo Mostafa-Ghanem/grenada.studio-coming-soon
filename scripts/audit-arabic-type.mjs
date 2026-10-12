@@ -6,7 +6,7 @@ const routes = (manifest.routes || manifest.pages || manifest).filter?.((r) => t
 const EN = process.env.LANG_AUDIT === "en";
 const arRoutes = (routes.length ? routes : ["/"]).map((r) => (EN ? "" : "/ar") + r).filter((r) => !r.includes("404"));
 const widths = (process.env.WIDTHS || "390,820,1440").split(",").map(Number);
-const MIN = 14, OK = EN ? /^"?(Instrument Serif|Space Grotesk|JetBrains Mono|IBM Plex Sans Arabic)"?$/ : /^"?(IBM Plex Sans Arabic)"?$/;
+const MIN = 14, OK = /^"?(Mersal|Almarai)"?$/;
 const b = await chromium.launch();
 const issues = new Map();
 for (const w of widths) {

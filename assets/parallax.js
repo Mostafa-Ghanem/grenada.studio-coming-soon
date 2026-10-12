@@ -85,7 +85,7 @@
   /* ---------- Manifesto: words light up as you read ---------- */
   const words = gsap.utils.toArray('.px-word');
   words.forEach((word, i) => gsap.to(word, {
-    color: i === words.length - 1 ? '#ff5258' : '#f2e5e2', ease: 'none',
+    color: i === words.length - 1 ? '#ff2a3d' : '#f2e5e2', ease: 'none',
     scrollTrigger: { trigger: word, start: 'top 78%', end: 'top 48%', scrub: .5 }
   }));
 

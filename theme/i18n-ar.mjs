@@ -28,7 +28,7 @@ const D = {
   "Start a project": "ابدأ مشروعك", "Start a project ↗": "ابدأ مشروعك ↗",
   "Real estate marketing · KSA & Egypt": "تسويق عقاري · السعودية ومصر",
   "Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.": "تسويق متكامل للمشاريع العقارية والمزادات وإطلاق المشاريع في السعودية ومصر منذ أكثر من عشر سنوات.",
-  "Second District, First Area, Fifth Settlement — Egypt": "الحي الثاني، المنطقة الأولى، التجمع الخامس — مصر",
+  "Sama Mall, Second Floor, 5th Settlement — Cairo, Egypt": "سما مول، الدور الثاني، التجمع الخامس — القاهرة، مصر",
   "© 2026 Grenada Studio. All rights reserved.": "© 2026 جرينادا ستوديو. جميع الحقوق محفوظة.",
   "Back to top ↑": "إلى الأعلى ↑", "Back to top": "إلى الأعلى",
   "Grenada Studio is an integrated digital and creative marketing agency specializing in real estate, auctions, branding, content, performance marketing and media production.": "جرينادا ستوديو وكالة تسويق رقمي وإبداعي متكاملة، متخصصة في التسويق العقاري والمزادات والهويات البصرية والمحتوى وتسويق الأداء والإنتاج الإعلامي.",
