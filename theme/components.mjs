@@ -51,15 +51,16 @@ export function footer() {
   const featured = ["shorfat-al-haram", "dream-land", "khairat-taibah", "nukhbat-al-taif"];
   const year = new Date().getFullYear();
   return `<footer class="gf">
+    <div class="gf-backdrop" aria-hidden="true"></div>
     <div class="shell">
       <div class="gf-cols">
-        <div class="gf-col gf-about"><a class="gh-brand gf-brand" href="/" aria-label="Grenada Studio home">${logo(L("full-en", "full-ar"), "gh-logo gf-logo")}</a><p>Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
+        <div class="gf-col gf-about"><a class="gh-brand gf-brand" href="/" aria-label="Grenada Studio home">${logo(L("full-en", "full-ar"), "gh-logo gf-logo")}</a><p>A full-service digital and creative marketing agency for brands, launches and landmark projects across Saudi Arabia and Egypt for more than ten years.</p><a class="btn btn-primary gf-btn" href="/contact/" data-snd>Start a project ↗</a></div>
         <nav class="gf-col" aria-label="Services"><h3>Services</h3>${pillars.map((p) => `<a href="/services/#${p.key}">${p.title}</a>`).join("")}<a href="/services/">All services</a></nav>
         <nav class="gf-col" aria-label="Work"><h3>Work</h3>${featured.map(getProject).filter(Boolean).map((p) => `<a href="/work/${p.slug}/">${p.title}</a>`).join("")}<a href="/work/">All projects</a></nav>
         <nav class="gf-col" aria-label="Studio"><h3>Studio</h3>${site.nav.filter((n) => !["services", "work"].includes(n.key)).map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}</nav>
         <div class="gf-col"><h3>Contact</h3><a href="mailto:${site.email}">${site.email}</a><address>${site.address}</address><div class="gf-social">${social.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener" aria-label="${n}">${n}</a>`).join("")}</div></div>
       </div>
-      <div class="gf-bottom"><span>© ${year} Grenada Studio. All rights reserved.</span><span>Real estate marketing · KSA &amp; Egypt</span><a href="#top" class="gf-top" aria-label="Back to top">Back to top ↑</a></div>
+      <div class="gf-bottom"><span>© ${year} Grenada Studio. All rights reserved.</span><span>Digital &amp; creative marketing agency · KSA &amp; Egypt</span><a href="#top" class="gf-top" aria-label="Back to top">Back to top ↑</a></div>
     </div>
   </footer>`;
 }

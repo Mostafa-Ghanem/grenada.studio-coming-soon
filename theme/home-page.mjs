@@ -25,9 +25,9 @@ export function homePage() {
 
   const hero = `<section class="px-hero" id="top" data-px-hero>
     <div class="px-progress" aria-hidden="true"><span></span></div>
-    <div class="px-hero-media" aria-hidden="true"><div class="px-hero-image">${photo("riyadh-night", "", { eager: true })}</div><div class="px-hero-shade"></div><div class="px-hero-gridfx"></div></div>
+    <div class="px-hero-media" aria-hidden="true"><div class="px-hero-image">${photo("riyadh-night", "", { eager: true })}</div><div class="px-hero-shade"></div><div class="px-hero-shards"></div><div class="px-hero-gridfx"></div></div>
     <div class="shell px-hero-shell">
-      <div class="px-hero-top"><span class="kicker">Real estate marketing · KSA &amp; Egypt</span><span class="px-live"><i></i>Grenada Studio / 2026</span></div>
+      <div class="px-hero-top"><span class="kicker">Digital &amp; creative marketing agency · KSA &amp; Egypt</span><span class="px-live"><i></i>Grenada Studio / 2026</span></div>
       <div class="px-hero-copy"><h1 class="px-hero-title">${words(L("Putting you at the <em>forefront.</em><br>Amplifying your reach.", "نضعك في <em>المقدمة</em><br>ونصنع لعلامتك انتشارًا أوسع"))}</h1><p class="px-hero-desc">${L("A full-service digital and creative marketing agency backed by over a decade of expertise in building leading brands and executing high-impact campaigns, with proven authority in real estate marketing and landmark auctions across the Gulf.", "وكالة تسويق رقمي وإبداعي متكاملة، بخبرة تتجاوز 10 سنوات في بناء العلامات وصناعة الحملات، مع خبرة هائلة في القطاع العقاري والمزادات الكبرى في دول الخليج.")}</p><div class="px-hero-actions"><a class="btn btn-primary" href="#work" data-snd data-magnetic>${L("Our portfolio", "سابقة أعمالنا")} <span aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="/contact/" data-snd>${L("Scale your business", "وسّع مشروعك")}</a></div></div>
       <div class="px-hero-foot"><span>Scroll</span><span class="px-scroll-mark" aria-hidden="true"><i></i></span><span class="px-hero-stats"><b data-count="10">10</b>+ years · <b data-count="10">10</b> capabilities · <b>360°</b></span></div>
     </div>

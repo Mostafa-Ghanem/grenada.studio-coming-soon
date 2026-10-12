@@ -2,8 +2,8 @@ export const site = {
   name: "Grenada Studio",
   email: "hello@grenadastudio.com",
   address: "Sama Mall, Second Floor, 5th Settlement — Cairo, Egypt",
-  focus: "Real estate marketing, auctions & integrated campaigns",
-  description: "Grenada Studio is an integrated digital and creative marketing agency specializing in real estate, auctions, branding, content, performance marketing and media production.",
+  focus: "Integrated marketing, branding, media & campaigns",
+  description: "Grenada Studio is a full-service digital and creative marketing agency: branding, content, performance marketing, web and media production, with deep expertise in real estate and landmark auctions.",
   social: {
     instagram: "https://instagram.com/grenadastudio",
     behance: "https://behance.net/grenadastudio",

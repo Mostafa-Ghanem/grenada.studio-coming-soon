@@ -17,6 +17,10 @@ export const place = (loc) => PLACES[loc] ?? loc;
 const MONTHS = { Jan: "يناير", Feb: "فبراير", Mar: "مارس", Apr: "أبريل", May: "مايو", Jun: "يونيو", Jul: "يوليو", Aug: "أغسطس", Sep: "سبتمبر", Oct: "أكتوبر", Nov: "نوفمبر", Dec: "ديسمبر" };
 
 const D = {
+  "Digital & creative marketing agency · KSA & Egypt": "وكالة تسويق رقمي وإبداعي · السعودية ومصر",
+  "A full-service digital and creative marketing agency for brands, launches and landmark projects across Saudi Arabia and Egypt for more than ten years.": "وكالة تسويق رقمي وإبداعي متكاملة للعلامات والإطلاقات والمشاريع الكبرى في السعودية ومصر منذ أكثر من عشر سنوات.",
+  "Integrated marketing, branding, media & campaigns": "التسويق المتكامل والهوية والإعلام والحملات",
+  "Grenada Studio is a full-service digital and creative marketing agency: branding, content, performance marketing, web and media production, with deep expertise in real estate and landmark auctions.": "جرينادا ستوديو وكالة تسويق رقمي وإبداعي متكاملة: الهوية، والمحتوى، والتسويق بالأداء، والمواقع، والإنتاج الإعلامي، مع خبرة عميقة في العقار والمزادات الكبرى.",
   // Chrome
   "Grenada Studio": "جرينادا ستوديو",
   "Grenada Studio — Real Estate Marketing & Creative Agency": "جرينادا ستوديو — وكالة تسويق عقاري وإبداع",
@@ -26,12 +30,9 @@ const D = {
   "Brand & Story": "الهوية والمحتوى", "Design & Motion": "التصميم والموشن", "Digital & Growth": "الرقمي والنمو", "Production & Field": "الإنتاج والميدان",
   "All 10 services": "جميع الخدمات العشر", "All services ↗": "جميع الخدمات ↗", "All services": "جميع الخدمات", "All projects": "جميع المشاريع",
   "Start a project": "ابدأ مشروعك", "Start a project ↗": "ابدأ مشروعك ↗",
-  "Real estate marketing · KSA & Egypt": "تسويق عقاري · السعودية ومصر",
-  "Integrated marketing for real estate, auctions and launches, across Saudi Arabia and Egypt for more than ten years.": "تسويق متكامل للمشاريع العقارية والمزادات وإطلاق المشاريع في السعودية ومصر منذ أكثر من عشر سنوات.",
   "Sama Mall, Second Floor, 5th Settlement — Cairo, Egypt": "سما مول، الدور الثاني، التجمع الخامس — القاهرة، مصر",
   "© 2026 Grenada Studio. All rights reserved.": "© 2026 جرينادا ستوديو. جميع الحقوق محفوظة.",
   "Back to top ↑": "إلى الأعلى ↑", "Back to top": "إلى الأعلى",
-  "Grenada Studio is an integrated digital and creative marketing agency specializing in real estate, auctions, branding, content, performance marketing and media production.": "جرينادا ستوديو وكالة تسويق رقمي وإبداعي متكاملة، متخصصة في التسويق العقاري والمزادات والهويات البصرية والمحتوى وتسويق الأداء والإنتاج الإعلامي.",
   "Grenada Studio home": "الصفحة الرئيسية لجرينادا ستوديو", "Primary navigation": "القائمة الرئيسية",
   "Toggle interface sounds": "تشغيل أو إيقاف أصوات الواجهة", "Sound off": "الصوت مغلق", "Open navigation": "فتح القائمة",
   "Mobile navigation": "قائمة الجوال", "Show services": "عرض الخدمات", "Breadcrumb": "مسار الصفحة",
@@ -157,7 +158,6 @@ const D = {
   "Contact Grenada": "تواصل مع جرينادا", "Let’s build something that": "لنصنع معاً شيئاً", "moves.": "يُحدث أثراً.",
   "Tell us what you are launching, where it is, and what stage the project is in. We can shape the right mix of strategy, creative, media, web, production and field execution.": "أخبرنا ماذا تطلق، وأين، وفي أي مرحلة المشروع. نصمم لك المزيج المناسب من الاستراتيجية والإبداع والإعلام والمواقع والإنتاج والتنفيذ الميداني.",
   "Direct contact": "تواصل مباشر", "Focus": "مجال التركيز",
-  "Real estate marketing, auctions & integrated campaigns": "التسويق العقاري والمزادات والحملات المتكاملة",
   "Grenada Studio ↗": "جرينادا ستوديو ↗", "Name": "الاسم", "Company": "الجهة", "Email": "البريد الإلكتروني", "Phone": "الجوال",
   "Project type": "نوع المشروع", "Real estate project": "مشروع عقاري", "Auction campaign": "حملة مزاد", "Brand identity": "هوية بصرية",
   "Performance marketing": "تسويق الأداء", "Media production": "إنتاج إعلامي", "Website / landing page": "موقع / صفحة هبوط", "Integrated scope": "نطاق متكامل",
