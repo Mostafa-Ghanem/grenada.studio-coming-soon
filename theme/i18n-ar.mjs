@@ -318,7 +318,7 @@ export function translateHtml(html) {
   const tr = (raw, enc) => {
     const text = decode(raw);
     const core = text.replace(/\s+/g, " ").trim();
-    if (!/[A-Za-z]/.test(core)) return raw;
+    if (!/[A-Za-z]/.test(core) || /[\u0600-\u06FF]/.test(core)) return raw;
     const ar = t(core);
     if (!latin.test(core) && (ar == null || ar === core)) return raw;
     if (ar == null) { misses.add(core); return raw; }

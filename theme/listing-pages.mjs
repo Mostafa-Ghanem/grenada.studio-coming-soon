@@ -2,7 +2,8 @@ import { documentLayout } from "./layouts.mjs";
 import { services, pillars, getService } from "./data/services.mjs";
 import { projects } from "./data/projects.mjs";
 import { pageHero, serviceHero, globalCTA, projectImg } from "./components.mjs";
-import { L } from "./i18n.mjs";
+import { L, i18n } from "./i18n.mjs";
+import { serviceCopy } from "./data/service-copy.mjs";
 
 const arrow = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 const img = (base, alt, sizes = "(max-width: 820px) 100vw, 33vw") =>
@@ -56,11 +57,13 @@ export function servicePage(slug) {
   const list = projectsFor(slug);
   const pillar = pillars.find((p) => p.key === service.pillar);
   const siblings = pillar.slugs.filter((s) => s !== slug).map(getService);
-  const hero = serviceHero(service);
+  const copy = serviceCopy[slug]?.[i18n.lang];
+  const hero = serviceHero(service, copy?.lead);
   const intro = `<section class="section sv-intro"><div class="shell sv-intro-grid">
     <figure class="sv-intro-media" data-reveal>${img(service.image, `${service.title} — Grenada Studio`, "(max-width: 820px) 100vw, 50vw")}</figure>
-    <div data-reveal><div class="kicker">${pillar.title} · <span lang="${L("ar", "en")}">${L(service.titleAr, service.title)}</span></div><p class="sv-intro-text">${service.intro}</p>
-    <ol class="sv-caps">${service.capabilities.map((c, i) => `<li><span>${String(i + 1).padStart(2, "0")}</span>${c}</li>`).join("")}</ol></div>
+    <div data-reveal><div class="kicker">${pillar.title} · <span lang="${L("ar", "en")}">${L(service.titleAr, service.title)}</span></div><p class="sv-intro-text">${copy?.intro ?? service.intro}</p>
+    ${copy ? `<h2 class="sv-block-title">${copy.blockTitle}</h2><p class="sv-block-body">${copy.blockBody}</p><div class="kicker sv-caps-label">${L("What’s included", "مكونات الخدمة")}</div>` : ""}
+    <ol class="sv-caps">${(copy?.caps ?? service.capabilities).map((c, i) => `<li><span>${String(i + 1).padStart(2, "0")}</span>${c}</li>`).join("")}</ol></div>
   </div></section>`;
   const work = list.length ? `<section class="section sv-work"><div class="shell">
     <div class="section-head"><div><div class="kicker">In the work</div><h2 class="section-title">${list.length} project${list.length > 1 ? "s" : ""} used this service.</h2></div><a class="btn btn-ghost" href="/work/#${slug}">See them all ${arrow}</a></div>
@@ -69,7 +72,7 @@ export function servicePage(slug) {
   const more = siblings.length ? `<section class="section sv-more"><div class="shell"><div class="section-head"><div><div class="kicker">Also in ${pillar.title}</div><h2 class="section-title">Pairs well with.</h2></div></div><div class="sv-grid sv-grid--pair">${siblings.map(serviceTile).join("")}</div></div></section>` : "";
   return documentLayout({
     title: service.title, description: service.summary, active: "services", path: `/services/${slug}/`, bodyClass: "service-page",
-    content: hero + intro + work + more + globalCTA({ kicker: `Service / ${service.number}`, title: `Need ${service.title.toLowerCase()} for a <em>real project?</em>`, text: "Build the scope around the asset, launch stage and channels that matter.", button: "Start the conversation" })
+    content: hero + intro + work + more + globalCTA(copy ? { kicker: `Service / ${service.number}`, title: copy.ctaTitle, text: copy.ctaText, button: L("Get in touch", "تواصل معنا"), href: "/contact/", ghost: L("View our work", "شاهد أعمالنا"), ghostHref: `/work/#${slug}` } : { kicker: `Service / ${service.number}`, title: `Need ${service.title.toLowerCase()} for a <em>real project?</em>`, text: "Build the scope around the asset, launch stage and channels that matter.", button: "Start the conversation" })
   });
 }
 

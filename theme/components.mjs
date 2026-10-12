@@ -73,13 +73,13 @@ export function projectImg(project, { sizes = "100vw", eager = false, alt = proj
 }
 
 // Typographic partner wall: two counter-scrolling rows of partner names (Arabic + English).
-export function partnerWall({ title = `Chosen by teams with <em>serious assets at stake.</em>`, headingId = "partners-title" } = {}) {
+export function partnerWall({ title = `Chosen by teams with <em>serious assets at stake.</em>`, headingId = "partners-title", kicker = "Trusted partnerships", text = "Banks, developers, auction operators and institutions have trusted Grenada with launches where the asset — and the reputation — is on the line.", cta = "" } = {}) {
   const half = Math.ceil(partners.length / 2);
   const row = (items, dir) => {
     const cells = items.map((p) => `<li class="pw-item"><span class="pw-ar" lang="ar" dir="rtl">${p.ar}</span><span class="pw-en" lang="en">${p.en}</span></li>`).join("");
     return `<div class="pw-row pw-${dir}"><ul class="pw-track">${cells}</ul><ul class="pw-track" aria-hidden="true">${cells}</ul></div>`;
   };
-  return `<section class="pw" aria-labelledby="${headingId}"><div class="shell pw-head"><div class="kicker">Trusted partnerships</div><h2 id="${headingId}">${title}</h2><p>Banks, developers, auction operators and institutions have trusted Grenada with launches where the asset — and the reputation — is on the line.</p><div class="pw-count"><b data-count="${partners.length}">${partners.length}</b><span>+ partner<br>organizations</span></div></div><div class="pw-rows">${row(partners.slice(0, half), "left")}${row(partners.slice(half), "right")}</div></section>`;
+  return `<section class="pw" aria-labelledby="${headingId}"><div class="shell pw-head"><div class="kicker">${kicker}</div><h2 id="${headingId}">${title}</h2><p>${text}</p><div class="pw-count"><b data-count="${partners.length}">${partners.length}</b><span>+ partner<br>organizations</span></div></div><div class="pw-rows">${row(partners.slice(0, half), "left")}${row(partners.slice(half), "right")}</div>${cta}</section>`;
 }
 
 export function breadcrumb(items = []) {
@@ -96,12 +96,12 @@ export function pageHero({ kicker, title, summary, breadcrumbItems = [], visual 
   </div></section>`;
 }
 
-export function serviceHero(service) {
+export function serviceHero(service, lead) {
   return `<section class="page-hero service-hero" id="top"><div class="shell">
     ${breadcrumb([{ label: "Services", href: "/services/" }, { label: service.title, href: `/services/${service.slug}/` }])}
     <div class="service-hero-grid">
       <div class="service-hero-index" aria-hidden="true">${service.number}</div>
-      <div class="service-hero-copy" data-reveal><div class="kicker">Capability / ${service.number}</div><h1>${service.title}</h1><p>${service.summary}</p><div class="hero-actions"><a class="btn btn-primary" href="/contact/" data-snd>Start a project ${arrow}</a><a class="btn btn-ghost" href="/work/" data-snd>See the work</a></div></div>
+      <div class="service-hero-copy" data-reveal><div class="kicker">Capability / ${service.number}</div><h1>${service.title}</h1><p>${lead ?? service.summary}</p><div class="hero-actions">${lead ? `<a class="btn btn-primary" href="/work/#${service.slug}" data-snd>${L("View our work", "شاهد أعمالنا")} ${arrow}</a><a class="btn btn-ghost" href="/contact/" data-snd>${L("Get in touch", "تواصل معنا")}</a>` : `<a class="btn btn-primary" href="/contact/" data-snd>Start a project ${arrow}</a><a class="btn btn-ghost" href="/work/" data-snd>See the work</a>`}</div></div>
     </div>
   </div></section>`;
 }
@@ -116,8 +116,8 @@ export function caseHero(project) {
   </div></section>`;
 }
 
-export function globalCTA({ kicker = "Start a conversation", title = "Put your next project <em>in front.</em>", text = "Bring strategy, creative, performance and field execution into one connected project team.", button = "Email Grenada", href = `mailto:${site.email}` } = {}) {
-  return `<section class="template-cta"><div class="shell"><div class="contact-card cta-card" data-reveal><div class="cta-media" aria-hidden="true"><img src="/assets/photos/hero-riyadh.webp" srcset="/assets/photos/hero-riyadh-m.webp 960w, /assets/photos/hero-riyadh.webp 2200w" sizes="(max-width: 820px) 100vw, 50vw" alt="" width="2200" height="1467" loading="lazy" decoding="async"></div><div class="cta-body"><div class="kicker">${kicker}</div><h2>${title}</h2><p>${text}</p><div class="contact-actions"><a class="btn btn-primary" href="${href}" data-snd>${button} ${arrow}</a><a class="btn btn-ghost" href="/contact/" data-snd>Contact details</a></div><a class="cta-mail" href="mailto:${site.email}">${site.email}</a></div></div></div></section>`;
+export function globalCTA({ kicker = "Start a conversation", title = "Put your next project <em>in front.</em>", text = "Bring strategy, creative, performance and field execution into one connected project team.", button = "Email Grenada", href = `mailto:${site.email}`, ghost = "Contact details", ghostHref = "/contact/" } = {}) {
+  return `<section class="template-cta"><div class="shell"><div class="contact-card cta-card" data-reveal><div class="cta-media" aria-hidden="true"><img src="/assets/photos/hero-riyadh.webp" srcset="/assets/photos/hero-riyadh-m.webp 960w, /assets/photos/hero-riyadh.webp 2200w" sizes="(max-width: 820px) 100vw, 50vw" alt="" width="2200" height="1467" loading="lazy" decoding="async"></div><div class="cta-body"><div class="kicker">${kicker}</div><h2>${title}</h2>${text ? `<p>${text}</p>` : ""}<div class="contact-actions"><a class="btn btn-primary" href="${href}" data-snd>${button} ${arrow}</a><a class="btn btn-ghost" href="${ghostHref}" data-snd>${ghost}</a></div><a class="cta-mail" href="mailto:${site.email}">${site.email}</a></div></div></div></section>`;
 }
 
 export function projectCard(project, index = 0) {

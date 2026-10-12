@@ -159,9 +159,10 @@
   });
 
   /* ---------- Convergence: the two planes slide into each other ---------- */
+  const hasConv = !!document.querySelector('.px-convergence-stage');
   mm.add('(min-width: 821px)', () => {
-    gsap.fromTo('.px-plane-field', { xPercent: -12, rotate: -3 }, { xPercent: 6, rotate: 0, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom 40%', scrub: .8 } });
-    gsap.fromTo('.px-plane-digital', { xPercent: 12, rotate: 3 }, { xPercent: -6, rotate: 0, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom 40%', scrub: .8 } });
+    if (hasConv) gsap.fromTo('.px-plane-field', { xPercent: -12, rotate: -3 }, { xPercent: 6, rotate: 0, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom 40%', scrub: .8 } });
+    if (hasConv) gsap.fromTo('.px-plane-digital', { xPercent: 12, rotate: 3 }, { xPercent: -6, rotate: 0, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top bottom', end: 'bottom 40%', scrub: .8 } });
     gsap.utils.toArray('.px-capability').forEach((item) => {
       const d = Number(item.dataset.depth || 1);
       gsap.fromTo(item, { y: 18 + d * 13, opacity: .2 }, { y: -(d * 9), opacity: 1, ease: 'none', scrollTrigger: { trigger: item, start: 'top 90%', end: 'bottom 35%', scrub: .6 } });
@@ -171,7 +172,7 @@
     gsap.utils.toArray('.px-plane').forEach((p, i) => gsap.fromTo(p, { xPercent: i ? 40 : -40, rotate: i ? 6 : -6, opacity: 0 }, { xPercent: 0, rotate: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: p, start: 'top 95%', end: 'top 45%', scrub: .5 } }));
     gsap.utils.toArray('.px-capability').forEach((item, i) => gsap.from(item, { xPercent: i % 2 ? 30 : -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: item, start: 'top 95%', end: 'top 70%', scrub: .5 } }));
   });
-  gsap.fromTo('.px-convergence-word', { scale: .7, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top 70%', end: 'center 50%', scrub: .6 } });
+  if (hasConv) gsap.fromTo('.px-convergence-word', { scale: .7, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.px-convergence-stage', start: 'top 70%', end: 'center 50%', scrub: .6 } });
 
   /* ---------- Proof numbers drift ---------- */
   gsap.utils.toArray('.px-proof-num').forEach((item, i) => gsap.fromTo(item, { xPercent: i % 2 ? 8 : -6 }, { xPercent: i % 2 ? -3 : 3, ease: 'none', scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: .7 } }));
